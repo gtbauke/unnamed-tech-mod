@@ -18,6 +18,8 @@ public class ModBlockLootTables extends BlockLoot {
                 block,
                 ModItems.RAW_TIN_ORE.get()
         ));
+
+        dropSelf(ModBlocks.RAW_TIN_BLOCK.get());
     }
 
     @Override

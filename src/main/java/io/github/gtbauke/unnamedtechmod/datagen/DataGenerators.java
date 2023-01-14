@@ -22,6 +22,8 @@ public class DataGenerators {
 
         ModLootTableProvider lootTableProvider = new ModLootTableProvider(generator);
 
+        ModRecipeProvider recipeProvider = new ModRecipeProvider(generator);
+
         generator.addProvider(event.includeServer(), blockTagsProvider);
         generator.addProvider(event.includeServer(), itemTagsProvider);
 
@@ -29,5 +31,7 @@ public class DataGenerators {
 
         generator.addProvider(event.includeServer(), blocksStateProvider);
         generator.addProvider(event.includeServer(), itemModelProvider);
+
+        generator.addProvider(event.includeServer(), recipeProvider);
     }
 }

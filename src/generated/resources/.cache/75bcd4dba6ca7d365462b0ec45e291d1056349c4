@@ -1,5 +1,6 @@
-// 1.19.2	2023-01-14T12:45:33.9985673	Tags for minecraft:block
+// 1.19.2	2023-01-14T13:53:44.8047715	Tags for minecraft:block
 1c9fb56da40e8cd63f3c1d68523d31e2750702fd data/forge/tags/blocks/ores.json
 547c6724226e7c9be95352a9bfd4090d7ece9d8d data/forge/tags/blocks/ores/tin.json
+28b9f87d9f10b1d31469d200b4835c4eab4d5fa3 data/forge/tags/blocks/storage_blocks/raw_tin.json
 547c6724226e7c9be95352a9bfd4090d7ece9d8d data/minecraft/tags/blocks/mineable/pickaxe.json
-1c9fb56da40e8cd63f3c1d68523d31e2750702fd data/minecraft/tags/blocks/needs_stone_tool.json
+809c851af53373ce13912d4cecf0221f81bf7adc data/minecraft/tags/blocks/needs_stone_tool.json

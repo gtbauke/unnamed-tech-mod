@@ -33,6 +33,14 @@ public class ModBlocks {
             new Item.Properties().tab(CreativeModeTab.TAB_MISC)
     );
 
+    public static final RegistryObject<Block> RAW_TIN_BLOCK = register(
+            "raw_tin_block",
+            () -> new Block((BlockBehaviour.Properties.of(Material.STONE)
+                    .strength(2f, 18f)
+                    .requiresCorrectToolForDrops())),
+            new Item.Properties().tab(CreativeModeTab.TAB_MISC)
+    );
+
     private static <T extends Block>RegistryObject<T> register(String name, Supplier<T> supplier, Item.Properties properties) {
         RegistryObject<T> block = BLOCKS.register(name, supplier);
         ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), properties));

@@ -23,7 +23,8 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.DEEPSLATE_TIN_ORE.get());
 
         tag(BlockTags.NEEDS_STONE_TOOL)
-                .addTag(ModTags.Blocks.ORES_TIN);
+                .addTag(ModTags.Blocks.ORES_TIN)
+                .add(ModBlocks.RAW_TIN_BLOCK.get());
 
         getBuilder(ModTags.Blocks.ORES_TIN)
                 .add(ModBlocks.TIN_ORE.get())
@@ -31,6 +32,9 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
 
         getBuilder(Tags.Blocks.ORES)
                 .addTag(ModTags.Blocks.ORES_TIN);
+
+        getBuilder(ModTags.Blocks.STORAGE_BLOCKS_RAW_TIN)
+                .add(ModBlocks.RAW_TIN_BLOCK.get());
     }
 
     protected TagsProvider.TagAppender<Block> getBuilder(TagKey<Block> tag) {

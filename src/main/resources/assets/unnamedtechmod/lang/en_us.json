@@ -3,5 +3,6 @@
 
   "item.unnamedtechmod.raw_tin_ore": "Raw Tin Ore",
   "block.unnamedtechmod.tin_ore": "Tin Ore",
-  "block.unnamedtechmod.deepslate_tin_ore": "Deepslate Tin Ore"
+  "block.unnamedtechmod.deepslate_tin_ore": "Deepslate Tin Ore",
+  "block.unnamedtechmod.raw_tin_block": "Raw Tin Block"
 }

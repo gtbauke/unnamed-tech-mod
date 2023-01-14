@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "unnamedtechmod:raw_tin_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "unnamedtechmod:raw_tin_ore"
+  }
+}
