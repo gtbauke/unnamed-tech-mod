@@ -1,6 +1,7 @@
 package io.github.gtbauke.unnamedtechmod.init;
 
 import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
+import io.github.gtbauke.unnamedtechmod.config.ModCommonConfig;
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.placement.*;
@@ -17,13 +18,23 @@ public class ModPlacedFeatures {
 
     public static final RegistryObject<PlacedFeature> TIN_ORE_PLACED = PLACED_FEATURES.register(
             "tin_ore_placed",
-            () -> new PlacedFeature(
-                    ModConfiguredFeatures.TIN_ORE.getHolder().get(),
-                    commonOrePlacement(7 /* veins per chunk */, HeightRangePlacement.triangle(
-                            VerticalAnchor.aboveBottom(-80),
-                            VerticalAnchor.aboveBottom(80)
-                    ))
-            )
+            () -> {
+                int veinsPerChunk;
+
+                try {
+                    veinsPerChunk = ModCommonConfig.TIN_ORE_VEINS_PER_CHUNK.get();
+                } catch (Exception e) {
+                    veinsPerChunk = ModCommonConfig.TIN_ORE_VEINS_PER_CHUNK.getDefault();
+                }
+
+                return new PlacedFeature(
+                        ModConfiguredFeatures.TIN_ORE.getHolder().get(),
+                        commonOrePlacement(veinsPerChunk, HeightRangePlacement.triangle(
+                                VerticalAnchor.aboveBottom(-80),
+                                VerticalAnchor.aboveBottom(80)
+                        ))
+                );
+            }
     );
 
     public static List<PlacementModifier> orePlacement(PlacementModifier modifier, PlacementModifier modifier2) {

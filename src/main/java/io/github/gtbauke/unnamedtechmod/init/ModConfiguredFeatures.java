@@ -2,6 +2,7 @@ package io.github.gtbauke.unnamedtechmod.init;
 
 import com.google.common.base.Suppliers;
 import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
+import io.github.gtbauke.unnamedtechmod.config.ModCommonConfig;
 import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -30,9 +31,19 @@ public class ModConfiguredFeatures {
             );
     public static final RegistryObject<ConfiguredFeature<?, ?>> TIN_ORE = CONFIGURED_FEATURE.register(
             "tin_ore",
-            () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(
-                    OVERWORLD_TIN_ORE.get(),
-                    7 // Vein Size, should be changeable in the config
-            ))
+            () -> {
+                int veinSize;
+
+                try {
+                    veinSize = ModCommonConfig.TIN_ORE_VEIN_SIZE.get();
+                } catch (Exception e) {
+                    veinSize = ModCommonConfig.TIN_ORE_VEIN_SIZE.getDefault();
+                }
+
+                return new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(
+                        OVERWORLD_TIN_ORE.get(),
+                        veinSize
+                ));
+            }
     );
 }
