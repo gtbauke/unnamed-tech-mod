@@ -1,0 +1,4 @@
+// 1.19.2	2023-01-14T12:02:47.1159572	Tags for minecraft:item
+1c9fb56da40e8cd63f3c1d68523d31e2750702fd data/forge/tags/items/ores.json
+547c6724226e7c9be95352a9bfd4090d7ece9d8d data/forge/tags/items/ores/tin.json
+31be7450b30dd757f5dc3721c00180780c9cd411 data/forge/tags/items/raw_materials/tin.json

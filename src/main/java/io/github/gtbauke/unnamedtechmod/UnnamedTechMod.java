@@ -15,8 +15,8 @@ public class UnnamedTechMod {
     public UnnamedTechMod() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        ModItems.ITEMS.register(bus);
-        ModBlocks.BLOCKS.register(bus);
+        ModItems.register(bus);
+        ModBlocks.register(bus);
 
         ModConfiguredFeatures.CONFIGURED_FEATURE.register(bus);
         ModPlacedFeatures.PLACED_FEATURES.register(bus);
