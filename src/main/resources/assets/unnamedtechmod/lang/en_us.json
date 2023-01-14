@@ -1,7 +1,12 @@
 {
+  "itemGroup.utm_main_tab": "Unnamed Tech Mod",
   "item.unnamedtechmod.example_item": "Example Item",
 
   "item.unnamedtechmod.raw_tin_ore": "Raw Tin Ore",
+  "item.unnamedtechmod.tin_dust": "Tin Dust",
+  "item.unnamedtechmod.tin_plate": "Tin Plate",
+  "item.unnamedtechmod.tin_ingot": "Tin Ingot",
+
   "block.unnamedtechmod.tin_ore": "Tin Ore",
   "block.unnamedtechmod.deepslate_tin_ore": "Deepslate Tin Ore",
   "block.unnamedtechmod.raw_tin_block": "Raw Tin Block"

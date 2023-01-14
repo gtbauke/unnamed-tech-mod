@@ -22,7 +22,7 @@ public class ModBlocks {
             () -> new Block(BlockBehaviour.Properties.of(Material.STONE)
                     .strength(2f, 18f)
                     .requiresCorrectToolForDrops()),
-            new Item.Properties().tab(CreativeModeTab.TAB_MISC)
+            new Item.Properties().tab(UnnamedTechMod.MOD_TAB)
     );
 
     public static final RegistryObject<Block> DEEPSLATE_TIN_ORE = register(
@@ -30,7 +30,7 @@ public class ModBlocks {
             () -> new Block(BlockBehaviour.Properties.of(Material.STONE)
                     .strength(2.7f, 21f)
                     .requiresCorrectToolForDrops()),
-            new Item.Properties().tab(CreativeModeTab.TAB_MISC)
+            new Item.Properties().tab(UnnamedTechMod.MOD_TAB)
     );
 
     public static final RegistryObject<Block> RAW_TIN_BLOCK = register(
@@ -38,7 +38,7 @@ public class ModBlocks {
             () -> new Block((BlockBehaviour.Properties.of(Material.STONE)
                     .strength(2f, 18f)
                     .requiresCorrectToolForDrops())),
-            new Item.Properties().tab(CreativeModeTab.TAB_MISC)
+            new Item.Properties().tab(UnnamedTechMod.MOD_TAB)
     );
 
     private static <T extends Block>RegistryObject<T> register(String name, Supplier<T> supplier, Item.Properties properties) {

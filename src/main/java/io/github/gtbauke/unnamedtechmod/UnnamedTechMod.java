@@ -6,6 +6,9 @@ import io.github.gtbauke.unnamedtechmod.init.ModConfiguredFeatures;
 import io.github.gtbauke.unnamedtechmod.init.ModBlocks;
 import io.github.gtbauke.unnamedtechmod.init.ModItems;
 import io.github.gtbauke.unnamedtechmod.init.ModPlacedFeatures;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -15,6 +18,12 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod(UnnamedTechMod.MOD_ID)
 public class UnnamedTechMod {
     public static final String MOD_ID = "unnamedtechmod";
+    public static final CreativeModeTab MOD_TAB = new CreativeModeTab("utm_main_tab") {
+        @Override
+        public ItemStack makeIcon() {
+            return new ItemStack(ModItems.EXAMPLE_ITEM.get());
+        }
+    };
 
     public UnnamedTechMod() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();

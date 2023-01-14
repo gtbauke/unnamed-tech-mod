@@ -30,6 +30,10 @@ public class ModTags {
 
         public static final TagKey<Item> RAW_MATERIALS_TIN = forge("raw_materials/tin");
 
+        public static final TagKey<Item> DUSTS_TIN = forge("dusts/tin");
+        public static final TagKey<Item> PLATES_TIN = forge("plates/tin");
+        public static final TagKey<Item> INGOTS_TIN = forge("ingots/tin");
+
         public static TagKey<Item> mod(String path) {
             return ItemTags.create(new ResourceLocation(UnnamedTechMod.MOD_ID, path));
         }

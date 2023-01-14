@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:blasting",
+  "cookingtime": 200,
+  "experience": 0.7,
+  "group": "tin_ingot",
+  "ingredient": {
+    "item": "unnamedtechmod:raw_tin_ore"
+  },
+  "result": "unnamedtechmod:tin_ingot"
+}

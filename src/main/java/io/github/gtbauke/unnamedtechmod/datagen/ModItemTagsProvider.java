@@ -12,6 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.fml.common.Mod;
 
 import java.util.Arrays;
 
@@ -28,6 +29,16 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         copy(ModTags.Blocks.STORAGE_BLOCKS_RAW_TIN, ModTags.Items.STORAGE_BLOCKS_RAW_TIN);
 
         builder(ModTags.Items.RAW_MATERIALS_TIN, ModItems.RAW_TIN_ORE.get());
+
+        builder(ModTags.Items.DUSTS_TIN, ModItems.TIN_DUST.get());
+        getBuilder(Tags.Items.DUSTS)
+                .addTag(ModTags.Items.DUSTS_TIN);
+
+        builder(ModTags.Items.PLATES_TIN, ModItems.TIN_PLATE.get());
+
+        builder(ModTags.Items.INGOTS_TIN, ModItems.TIN_INGOT.get());
+        getBuilder(Tags.Items.INGOTS)
+                .addTag(ModTags.Items.INGOTS_TIN);
     }
 
     private void builder(TagKey<Item> tag, ItemLike... items) {

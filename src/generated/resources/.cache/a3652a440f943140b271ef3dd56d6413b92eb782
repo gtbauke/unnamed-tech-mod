@@ -1,2 +1,6 @@
-// 1.19.2	2023-01-14T11:43:21.1146492	Item Models: unnamedtechmod
+// 1.19.2	2023-01-14T15:51:45.3188454	Item Models: unnamedtechmod
+9066422cb91e906fe2de6fb87d05b2e0131e5243 assets/unnamedtechmod/models/item/example_item.json
 d6b280ac5e9f8bb86dd98de52eba3812a5631624 assets/unnamedtechmod/models/item/raw_tin_ore.json
+3e8dd4e287732a1fcecbb2bda8dcef6040dde9b8 assets/unnamedtechmod/models/item/tin_dust.json
+d0484b21ff21a674930c45b1fff4db668b04106d assets/unnamedtechmod/models/item/tin_ingot.json
+671d5e335a092d8dc1bad318c22158845f605310 assets/unnamedtechmod/models/item/tin_plate.json

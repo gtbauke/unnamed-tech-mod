@@ -14,7 +14,7 @@ public class ModItems {
     public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register(
             "example_item",
             () -> new Item(
-                    new Item.Properties().tab(CreativeModeTab.TAB_MISC)
+                    new Item.Properties().tab(UnnamedTechMod.MOD_TAB)
             )
     );
 
@@ -22,7 +22,31 @@ public class ModItems {
             "raw_tin_ore",
             () -> new Item(
                     new Item.Properties()
-                            .tab(CreativeModeTab.TAB_MATERIALS)
+                            .tab(UnnamedTechMod.MOD_TAB)
+            )
+    );
+
+    public static final RegistryObject<Item> TIN_DUST = ITEMS.register(
+            "tin_dust",
+            () -> new Item(
+                    new Item.Properties()
+                            .tab(UnnamedTechMod.MOD_TAB)
+            )
+    );
+
+    public static final RegistryObject<Item> TIN_PLATE = ITEMS.register(
+            "tin_plate",
+            () -> new Item(
+                    new Item.Properties()
+                            .tab(UnnamedTechMod.MOD_TAB)
+            )
+    );
+
+    public static final RegistryObject<Item> TIN_INGOT = ITEMS.register(
+            "tin_ingot",
+            () -> new Item(
+                    new Item.Properties()
+                            .tab(UnnamedTechMod.MOD_TAB)
             )
     );
     

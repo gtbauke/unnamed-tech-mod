@@ -17,7 +17,11 @@ public class ModItemsModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
+        simpleItem(ModItems.EXAMPLE_ITEM.get());
         simpleItem(ModItems.RAW_TIN_ORE.get());
+        simpleItem(ModItems.TIN_DUST.get());
+        simpleItem(ModItems.TIN_PLATE.get());
+        simpleItem(ModItems.TIN_INGOT.get());
     }
 
     private ItemModelBuilder simpleItem(Item item) {
