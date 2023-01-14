@@ -1,6 +1,5 @@
 {
   "values": [
-    "unnamedtechmod:tin_ore",
-    "unnamedtechmod:deepslate_tin_ore"
+    "#forge:ores/tin"
   ]
 }

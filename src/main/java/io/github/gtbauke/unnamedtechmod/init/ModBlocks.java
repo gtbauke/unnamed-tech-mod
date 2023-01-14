@@ -20,14 +20,16 @@ public class ModBlocks {
     public static final RegistryObject<Block> TIN_ORE = register(
             "tin_ore",
             () -> new Block(BlockBehaviour.Properties.of(Material.STONE)
-                    .strength(2f, 18f)),
+                    .strength(2f, 18f)
+                    .requiresCorrectToolForDrops()),
             new Item.Properties().tab(CreativeModeTab.TAB_MISC)
     );
 
     public static final RegistryObject<Block> DEEPSLATE_TIN_ORE = register(
             "deepslate_tin_ore",
             () -> new Block(BlockBehaviour.Properties.of(Material.STONE)
-                    .strength(2.7f, 21f)),
+                    .strength(2.7f, 21f)
+                    .requiresCorrectToolForDrops()),
             new Item.Properties().tab(CreativeModeTab.TAB_MISC)
     );
 
