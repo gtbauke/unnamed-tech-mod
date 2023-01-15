@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "unnamedtechmod:block/light_bricks"
+  }
+}

@@ -20,6 +20,7 @@ public class ModBlockLootTables extends BlockLoot {
         ));
 
         dropSelf(ModBlocks.RAW_TIN_BLOCK.get());
+        dropSelf(ModBlocks.LIGHT_BRICKS.get());
     }
 
     @Override

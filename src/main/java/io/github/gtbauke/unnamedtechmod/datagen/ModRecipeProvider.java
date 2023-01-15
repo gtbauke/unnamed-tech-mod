@@ -48,6 +48,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 ModItems.LIGHT_BRICK.get(), 0.6f, 200
         ).unlockedBy("has_item", has(ModItems.LIGHT_CLAY_BALL.get())).save(pFinishedRecipeConsumer);
 
+        ShapedRecipeBuilder.shaped(ModBlocks.LIGHT_BRICKS.get())
+                .define('L', ModItems.LIGHT_BRICK.get())
+                .pattern("LL")
+                .pattern("LL")
+                .unlockedBy("has_item", has(ModItems.LIGHT_BRICK.get()))
+                .save(pFinishedRecipeConsumer);
+
         oreSmelting(pFinishedRecipeConsumer, List.of(
                 ModItems.RAW_TIN_ORE.get(),
                 ModItems.TIN_DUST.get()

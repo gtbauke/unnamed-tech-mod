@@ -35,9 +35,17 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> RAW_TIN_BLOCK = register(
             "raw_tin_block",
-            () -> new Block((BlockBehaviour.Properties.of(Material.STONE)
+            () -> new Block(BlockBehaviour.Properties.of(Material.STONE)
                     .strength(2f, 18f)
-                    .requiresCorrectToolForDrops())),
+                    .requiresCorrectToolForDrops()),
+            new Item.Properties().tab(UnnamedTechMod.MOD_TAB)
+    );
+
+    public static final RegistryObject<Block> LIGHT_BRICKS = register(
+            "light_bricks",
+            () -> new Block(BlockBehaviour.Properties.of(Material.STONE)
+                    .strength(2f, 18f)
+                    .requiresCorrectToolForDrops()),
             new Item.Properties().tab(UnnamedTechMod.MOD_TAB)
     );
 
