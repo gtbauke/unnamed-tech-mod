@@ -22,6 +22,9 @@ public class ModItemsModelProvider extends ItemModelProvider {
         simpleItem(ModItems.TIN_DUST.get());
         simpleItem(ModItems.TIN_PLATE.get());
         simpleItem(ModItems.TIN_INGOT.get());
+
+        simpleItem(ModItems.LIGHT_CLAY_BALL.get());
+        simpleItem(ModItems.LIGHT_BRICK.get());
     }
 
     private ItemModelBuilder simpleItem(Item item) {

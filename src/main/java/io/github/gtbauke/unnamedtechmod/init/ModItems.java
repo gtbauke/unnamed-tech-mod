@@ -49,6 +49,22 @@ public class ModItems {
                             .tab(UnnamedTechMod.MOD_TAB)
             )
     );
+
+    public static final RegistryObject<Item> LIGHT_CLAY_BALL = ITEMS.register(
+            "light_clay_ball",
+            () -> new Item(
+                    new Item.Properties()
+                            .tab(UnnamedTechMod.MOD_TAB)
+            )
+    );
+
+    public static final RegistryObject<Item> LIGHT_BRICK = ITEMS.register(
+            "light_brick",
+            () -> new Item(
+                    new Item.Properties()
+                            .tab(UnnamedTechMod.MOD_TAB)
+            )
+    );
     
     public static void register(IEventBus bus) {
         ITEMS.register(bus);

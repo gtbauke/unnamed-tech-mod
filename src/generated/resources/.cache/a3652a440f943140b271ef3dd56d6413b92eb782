@@ -1,5 +1,7 @@
-// 1.19.2	2023-01-14T15:51:45.3188454	Item Models: unnamedtechmod
+// 1.19.2	2023-01-14T23:54:40.6333657	Item Models: unnamedtechmod
 9066422cb91e906fe2de6fb87d05b2e0131e5243 assets/unnamedtechmod/models/item/example_item.json
+427dffb497e949fe5a3df7a30a0cbdb8e495f6f2 assets/unnamedtechmod/models/item/light_brick.json
+0e202273bd646bd8359ca751a74f4669986d8f64 assets/unnamedtechmod/models/item/light_clay_ball.json
 d6b280ac5e9f8bb86dd98de52eba3812a5631624 assets/unnamedtechmod/models/item/raw_tin_ore.json
 3e8dd4e287732a1fcecbb2bda8dcef6040dde9b8 assets/unnamedtechmod/models/item/tin_dust.json
 d0484b21ff21a674930c45b1fff4db668b04106d assets/unnamedtechmod/models/item/tin_ingot.json
