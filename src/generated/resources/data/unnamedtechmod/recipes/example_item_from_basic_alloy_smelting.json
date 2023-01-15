@@ -1,0 +1,11 @@
+{
+  "type": "unnamedtechmod:basic_alloy_smelting",
+  "ingredients": [
+    {
+      "item": "minecraft:copper_ingot"
+    }
+  ],
+  "output": {
+    "item": "unnamedtechmod:example_item"
+  }
+}

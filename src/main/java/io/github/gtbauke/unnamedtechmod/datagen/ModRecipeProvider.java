@@ -1,5 +1,6 @@
 package io.github.gtbauke.unnamedtechmod.datagen;
 
+import io.github.gtbauke.unnamedtechmod.datagen.custom.BasicAlloySmeltingRecipeBuilder;
 import io.github.gtbauke.unnamedtechmod.init.ModBlocks;
 import io.github.gtbauke.unnamedtechmod.init.ModItems;
 import io.github.gtbauke.unnamedtechmod.utils.ModTags;
@@ -74,5 +75,9 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 ModItems.RAW_TIN_ORE.get(),
                 ModItems.TIN_DUST.get()
         ), ModItems.TIN_INGOT.get(), 0.7f, 200, "tin_ingot");
+
+        new BasicAlloySmeltingRecipeBuilder(Items.COPPER_INGOT, ModItems.EXAMPLE_ITEM.get(), 1)
+                .unlockedBy("has_item", has(Items.COPPER_INGOT))
+                .save(pFinishedRecipeConsumer);
     }
 }
