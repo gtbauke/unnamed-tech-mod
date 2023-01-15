@@ -1,8 +1,8 @@
 package io.github.gtbauke.unnamedtechmod.init;
 
 import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
+import io.github.gtbauke.unnamedtechmod.block.BasicAlloySmelter;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -45,6 +45,14 @@ public class ModBlocks {
             "light_bricks",
             () -> new Block(BlockBehaviour.Properties.of(Material.STONE)
                     .strength(2f, 18f)
+                    .requiresCorrectToolForDrops()),
+            new Item.Properties().tab(UnnamedTechMod.MOD_TAB)
+    );
+
+    public static final RegistryObject<BasicAlloySmelter> BASIC_ALLOY_SMELTER = register(
+            "basic_alloy_smelter",
+            () -> new BasicAlloySmelter(BlockBehaviour.Properties.of(Material.STONE)
+                    .strength(2.5f, 20f)
                     .requiresCorrectToolForDrops()),
             new Item.Properties().tab(UnnamedTechMod.MOD_TAB)
     );

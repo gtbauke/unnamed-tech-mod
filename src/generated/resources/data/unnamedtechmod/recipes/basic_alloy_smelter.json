@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "L": {
+      "item": "unnamedtechmod:light_bricks"
+    },
+    "S": {
+      "item": "minecraft:stone"
+    }
+  },
+  "pattern": [
+    "SIS",
+    "LIL",
+    "LLL"
+  ],
+  "result": {
+    "item": "unnamedtechmod:basic_alloy_smelter"
+  }
+}

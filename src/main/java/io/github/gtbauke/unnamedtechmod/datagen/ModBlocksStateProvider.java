@@ -23,6 +23,7 @@ public class ModBlocksStateProvider extends BlockStateProvider {
         simpleBlockWithItem(ModBlocks.RAW_TIN_BLOCK.get());
 
         simpleBlockWithItem(ModBlocks.LIGHT_BRICKS.get());
+        horizontalBlockWithItem(ModBlocks.BASIC_ALLOY_SMELTER.get());
     }
 
     private void simpleBlockWithItem(Block block) {
@@ -34,5 +35,26 @@ public class ModBlocksStateProvider extends BlockStateProvider {
 
         simpleBlock(block);
         itemModels().withExistingParent(registryName, blockItemResourceLocation);
+    }
+
+    private void horizontalBlockWithItem(Block block) {
+        String registryName = ForgeRegistries.BLOCKS.getKey(block).getPath();
+        ResourceLocation front = new ResourceLocation(
+                UnnamedTechMod.MOD_ID,
+                "block/" + registryName + "_front"
+        );
+
+        ResourceLocation side = new ResourceLocation(
+                UnnamedTechMod.MOD_ID,
+                "block/" + registryName + "_side"
+        );
+
+        ResourceLocation top = new ResourceLocation(
+                UnnamedTechMod.MOD_ID,
+                "block/" + registryName + "_top"
+        );
+
+        horizontalBlock(block, side, front, top);
+        itemModels().orientable(registryName, side, front, top);
     }
 }

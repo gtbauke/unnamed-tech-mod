@@ -1,0 +1,11 @@
+{
+  "type": "unnamedtechmod:basic_alloy_smelting",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_ingot"
+    }
+  ],
+  "output": {
+    "item": "minecraft:diamond"
+  }
+}

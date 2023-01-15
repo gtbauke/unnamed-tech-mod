@@ -1,12 +1,15 @@
-// 1.19.2	2023-01-15T00:11:54.3108417	Block States: unnamedtechmod
+// 1.19.2	2023-01-15T02:59:43.6002483	Block States: unnamedtechmod
+fe8afdda6c14432e2554be4e396ebe311f20f2ce assets/unnamedtechmod/blockstates/basic_alloy_smelter.json
 c40487f7daac6d4bc57aa01f3a38d8367228076f assets/unnamedtechmod/blockstates/deepslate_tin_ore.json
 b3222f96a280dba7283bdfa6f953c5f7a2f45a90 assets/unnamedtechmod/blockstates/light_bricks.json
 e73433d9bce130c12a14ce7cd8f96b664b70e86f assets/unnamedtechmod/blockstates/raw_tin_block.json
 449c9dc16b8b98e5d4bec6f6cf74383476cb185a assets/unnamedtechmod/blockstates/tin_ore.json
+9a4f72f9f04829593927092311353c206a19ad95 assets/unnamedtechmod/models/block/basic_alloy_smelter.json
 ad11c2f831a54fb31a939562aec16b713a96d489 assets/unnamedtechmod/models/block/deepslate_tin_ore.json
 bffdadab0128f884fe17efbfc151e269d08ec26c assets/unnamedtechmod/models/block/light_bricks.json
 a7b0e4eedbdb9a71fa8e2ebf650dcb21c50da1e9 assets/unnamedtechmod/models/block/raw_tin_block.json
 8b2f62e9cdcbda1ba632dbbba00d98c4417a6a2e assets/unnamedtechmod/models/block/tin_ore.json
+9a4f72f9f04829593927092311353c206a19ad95 assets/unnamedtechmod/models/item/basic_alloy_smelter.json
 782b895d3ddd562a0b0cff5ae660d4c79fbd91de assets/unnamedtechmod/models/item/deepslate_tin_ore.json
 1e2550aff3a34b94e096b758281f243c961c2020 assets/unnamedtechmod/models/item/light_bricks.json
 a380848854a58884480f56da0e2705a3a1608d55 assets/unnamedtechmod/models/item/raw_tin_block.json
