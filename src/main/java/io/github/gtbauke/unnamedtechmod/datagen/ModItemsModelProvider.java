@@ -25,6 +25,8 @@ public class ModItemsModelProvider extends ItemModelProvider {
 
         simpleItem(ModItems.LIGHT_CLAY_BALL.get());
         simpleItem(ModItems.LIGHT_BRICK.get());
+
+        simpleItem(ModItems.REDSTONE_COPPER_ALLOY.get());
     }
 
     private ItemModelBuilder simpleItem(Item item) {

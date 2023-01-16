@@ -29,6 +29,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         copy(ModTags.Blocks.STORAGE_BLOCKS_RAW_TIN, ModTags.Items.STORAGE_BLOCKS_RAW_TIN);
 
         builder(ModTags.Items.RAW_MATERIALS_TIN, ModItems.RAW_TIN_ORE.get());
+        builder(ModTags.Items.ALLOYS, ModItems.REDSTONE_COPPER_ALLOY.get());
 
         builder(ModTags.Items.DUSTS_TIN, ModItems.TIN_DUST.get());
         getBuilder(Tags.Items.DUSTS)

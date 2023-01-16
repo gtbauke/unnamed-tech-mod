@@ -65,7 +65,15 @@ public class ModItems {
                             .tab(UnnamedTechMod.MOD_TAB)
             )
     );
-    
+
+    public static final RegistryObject<Item> REDSTONE_COPPER_ALLOY = ITEMS.register(
+            "redstone_copper_alloy",
+            () -> new Item(
+                    new Item.Properties()
+                            .tab(UnnamedTechMod.MOD_TAB)
+            )
+    );
+
     public static void register(IEventBus bus) {
         ITEMS.register(bus);
     }

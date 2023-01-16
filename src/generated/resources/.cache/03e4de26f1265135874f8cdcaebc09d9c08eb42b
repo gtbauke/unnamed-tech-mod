@@ -1,4 +1,4 @@
-// 1.19.2	2023-01-14T15:51:45.3218465	Tags for minecraft:item
+// 1.19.2	2023-01-15T17:24:24.4470178	Tags for minecraft:item
 b9562b4500b05711ce63f710d1bb051732c298b1 data/forge/tags/items/dusts.json
 9b6fdeb00309ea8676da23103a0ad29dd9d84158 data/forge/tags/items/dusts/tin.json
 fa3640d755a362ff6872dde6da432992a13230c5 data/forge/tags/items/ingots.json
@@ -8,3 +8,4 @@ fa3640d755a362ff6872dde6da432992a13230c5 data/forge/tags/items/ingots.json
 062d939d7e234d63b3a2ed642eb46f46a51bf895 data/forge/tags/items/plates/tin.json
 31be7450b30dd757f5dc3721c00180780c9cd411 data/forge/tags/items/raw_materials/tin.json
 28b9f87d9f10b1d31469d200b4835c4eab4d5fa3 data/forge/tags/items/storage_blocks/raw_tin.json
+650b1d777f783f289fb2ac5f9d06a841bea6a511 data/unnamedtechmod/tags/items/alloys.json

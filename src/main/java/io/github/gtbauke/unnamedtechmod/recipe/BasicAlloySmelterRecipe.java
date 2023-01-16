@@ -68,6 +68,10 @@ public class BasicAlloySmelterRecipe implements Recipe<SimpleContainer> {
         return Type.INSTANCE;
     }
 
+    public int getCookingTime() {
+        return 0;
+    }
+
     public static class Type implements RecipeType<BasicAlloySmelterRecipe> {
         private Type() {}
 

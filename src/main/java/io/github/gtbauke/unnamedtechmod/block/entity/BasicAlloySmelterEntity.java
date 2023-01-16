@@ -1,7 +1,5 @@
 package io.github.gtbauke.unnamedtechmod.block.entity;
 
-import io.github.gtbauke.unnamedtechmod.block.BasicAlloySmelter;
-import io.github.gtbauke.unnamedtechmod.init.ModItems;
 import io.github.gtbauke.unnamedtechmod.recipe.BasicAlloySmelterRecipe;
 import io.github.gtbauke.unnamedtechmod.screen.BasicAlloySmelterMenu;
 import net.minecraft.core.BlockPos;
@@ -15,17 +13,16 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemStackHandler;
-import org.apache.commons.logging.Log;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -106,6 +103,9 @@ public class BasicAlloySmelterEntity extends BlockEntity implements MenuProvider
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
         if (cap == ForgeCapabilities.ITEM_HANDLER) {
+            return lazyItemHandler.cast();
+
+            /*
             if (side == null) {
                 return lazyItemHandler.cast();
             }
@@ -124,6 +124,7 @@ public class BasicAlloySmelterEntity extends BlockEntity implements MenuProvider
                     default -> directionWrappedHandlerMap.get(side.getOpposite()).cast();
                 };
             }
+            */
         }
 
         return super.getCapability(cap);

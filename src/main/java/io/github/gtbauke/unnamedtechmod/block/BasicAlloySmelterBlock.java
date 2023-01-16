@@ -1,13 +1,17 @@
 package io.github.gtbauke.unnamedtechmod.block;
 
+import com.mojang.math.Vector3d;
 import io.github.gtbauke.unnamedtechmod.block.entity.BasicAlloySmelterEntity;
 import io.github.gtbauke.unnamedtechmod.block.entity.ModBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.*;
@@ -17,15 +21,17 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-public class BasicAlloySmelter extends BaseEntityBlock {
+public class BasicAlloySmelterBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    public BasicAlloySmelter(Properties pProperties) {
+    public BasicAlloySmelterBlock(Properties pProperties) {
         super(pProperties);
     }
 
@@ -61,7 +67,10 @@ public class BasicAlloySmelter extends BaseEntityBlock {
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
 
             if (blockEntity instanceof BasicAlloySmelterEntity entity) {
+                // Containers.dropContents(pLevel, pPos, entity);
+                // entity.furnace.grantStoredRecipeExperience(pLevel, new Vector3d(pPos.getX(), pPos.getY(), pPos.getZ()));
                 entity.drops();
+                pLevel.updateNeighbourForOutputSignal(pPos, this);
             }
         }
 
@@ -92,5 +101,15 @@ public class BasicAlloySmelter extends BaseEntityBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
         return createTickerHelper(pBlockEntityType, ModBlockEntities.BASIC_ALLOY_SMELTER.get(), BasicAlloySmelterEntity::tick);
+    }
+
+    @Override
+    public int getLightEmission(BlockState state, BlockGetter level, BlockPos pos) {
+        return state.getValue(BlockStateProperties.LIT) ? 14 : 0;
+    }
+
+    @Override
+    public boolean isSignalSource(BlockState pState) {
+        return true;
     }
 }

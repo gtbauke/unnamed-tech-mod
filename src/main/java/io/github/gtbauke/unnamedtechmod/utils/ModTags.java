@@ -25,6 +25,7 @@ public class ModTags {
 
     public static final class Items {
         public static final TagKey<Item> ORES_TIN = forge("ores/tin");
+        public static final TagKey<Item> ALLOYS = mod("alloys");
 
         public static final TagKey<Item> STORAGE_BLOCKS_RAW_TIN = forge("storage_blocks/raw_tin");
 

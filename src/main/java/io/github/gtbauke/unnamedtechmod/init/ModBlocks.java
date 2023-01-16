@@ -1,7 +1,7 @@
 package io.github.gtbauke.unnamedtechmod.init;
 
 import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
-import io.github.gtbauke.unnamedtechmod.block.BasicAlloySmelter;
+import io.github.gtbauke.unnamedtechmod.block.BasicAlloySmelterBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -49,9 +49,9 @@ public class ModBlocks {
             new Item.Properties().tab(UnnamedTechMod.MOD_TAB)
     );
 
-    public static final RegistryObject<BasicAlloySmelter> BASIC_ALLOY_SMELTER = register(
+    public static final RegistryObject<BasicAlloySmelterBlock> BASIC_ALLOY_SMELTER = register(
             "basic_alloy_smelter",
-            () -> new BasicAlloySmelter(BlockBehaviour.Properties.of(Material.STONE)
+            () -> new BasicAlloySmelterBlock(BlockBehaviour.Properties.of(Material.STONE)
                     .strength(2.5f, 20f)
                     .requiresCorrectToolForDrops()),
             new Item.Properties().tab(UnnamedTechMod.MOD_TAB)
