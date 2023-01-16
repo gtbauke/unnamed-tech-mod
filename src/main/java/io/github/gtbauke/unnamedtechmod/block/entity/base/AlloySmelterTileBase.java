@@ -1,6 +1,7 @@
 package io.github.gtbauke.unnamedtechmod.block.entity.base;
 
 import io.github.gtbauke.unnamedtechmod.init.ModItems;
+import io.github.gtbauke.unnamedtechmod.recipe.AbstractAlloySmeltingRecipe;
 import io.github.gtbauke.unnamedtechmod.recipe.BasicAlloySmelterRecipe;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.BlockPos;
@@ -52,7 +53,7 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
     public int timer;
 
     public final Object2IntOpenHashMap<ResourceLocation> recipes = new Object2IntOpenHashMap<>();
-    public RecipeType<?> recipeType;
+    public RecipeType<? extends AbstractAlloySmeltingRecipe> recipeType;
 
     public AlloySmelterTileBase(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state, int inventorySize) {
         super(tileEntityType, pos, state, inventorySize);
@@ -63,14 +64,14 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
         return getRecipe(left, right).isPresent();
     }
 
-    protected Optional<BasicAlloySmelterRecipe> getRecipe(ItemStack itemLeft, ItemStack itemRight) {
+    protected Optional<AbstractAlloySmeltingRecipe> getRecipe(ItemStack itemLeft, ItemStack itemRight) {
         if (itemLeft.getItem() instanceof AirItem && itemRight.getItem() instanceof  AirItem) {
             return Optional.empty();
         }
 
         RecipeManager recipeManager = level.getRecipeManager();
         return Optional.ofNullable(recipeManager.getRecipeFor(
-                (RecipeType<BasicAlloySmelterRecipe>)recipeType,
+                (RecipeType<AbstractAlloySmeltingRecipe>)recipeType,
                 new SimpleContainer(itemLeft, itemRight),
                 level
         )).orElse(null);
@@ -97,10 +98,10 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
         ItemStack rightItem = getItem(RIGHT_INPUT);
 
         int recipeTime = recipeManager.getRecipeFor(
-                (RecipeType<BasicAlloySmelterRecipe>)recipeType,
+                (RecipeType<AbstractAlloySmeltingRecipe>)recipeType,
                 new SimpleContainer(leftItem, rightItem),
                 level
-        ).map(BasicAlloySmelterRecipe::getCookingTime).orElse(0);
+        ).map(AbstractAlloySmeltingRecipe::getCookingTime).orElse(0);
 
         double div = 200.0 / recipeTime;
         double i = regular / div;
@@ -293,7 +294,7 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
             ItemStack itemStack = entity.getItem(FUEL);
 
             if (entity.isBurning() || !itemStack.isEmpty() && !entity.isInputEmpty(LEFT_INPUT) && !entity.isInputEmpty(RIGHT_INPUT)) {
-                Optional<BasicAlloySmelterRecipe> recipe = Optional.empty();
+                Optional<AbstractAlloySmeltingRecipe> recipe = Optional.empty();
 
                 if (!entity.isInputEmpty(LEFT_INPUT) && !entity.isInputEmpty(RIGHT_INPUT)) {
                     ItemStack left = entity.getItem(LEFT_INPUT);

@@ -3,7 +3,10 @@ package io.github.gtbauke.unnamedtechmod.datagen.custom;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
+import io.github.gtbauke.unnamedtechmod.datagen.custom.helpers.AlloySmeltingData;
 import io.github.gtbauke.unnamedtechmod.recipe.BasicAlloySmelterRecipe;
+import io.github.gtbauke.unnamedtechmod.utils.ItemWithAmount;
+import io.github.gtbauke.unnamedtechmod.utils.Utils;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.CriterionTriggerInstance;
@@ -13,6 +16,7 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
@@ -22,31 +26,71 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 
 public class BasicAlloySmeltingRecipeBuilder implements RecipeBuilder {
-    private final Item result;
-    private final Ingredient ingredient;
-    private final int count;
+    private final AlloySmeltingData data = new AlloySmeltingData();
     private final Advancement.Builder advancement = Advancement.Builder.advancement();
 
-    public BasicAlloySmeltingRecipeBuilder(ItemLike ingredient, ItemLike result, int count) {
-        this.ingredient = Ingredient.of(ingredient);
-        this.result = result.asItem();
-        this.count = count;
+    public BasicAlloySmeltingRecipeBuilder(ItemLike result, int count) {
+        data.result = result.asItem();
+        data.count = count;
+    }
+
+    public static BasicAlloySmeltingRecipeBuilder alloySmelting(ItemLike result) {
+        return new BasicAlloySmeltingRecipeBuilder(result, 1);
+    }
+
+    public static BasicAlloySmeltingRecipeBuilder alloySmelting(ItemLike result, int count) {
+        return new BasicAlloySmeltingRecipeBuilder(result, count);
+    }
+
+    public BasicAlloySmeltingRecipeBuilder experience(float value) {
+        data.experience = value;
+        return this;
+    }
+
+    public BasicAlloySmeltingRecipeBuilder cookingTime(int value) {
+        data.cookingTime = value;
+        return this;
+    }
+
+    public BasicAlloySmeltingRecipeBuilder alloyCompoundAmount(int value) {
+        data.alloyCompoundAmount = value;
+        return this;
+    }
+
+    public BasicAlloySmeltingRecipeBuilder left(ItemLike item, int amount) {
+        data.left = new ItemWithAmount(item, amount);
+        return this;
+    }
+
+    public BasicAlloySmeltingRecipeBuilder left(ItemLike item) {
+        data.left = new ItemWithAmount(item, 1);
+        return this;
+    }
+
+    public BasicAlloySmeltingRecipeBuilder right(ItemLike item, int amount) {
+        data.right = new ItemWithAmount(item, amount);
+        return this;
+    }
+
+    public BasicAlloySmeltingRecipeBuilder right(ItemLike item) {
+        data.right = new ItemWithAmount(item, 1);
+        return this;
     }
 
     @Override
-    public RecipeBuilder unlockedBy(String pCriterionName, CriterionTriggerInstance pCriterionTrigger) {
+    public BasicAlloySmeltingRecipeBuilder unlockedBy(String pCriterionName, CriterionTriggerInstance pCriterionTrigger) {
         this.advancement.addCriterion(pCriterionName, pCriterionTrigger);
         return this;
     }
 
     @Override
-    public RecipeBuilder group(@Nullable String pGroupName) {
+    public BasicAlloySmeltingRecipeBuilder group(@Nullable String pGroupName) {
         return this;
     }
 
     @Override
     public Item getResult() {
-        return result;
+        return data.result;
     }
 
     @Override
@@ -56,53 +100,63 @@ public class BasicAlloySmeltingRecipeBuilder implements RecipeBuilder {
                 .rewards(AdvancementRewards.Builder.recipe(pRecipeId))
                 .requirements(RequirementsStrategy.OR);
 
+        ResourceLocation loc = new ResourceLocation(pRecipeId.getNamespace(), "recipes/" +
+                data.result.getItemCategory().getRecipeFolderName() + "/" + pRecipeId.getPath());
+
         pFinishedRecipeConsumer.accept(new BasicAlloySmeltingRecipeBuilder.Result(
-                pRecipeId, this.result, this.count, this.ingredient,
-                this.advancement, new ResourceLocation(pRecipeId.getNamespace(), "recipes/" +
-                this.result.getItemCategory().getRecipeFolderName() + "/" + pRecipeId.getPath())
-        ));
+                pRecipeId, data, advancement, loc));
     }
 
     public static class Result implements FinishedRecipe {
         private final ResourceLocation id;
-        private final Item result;
-        private final Ingredient ingredient;
-        private final int count;
+        private final AlloySmeltingData data;
         private final Advancement.Builder advancement;
         private final ResourceLocation advancementId;
 
-        public Result(ResourceLocation pId, Item pResult, int pCount, Ingredient ingredient, Advancement.Builder pAdvancement,
+        public Result(ResourceLocation pId, AlloySmeltingData data, Advancement.Builder pAdvancement,
                       ResourceLocation pAdvancementId) {
             this.id = pId;
-            this.result = pResult;
-            this.count = pCount;
-            this.ingredient = ingredient;
+            this.data = data;
             this.advancement = pAdvancement;
             this.advancementId = pAdvancementId;
         }
 
         @Override
         public void serializeRecipeData(JsonObject pJson) {
-            JsonArray jsonarray = new JsonArray();
-            jsonarray.add(ingredient.toJson());
+            JsonObject left = new JsonObject();
+            left.addProperty("item", Utils.getCraftingRegistryPath(data.left.getItem()));
 
-            pJson.add("ingredients", jsonarray);
-            JsonObject jsonobject = new JsonObject();
-
-            String registryName = ForgeRegistries.ITEMS.getKey(this.result).getPath();
-            jsonobject.addProperty("item", UnnamedTechMod.MOD_ID + ":" + registryName);
-            if (this.count > 1) {
-                jsonobject.addProperty("count", this.count);
+            if (data.left.getCount() > 1) {
+                left.addProperty("count", data.left.getCount());
             }
 
-            pJson.add("output", jsonobject);
+            JsonObject right = new JsonObject();
+            right.addProperty("item", Utils.getCraftingRegistryPath(data.right.getItem()));
+
+            if (data.right.getCount() > 1) {
+                right.addProperty("count", data.right.getCount());
+            }
+
+            JsonObject result = new JsonObject();
+            result.addProperty("item", Utils.getCraftingRegistryPath(data.result));
+
+            if (data.count > 1) {
+                result.addProperty("count", data.count);
+            }
+
+            pJson.add("left", left);
+            pJson.add("right", right);
+            pJson.addProperty("alloyCompoundAmount", data.alloyCompoundAmount);
+            pJson.addProperty("cookingTime", data.cookingTime);
+            pJson.addProperty("experience", data.experience);
+            pJson.add("output", result);
         }
 
         @Override
         public ResourceLocation getId() {
-            String registryName = ForgeRegistries.ITEMS.getKey(this.result).getPath();
+            String registryName = ForgeRegistries.ITEMS.getKey(data.result).getPath();
             return new ResourceLocation(UnnamedTechMod.MOD_ID,
-                    registryName + "_from_basic_alloy_smelting");
+                    BasicAlloySmelterRecipe.Type.ID + "/" + registryName + "_from_basic_alloy_smelting");
         }
 
         @Override

@@ -76,8 +76,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 ModItems.TIN_DUST.get()
         ), ModItems.TIN_INGOT.get(), 0.7f, 200, "tin_ingot");
 
-        new BasicAlloySmeltingRecipeBuilder(Items.COPPER_INGOT, ModItems.EXAMPLE_ITEM.get(), 1)
-                .unlockedBy("has_item", has(Items.COPPER_INGOT))
+        BasicAlloySmeltingRecipeBuilder.alloySmelting(ModItems.REDSTONE_COPPER_ALLOY.get())
+                .left(Items.COPPER_INGOT)
+                .right(Items.REDSTONE, 3)
+                .alloyCompoundAmount(1)
+                .cookingTime(200)
+                .experience(0.7f)
+                .unlockedBy("has_item", has(ModBlocks.BASIC_ALLOY_SMELTER.get()))
                 .save(pFinishedRecipeConsumer);
     }
 }

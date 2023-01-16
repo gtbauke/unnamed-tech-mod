@@ -6,7 +6,7 @@
         "items": [
           {
             "items": [
-              "minecraft:copper_ingot"
+              "unnamedtechmod:basic_alloy_smelter"
             ]
           }
         ]
@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "unnamedtechmod:example_item"
+        "recipe": "unnamedtechmod:redstone_copper_alloy"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "unnamedtechmod:example_item"
+      "unnamedtechmod:redstone_copper_alloy"
     ]
   }
 }

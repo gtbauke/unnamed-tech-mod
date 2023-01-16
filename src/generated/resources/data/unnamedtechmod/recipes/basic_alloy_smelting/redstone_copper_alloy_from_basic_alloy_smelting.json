@@ -1,0 +1,16 @@
+{
+  "type": "unnamedtechmod:basic_alloy_smelting",
+  "alloyCompoundAmount": 1,
+  "cookingTime": 200,
+  "experience": 0.7,
+  "left": {
+    "item": "minecraft:copper_ingot"
+  },
+  "output": {
+    "item": "unnamedtechmod:redstone_copper_alloy"
+  },
+  "right": {
+    "count": 3,
+    "item": "minecraft:redstone"
+  }
+}
