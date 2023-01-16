@@ -9,6 +9,7 @@ import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -30,6 +31,10 @@ public class ModItemTagsProvider extends ItemTagsProvider {
 
         builder(ModTags.Items.RAW_MATERIALS_TIN, ModItems.RAW_TIN_ORE.get());
         builder(ModTags.Items.ALLOYS, ModItems.REDSTONE_COPPER_ALLOY.get());
+
+        getBuilder(ModTags.Items.ALLOY_COMPOUND)
+                .add(Items.CLAY_BALL)
+                .add(ModItems.LIGHT_CLAY_BALL.get());
 
         builder(ModTags.Items.DUSTS_TIN, ModItems.TIN_DUST.get());
         getBuilder(Tags.Items.DUSTS)
