@@ -48,12 +48,12 @@ public abstract class AbstractAlloySmeltingRecipe implements Recipe<SimpleContai
         int rightAmount = right.getCount();
 
         boolean isCorrectIngredientLeft = leftIngredient.test(pContainer.getItem(AlloySmelting.LEFT_INPUT));
-        boolean isCorrectAmountLeft = pContainer.getItem(AlloySmelting.LEFT_INPUT).getCount() == leftAmount;
+        boolean isCorrectAmountLeft = pContainer.getItem(AlloySmelting.LEFT_INPUT).getCount() >= leftAmount;
 
         boolean isCorrectIngredientRight = rightIngredient.test(pContainer.getItem(AlloySmelting.RIGHT_INPUT));
-        boolean isCorrectAmountRight = pContainer.getItem(AlloySmelting.RIGHT_INPUT).getCount() == rightAmount;
+        boolean isCorrectAmountRight = pContainer.getItem(AlloySmelting.RIGHT_INPUT).getCount() >= rightAmount;
 
-        boolean hasCorrectAlloyCompoundAmount = pContainer.getItem(AlloySmelting.ALLOY_COMPOUND).getCount() == alloyCompoundAmount;
+        boolean hasCorrectAlloyCompoundAmount = pContainer.getItem(AlloySmelting.ALLOY_COMPOUND).getCount() >= alloyCompoundAmount;
 
         return isCorrectIngredientLeft && isCorrectAmountLeft &&
                 isCorrectIngredientRight && isCorrectAmountRight &&
@@ -90,7 +90,7 @@ public abstract class AbstractAlloySmeltingRecipe implements Recipe<SimpleContai
 
     @Override
     public NonNullList<Ingredient> getIngredients() {
-        return Recipe.super.getIngredients();
+        return NonNullList.of(Ingredient.of(left), Ingredient.of(right));
     }
 
     @Override
@@ -101,5 +101,17 @@ public abstract class AbstractAlloySmeltingRecipe implements Recipe<SimpleContai
     @Override
     public RecipeType<?> getType() {
         return recipeType;
+    }
+
+    public ItemStack getLeft() {
+        return left;
+    }
+
+    public ItemStack getRight() {
+        return right;
+    }
+
+    public int getAlloyCompoundAmount() {
+        return alloyCompoundAmount;
     }
 }

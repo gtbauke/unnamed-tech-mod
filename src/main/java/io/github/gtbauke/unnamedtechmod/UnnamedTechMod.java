@@ -22,6 +22,9 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
 @Mod(UnnamedTechMod.MOD_ID)
 public class UnnamedTechMod {
     public static final String MOD_ID = "unnamedtechmod";

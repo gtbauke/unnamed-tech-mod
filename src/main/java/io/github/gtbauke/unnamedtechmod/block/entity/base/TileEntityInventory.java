@@ -1,5 +1,6 @@
 package io.github.gtbauke.unnamedtechmod.block.entity.base;
 
+import io.github.gtbauke.unnamedtechmod.utils.AlloySmelting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -18,18 +19,39 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.items.ItemStackHandler;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class TileEntityInventory extends BlockEntity implements
         WorldlyContainer,
         MenuProvider,
         Nameable {
-    public NonNullList<ItemStack> inventory;
+    public ItemStackHandler itemStackHandler;
+    public int containerSize;
     protected Component name;
 
     public TileEntityInventory(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state, int inventorySize) {
         super(tileEntityType, pos, state);
-        inventory = NonNullList.withSize(inventorySize, ItemStack.EMPTY);
+        this.itemStackHandler = new ItemStackHandler(inventorySize) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                setChanged();
+            }
+
+            @Override
+            public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+                return switch (slot) {
+                    case AlloySmelting.LEFT_INPUT -> isItemValidForSlot(AlloySmelting.LEFT_INPUT, stack);
+                    case AlloySmelting.RIGHT_INPUT -> isItemValidForSlot(AlloySmelting.RIGHT_INPUT, stack);
+                    case AlloySmelting.ALLOY_COMPOUND -> isItemValidForSlot(AlloySmelting.ALLOY_COMPOUND, stack);
+                    case AlloySmelting.FUEL -> isItemValidForSlot(AlloySmelting.FUEL, stack);
+                    case AlloySmelting.OUTPUT -> false;
+                    default -> super.isItemValid(slot, stack);
+                };
+            }
+        };
+        this.containerSize = inventorySize;
     }
 
     @Override
@@ -43,15 +65,31 @@ public abstract class TileEntityInventory extends BlockEntity implements
 
     public abstract boolean isItemValidForSlot(int index, ItemStack stack);
 
+    public ItemStackHandler getItemStackHandler() {
+        return itemStackHandler;
+    }
+
+    public void setHandler(ItemStackHandler handler) {
+        copyHandlerContents(handler);
+    }
+
+    private void copyHandlerContents(ItemStackHandler handler) {
+        for (int i = 0; i < handler.getSlots(); i++) {
+            itemStackHandler.setStackInSlot(i, handler.getStackInSlot(i));
+        }
+    }
+
     @Override
     public int getContainerSize() {
-        return inventory.size();
+        return containerSize;
     }
 
     @Override
     public boolean isEmpty() {
-        for(ItemStack itemstack : inventory) {
-            if (!itemstack.isEmpty()) {
+        for(int i = 0; i < itemStackHandler.getSlots(); i++) {
+            ItemStack itemStack = itemStackHandler.getStackInSlot(i);
+
+            if (!itemStack.isEmpty()) {
                 return false;
             }
         }
@@ -61,28 +99,7 @@ public abstract class TileEntityInventory extends BlockEntity implements
 
     @Override
     public ItemStack getItem(int pSlot) {
-        return inventory.get(pSlot);
-    }
-
-    @Override
-    public ItemStack removeItem(int pSlot, int pAmount) {
-        return ContainerHelper.removeItem(inventory, pSlot, pAmount);
-    }
-
-    @Override
-    public ItemStack removeItemNoUpdate(int pSlot) {
-        return ContainerHelper.takeItem(inventory, pSlot);
-    }
-
-    @Override
-    public void setItem(int pSlot, ItemStack pStack) {
-        ItemStack itemStack = this.inventory.get(pSlot);
-        boolean flag = !pStack.isEmpty() && pStack.sameItem(itemStack) && ItemStack.tagMatches(pStack, itemStack);
-
-        inventory.set(pSlot, pStack);
-        if (pStack.getCount() > this.getMaxStackSize()) {
-            pStack.setCount(this.getMaxStackSize());
-        }
+        return itemStackHandler.getStackInSlot(pSlot);
     }
 
     @Override
@@ -96,11 +113,6 @@ public abstract class TileEntityInventory extends BlockEntity implements
 
     @Override
     public abstract boolean canPlaceItem(int pIndex, ItemStack pStack);
-
-    @Override
-    public void clearContent() {
-        inventory.clear();
-    }
 
     @Override
     public Component getName() {
@@ -154,13 +166,7 @@ public abstract class TileEntityInventory extends BlockEntity implements
     @Override
     public void load(CompoundTag pTag) {
         super.load(pTag);
-
-        inventory = NonNullList.withSize(getMaxStackSize(), ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(pTag, inventory);
-
-        if (pTag.contains("CustomName", 8)) {
-            name = Component.Serializer.fromJson(pTag.getString("CustomName"));
-        }
+        itemStackHandler.deserializeNBT(pTag.getCompound("inventory"));
     }
 
     public CompoundTag save(CompoundTag tag) {
@@ -170,12 +176,7 @@ public abstract class TileEntityInventory extends BlockEntity implements
 
     @Override
     protected void saveAdditional(CompoundTag pTag) {
+        pTag.put("inventory", itemStackHandler.serializeNBT());
         super.saveAdditional(pTag);
-
-        if (name != null) {
-            pTag.putString("CustomName", Component.Serializer.toJson(name));
-        }
-
-        ContainerHelper.saveAllItems(pTag, inventory);
     }
 }

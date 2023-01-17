@@ -3,6 +3,8 @@ package io.github.gtbauke.unnamedtechmod.integration;
 import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
 import io.github.gtbauke.unnamedtechmod.init.ModBlocks;
 import io.github.gtbauke.unnamedtechmod.recipe.BasicAlloySmelterRecipe;
+import io.github.gtbauke.unnamedtechmod.utils.AlloySmelting;
+import io.github.gtbauke.unnamedtechmod.utils.ModTags;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -14,6 +16,8 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.items.SlotItemHandler;
 
 public class BasicAlloySmeltingRecipeCategory implements IRecipeCategory<BasicAlloySmelterRecipe> {
     public final static ResourceLocation UID = new ResourceLocation(UnnamedTechMod.MOD_ID, BasicAlloySmelterRecipe.Type.ID);
@@ -49,7 +53,10 @@ public class BasicAlloySmeltingRecipeCategory implements IRecipeCategory<BasicAl
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, BasicAlloySmelterRecipe recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 34, 17).addIngredients(recipe.getIngredients().get(0));
+        builder.addSlot(RecipeIngredientRole.INPUT, 34, 17).addItemStack(recipe.getLeft());
+        builder.addSlot(RecipeIngredientRole.INPUT, 56, 17).addItemStack(recipe.getRight());
+        builder.addSlot(RecipeIngredientRole.CATALYST, 34, 53).addIngredients(Ingredient.of(ModTags.Items.ALLOY_COMPOUND));
+        // FUEL builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 56, 53).addIngredients(Ingredient.));
         builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 35).addItemStack(recipe.getResultItem());
     }
 }

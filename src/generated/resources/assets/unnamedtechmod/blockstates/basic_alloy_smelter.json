@@ -1,17 +1,32 @@
 {
   "variants": {
-    "facing=east": {
+    "facing=east,lit=false": {
       "model": "unnamedtechmod:block/basic_alloy_smelter",
       "y": 90
     },
-    "facing=north": {
+    "facing=east,lit=true": {
+      "model": "unnamedtechmod:block/basic_alloy_smelter",
+      "y": 90
+    },
+    "facing=north,lit=false": {
       "model": "unnamedtechmod:block/basic_alloy_smelter"
     },
-    "facing=south": {
+    "facing=north,lit=true": {
+      "model": "unnamedtechmod:block/basic_alloy_smelter"
+    },
+    "facing=south,lit=false": {
       "model": "unnamedtechmod:block/basic_alloy_smelter",
       "y": 180
     },
-    "facing=west": {
+    "facing=south,lit=true": {
+      "model": "unnamedtechmod:block/basic_alloy_smelter",
+      "y": 180
+    },
+    "facing=west,lit=false": {
+      "model": "unnamedtechmod:block/basic_alloy_smelter",
+      "y": 270
+    },
+    "facing=west,lit=true": {
       "model": "unnamedtechmod:block/basic_alloy_smelter",
       "y": 270
     }
