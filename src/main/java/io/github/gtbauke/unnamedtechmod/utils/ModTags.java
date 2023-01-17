@@ -33,7 +33,15 @@ public class ModTags {
         public static final TagKey<Item> RAW_MATERIALS_TIN = forge("raw_materials/tin");
 
         public static final TagKey<Item> DUSTS_TIN = forge("dusts/tin");
+        public static final TagKey<Item> DUSTS_IRON = forge("dusts/iron");
+        public static final TagKey<Item> DUSTS_GOLD = forge("dusts/gold");
+        public static final TagKey<Item> DUSTS_COPPER = forge("dusts/copper");
+
         public static final TagKey<Item> PLATES_TIN = forge("plates/tin");
+        public static final TagKey<Item> PLATES_IRON = forge("plates/iron");
+        public static final TagKey<Item> PLATES_GOLD = forge("plates/gold");
+        public static final TagKey<Item> PLATES_COPPER = forge("plates/copper");
+
         public static final TagKey<Item> INGOTS_TIN = forge("ingots/tin");
 
         public static TagKey<Item> mod(String path) {

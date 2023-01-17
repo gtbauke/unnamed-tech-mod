@@ -1,5 +1,11 @@
-// 1.19.2	2023-01-15T17:24:24.4450138	Item Models: unnamedtechmod
+// 1.19.2	2023-01-17T00:39:03.3083076	Item Models: unnamedtechmod
+a2ff3ffdbad703e6ce9a5939af63fa0fc16bb788 assets/unnamedtechmod/models/item/copper_dust.json
+f8bc33ba8836389e62b008fb2b945fec7031854f assets/unnamedtechmod/models/item/copper_plate.json
 9066422cb91e906fe2de6fb87d05b2e0131e5243 assets/unnamedtechmod/models/item/example_item.json
+1f25335a5bad831c1d841850512641b5dacca6ea assets/unnamedtechmod/models/item/gold_dust.json
+e12395dd1d2b4a5b37c28d3c2f110a8bfe30f154 assets/unnamedtechmod/models/item/gold_plate.json
+6c5e0cc94b3c86524290cfeeb9f6376365e71e9f assets/unnamedtechmod/models/item/iron_dust.json
+a7ff58ee5a56ac416e0979e3318aaf97b75bf0aa assets/unnamedtechmod/models/item/iron_plate.json
 427dffb497e949fe5a3df7a30a0cbdb8e495f6f2 assets/unnamedtechmod/models/item/light_brick.json
 0e202273bd646bd8359ca751a74f4669986d8f64 assets/unnamedtechmod/models/item/light_clay_ball.json
 d6b280ac5e9f8bb86dd98de52eba3812a5631624 assets/unnamedtechmod/models/item/raw_tin_ore.json

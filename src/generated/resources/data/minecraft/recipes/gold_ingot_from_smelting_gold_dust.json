@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.7,
+  "group": "gold_ingot",
+  "ingredient": {
+    "item": "unnamedtechmod:gold_dust"
+  },
+  "result": "minecraft:gold_ingot"
+}

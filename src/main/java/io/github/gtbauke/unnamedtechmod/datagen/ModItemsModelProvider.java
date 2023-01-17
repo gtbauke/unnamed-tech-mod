@@ -23,6 +23,15 @@ public class ModItemsModelProvider extends ItemModelProvider {
         simpleItem(ModItems.TIN_PLATE.get());
         simpleItem(ModItems.TIN_INGOT.get());
 
+        simpleItem(ModItems.IRON_DUST.get());
+        simpleItem(ModItems.IRON_PLATE.get());
+
+        simpleItem(ModItems.GOLD_DUST.get());
+        simpleItem(ModItems.GOLD_PLATE.get());
+
+        simpleItem(ModItems.COPPER_DUST.get());
+        simpleItem(ModItems.COPPER_PLATE.get());
+
         simpleItem(ModItems.LIGHT_CLAY_BALL.get());
         simpleItem(ModItems.LIGHT_BRICK.get());
 

@@ -76,6 +76,30 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 ModItems.TIN_DUST.get()
         ), ModItems.TIN_INGOT.get(), 0.7f, 200, "tin_ingot");
 
+        oreSmelting(pFinishedRecipeConsumer, List.of(
+                ModItems.COPPER_DUST.get()
+        ), Items.COPPER_INGOT, 0.7f, 200, "copper_ingot");
+
+        oreBlasting(pFinishedRecipeConsumer, List.of(
+                ModItems.COPPER_DUST.get()
+        ), Items.COPPER_INGOT, 0.7f, 200, "copper_ingot");
+
+        oreSmelting(pFinishedRecipeConsumer, List.of(
+                ModItems.IRON_DUST.get()
+        ), Items.IRON_INGOT, 0.7f, 200, "iron_ingot");
+
+        oreBlasting(pFinishedRecipeConsumer, List.of(
+                ModItems.IRON_DUST.get()
+        ), Items.IRON_INGOT, 0.7f, 200, "iron_ingot");
+
+        oreSmelting(pFinishedRecipeConsumer, List.of(
+                ModItems.GOLD_DUST.get()
+        ), Items.GOLD_INGOT, 0.7f, 200, "gold_ingot");
+
+        oreBlasting(pFinishedRecipeConsumer, List.of(
+                ModItems.GOLD_DUST.get()
+        ), Items.GOLD_INGOT, 0.7f, 200, "gold_ingot");
+
         BasicAlloySmeltingRecipeBuilder.alloySmelting(ModItems.REDSTONE_COPPER_ALLOY.get())
                 .left(Items.COPPER_INGOT)
                 .right(Items.REDSTONE, 3)
