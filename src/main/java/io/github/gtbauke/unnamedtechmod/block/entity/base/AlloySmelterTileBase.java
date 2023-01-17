@@ -244,24 +244,6 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
             return true;
         }
 
-        /*
-        if (index == LEFT_INPUT) {
-            if (stack.isEmpty()) {
-                return false;
-            }
-
-            return hasRecipe(stack, getItem(RIGHT_INPUT));
-        }
-
-        if (index == RIGHT_INPUT) {
-            if (stack.isEmpty()) {
-                return false;
-            }
-
-            return hasRecipe(getItem(LEFT_INPUT), stack);
-        }
-        */
-
         if (index == FUEL) {
             ItemStack itemStack = getItem(FUEL);
             return ForgeHooks.getBurnTime(stack, recipeType) > 0 || (
@@ -392,10 +374,12 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
                 (pInventory.getStackInSlot(OUTPUT).is(pRecipe.getResultItem().getItem()) &&
                 pInventory.getStackInSlot(OUTPUT).getCount() + pRecipe.getResultItem().getCount() <= pRecipe.getResultItem().getMaxStackSize());
 
-        return hasItemInLeftSlot && hasItemInRightSlot &&
+        boolean canSmelt = hasItemInLeftSlot && hasItemInRightSlot &&
                 hasCorrectAmountInLeftSlot && hasCorrectAmountInRightSlot &&
                 hasAlloyCompound && hasCorrectAmountOfAlloyCompound &&
                 canInsertResultInOutputSlot;
+
+        return canSmelt;
     }
 
     private boolean smelt(@Nullable Recipe<?> pRecipe, ItemStackHandler pStacks, int pStackSize) {
@@ -413,12 +397,15 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
         ItemStack alloyCompound = pStacks.getStackInSlot(ALLOY_COMPOUND);
         ItemStack output = pStacks.getStackInSlot(OUTPUT);
 
-        ItemStack recipeResult = alloyRecipe.getResultItem();
+        ItemStack recipeResult = alloyRecipe.assemble(new SimpleContainer(left, right, alloyCompound));
+        System.out.println(recipeResult);
 
         if (output.isEmpty()) {
             pStacks.setStackInSlot(OUTPUT, recipeResult);
         } else if (output.is(recipeResult.getItem())) {
             output.grow(recipeResult.getCount());
+        } else {
+            return false;
         }
 
         left.shrink(alloyRecipe.getLeft().getCount());
@@ -429,34 +416,6 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
     }
 
     public static void tick(Level pLevel, BlockPos pPos, BlockState pState, AlloySmelterTileBase pEntity) {
-//        ItemStack left = pEntity.itemStackHandler.getStackInSlot(LEFT_INPUT);
-//        ItemStack right = pEntity.itemStackHandler.getStackInSlot(RIGHT_INPUT);
-//        ItemStack alloyCompound = pEntity.itemStackHandler.getStackInSlot(ALLOY_COMPOUND);
-//
-//        AbstractAlloySmeltingRecipe recipe = pLevel.getRecipeManager().getRecipeFor(
-//                pEntity.recipeType,
-//                new SimpleContainer(left, right, alloyCompound),
-//                pLevel
-//        ).orElse(null);
-//
-//        boolean canSmelt = pEntity.canSmelt(recipe, pEntity.itemStackHandler, pEntity.getMaxStackSize());
-//
-//        if (recipe != null && canSmelt) {
-//            pEntity.cookingTotalTime = getTotalCookingTime(pLevel, pEntity);
-//            pEntity.cookingProgress++;
-//            setChanged(pLevel, pPos, pState);
-//
-//            if (pEntity.cookingProgress >= BURN_TIME_STANDARD) {
-//                pEntity.smelt(recipe, pEntity.itemStackHandler, pEntity.getMaxStackSize());
-//                pEntity.cookingProgress = 0;
-//                setChanged(pLevel, pPos, pState);
-//            }
-//        } else {
-//            pEntity.cookingProgress = 0;
-//            setChanged(pLevel, pPos, pState);
-//            pLevel.sendBlockUpdated(pPos, pState, pEntity.getBlockState(), 3);
-//        }
-
         boolean wasLit = pEntity.isLit();
         boolean isDirty = false;
 
@@ -474,9 +433,9 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
 
         if (pEntity.isLit() || hasFuel && hasInput) {
             AbstractAlloySmeltingRecipe recipe = pLevel.getRecipeManager().getRecipeFor(
-                pEntity.recipeType,
-                new SimpleContainer(left, right, alloyCompound),
-                pLevel
+                    pEntity.recipeType,
+                    new SimpleContainer(left, right, alloyCompound),
+                    pLevel
             ).orElse(null);
 
             int stackSize = pEntity.getMaxStackSize();
@@ -505,16 +464,17 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
             canSmelt = pEntity.canSmelt(recipe, pEntity.itemStackHandler, stackSize);
             if (pEntity.isLit() && canSmelt) {
                 ++pEntity.cookingProgress;
+                System.out.println(pEntity.cookingProgress);
 
-                if (pEntity.cookingProgress == pEntity.cookingTotalTime) {
-                   pEntity.cookingProgress = 0;
-                   pEntity.cookingTotalTime = getTotalCookingTime(pLevel, pEntity);
+                if (pEntity.cookingProgress >= pEntity.cookingTotalTime) {
+                    pEntity.cookingProgress = 0;
+                    pEntity.cookingTotalTime = getTotalCookingTime(pLevel, pEntity);
 
-                   if (pEntity.smelt(recipe, pEntity.itemStackHandler, stackSize)) {
-                       pEntity.setRecipeUsed(recipe);
-                   }
+                    if (pEntity.smelt(recipe, pEntity.itemStackHandler, stackSize)) {
+                        pEntity.setRecipeUsed(recipe);
+                    }
 
-                   isDirty = true;
+                    isDirty = true;
                 }
             } else {
                 pEntity.cookingProgress = 0;

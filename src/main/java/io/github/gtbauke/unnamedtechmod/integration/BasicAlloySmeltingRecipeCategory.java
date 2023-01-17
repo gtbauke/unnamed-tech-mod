@@ -129,7 +129,6 @@ public class BasicAlloySmeltingRecipeCategory implements IRecipeCategory<BasicAl
         builder.addSlot(RecipeIngredientRole.INPUT, 34, 17).addItemStack(recipe.getLeft());
         builder.addSlot(RecipeIngredientRole.INPUT, 56, 17).addItemStack(recipe.getRight());
         builder.addSlot(RecipeIngredientRole.CATALYST, 34, 53).addIngredients(Ingredient.of(ModTags.Items.ALLOY_COMPOUND));
-        // FUEL builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 56, 53).addIngredients(Ingredient.));
         builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 35).addItemStack(recipe.getResultItem());
     }
 }

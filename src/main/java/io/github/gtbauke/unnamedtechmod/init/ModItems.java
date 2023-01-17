@@ -122,7 +122,32 @@ public class ModItems {
             )
     );
 
+    public static final RegistryObject<Item> BRONZE_INGOT = registerIngot("bronze");
+    public static final RegistryObject<Item> BRONZE_PLATE = registerPlate("bronze");
+    public static final RegistryObject<Item> BRONZE_DUST = registerDust("bronze");
+
     public static void register(IEventBus bus) {
         ITEMS.register(bus);
+    }
+
+    private static RegistryObject<Item> registerIngot(String name) {
+        return ITEMS.register(name + "_ingot", () -> new Item(
+                new Item.Properties()
+                        .tab(UnnamedTechMod.MOD_TAB)
+        ));
+    }
+
+    private static RegistryObject<Item> registerPlate(String name) {
+        return ITEMS.register(name + "_plate", () -> new Item(
+                new Item.Properties()
+                        .tab(UnnamedTechMod.MOD_TAB)
+        ));
+    }
+
+    private static RegistryObject<Item> registerDust(String name) {
+        return ITEMS.register(name + "_dust", () -> new Item(
+                new Item.Properties()
+                        .tab(UnnamedTechMod.MOD_TAB)
+        ));
     }
 }

@@ -3,6 +3,7 @@
     "#forge:dusts/tin",
     "#forge:dusts/copper",
     "#forge:dusts/gold",
-    "#forge:dusts/iron"
+    "#forge:dusts/iron",
+    "#forge:dusts/bronze"
   ]
 }

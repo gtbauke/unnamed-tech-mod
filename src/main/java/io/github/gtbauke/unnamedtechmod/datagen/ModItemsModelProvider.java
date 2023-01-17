@@ -19,9 +19,15 @@ public class ModItemsModelProvider extends ItemModelProvider {
     protected void registerModels() {
         simpleItem(ModItems.EXAMPLE_ITEM.get());
         simpleItem(ModItems.RAW_TIN_ORE.get());
+
         simpleItem(ModItems.TIN_DUST.get());
         simpleItem(ModItems.TIN_PLATE.get());
         simpleItem(ModItems.TIN_INGOT.get());
+
+        simpleItem(ModItems.BRONZE_DUST.get());
+        simpleItem(ModItems.BRONZE_PLATE.get());
+        simpleItem(ModItems.BRONZE_INGOT.get());
+
 
         simpleItem(ModItems.IRON_DUST.get());
         simpleItem(ModItems.IRON_PLATE.get());

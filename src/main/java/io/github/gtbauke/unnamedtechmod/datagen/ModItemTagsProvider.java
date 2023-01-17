@@ -40,21 +40,27 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         builder(ModTags.Items.DUSTS_IRON, ModItems.IRON_DUST.get());
         builder(ModTags.Items.DUSTS_GOLD, ModItems.GOLD_DUST.get());
         builder(ModTags.Items.DUSTS_COPPER, ModItems.COPPER_DUST.get());
+        builder(ModTags.Items.DUSTS_BRONZE, ModItems.BRONZE_DUST.get());
 
         getBuilder(Tags.Items.DUSTS)
                 .addTag(ModTags.Items.DUSTS_TIN)
                 .addTag(ModTags.Items.DUSTS_COPPER)
                 .addTag(ModTags.Items.DUSTS_GOLD)
-                .addTag(ModTags.Items.DUSTS_IRON);
+                .addTag(ModTags.Items.DUSTS_IRON)
+                .addTag(ModTags.Items.DUSTS_BRONZE);
 
         builder(ModTags.Items.PLATES_TIN, ModItems.TIN_PLATE.get());
         builder(ModTags.Items.PLATES_IRON, ModItems.IRON_PLATE.get());
         builder(ModTags.Items.PLATES_GOLD, ModItems.GOLD_PLATE.get());
         builder(ModTags.Items.PLATES_COPPER, ModItems.COPPER_PLATE.get());
+        builder(ModTags.Items.PLATES_BRONZE, ModItems.BRONZE_PLATE.get());
 
         builder(ModTags.Items.INGOTS_TIN, ModItems.TIN_INGOT.get());
+        builder(ModTags.Items.INGOTS_BRONZE, ModItems.BRONZE_INGOT.get());
+
         getBuilder(Tags.Items.INGOTS)
-                .addTag(ModTags.Items.INGOTS_TIN);
+                .addTag(ModTags.Items.INGOTS_TIN)
+                .addTag(ModTags.Items.INGOTS_BRONZE);
     }
 
     private void builder(TagKey<Item> tag, ItemLike... items) {

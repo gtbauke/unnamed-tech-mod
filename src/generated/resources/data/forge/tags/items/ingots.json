@@ -1,5 +1,6 @@
 {
   "values": [
-    "#forge:ingots/tin"
+    "#forge:ingots/tin",
+    "#forge:ingots/bronze"
   ]
 }

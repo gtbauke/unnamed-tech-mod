@@ -77,8 +77,9 @@ public class BasicAlloySmelterEntity extends AlloySmelterTileBase {
 
     @Override
     public ItemStack removeItemNoUpdate(int pSlot) {
+        ItemStack stack = itemStackHandler.getStackInSlot(pSlot);
         itemStackHandler.setStackInSlot(pSlot, ItemStack.EMPTY);
-        return ItemStack.EMPTY;
+        return stack;
     }
 
     @Override
