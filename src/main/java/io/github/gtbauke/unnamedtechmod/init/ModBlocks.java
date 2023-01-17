@@ -2,6 +2,7 @@ package io.github.gtbauke.unnamedtechmod.init;
 
 import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
 import io.github.gtbauke.unnamedtechmod.block.BasicAlloySmelterBlock;
+import io.github.gtbauke.unnamedtechmod.block.base.AbstractAlloySmelterBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -53,7 +54,8 @@ public class ModBlocks {
             "basic_alloy_smelter",
             () -> new BasicAlloySmelterBlock(BlockBehaviour.Properties.of(Material.STONE)
                     .strength(2.5f, 20f)
-                    .requiresCorrectToolForDrops()),
+                    .requiresCorrectToolForDrops()
+                    .lightLevel(state -> state.getValue(AbstractAlloySmelterBlock.LIT) ? 13 : 0)),
             new Item.Properties().tab(UnnamedTechMod.MOD_TAB)
     );
 

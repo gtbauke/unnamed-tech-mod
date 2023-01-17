@@ -1,8 +1,3 @@
 {
-  "parent": "minecraft:block/orientable",
-  "textures": {
-    "front": "unnamedtechmod:block/basic_alloy_smelter_front",
-    "side": "unnamedtechmod:block/basic_alloy_smelter_side",
-    "top": "unnamedtechmod:block/basic_alloy_smelter_top"
-  }
+  "parent": "unnamedtechmod:block/basic_alloy_smelter"
 }

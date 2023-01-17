@@ -429,63 +429,92 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
     }
 
     public static void tick(Level pLevel, BlockPos pPos, BlockState pState, AlloySmelterTileBase pEntity) {
-        /*
-        boolean flag = pEntity.isLit();
-        boolean flag1 = false;
+//        ItemStack left = pEntity.itemStackHandler.getStackInSlot(LEFT_INPUT);
+//        ItemStack right = pEntity.itemStackHandler.getStackInSlot(RIGHT_INPUT);
+//        ItemStack alloyCompound = pEntity.itemStackHandler.getStackInSlot(ALLOY_COMPOUND);
+//
+//        AbstractAlloySmeltingRecipe recipe = pLevel.getRecipeManager().getRecipeFor(
+//                pEntity.recipeType,
+//                new SimpleContainer(left, right, alloyCompound),
+//                pLevel
+//        ).orElse(null);
+//
+//        boolean canSmelt = pEntity.canSmelt(recipe, pEntity.itemStackHandler, pEntity.getMaxStackSize());
+//
+//        if (recipe != null && canSmelt) {
+//            pEntity.cookingTotalTime = getTotalCookingTime(pLevel, pEntity);
+//            pEntity.cookingProgress++;
+//            setChanged(pLevel, pPos, pState);
+//
+//            if (pEntity.cookingProgress >= BURN_TIME_STANDARD) {
+//                pEntity.smelt(recipe, pEntity.itemStackHandler, pEntity.getMaxStackSize());
+//                pEntity.cookingProgress = 0;
+//                setChanged(pLevel, pPos, pState);
+//            }
+//        } else {
+//            pEntity.cookingProgress = 0;
+//            setChanged(pLevel, pPos, pState);
+//            pLevel.sendBlockUpdated(pPos, pState, pEntity.getBlockState(), 3);
+//        }
 
-        if(pEntity.isLit()) {
+        boolean wasLit = pEntity.isLit();
+        boolean isDirty = false;
+
+        if (pEntity.isLit()) {
             --pEntity.litTime;
         }
 
-        ItemStack left = pEntity.getItem(LEFT_INPUT);
-        ItemStack right = pEntity.getItem(RIGHT_INPUT);
-        ItemStack fuel = pEntity.getItem(FUEL);
+        ItemStack left = pEntity.itemStackHandler.getStackInSlot(LEFT_INPUT);
+        ItemStack right = pEntity.itemStackHandler.getStackInSlot(RIGHT_INPUT);
+        ItemStack alloyCompound = pEntity.itemStackHandler.getStackInSlot(ALLOY_COMPOUND);
 
-        boolean hasOutput = !pEntity.getItem(OUTPUT).isEmpty();
-        boolean hasFuel = !fuel.isEmpty();
+        ItemStack fuelSlot = pEntity.getItem(FUEL);
+        boolean hasInput = !(pEntity.getItem(LEFT_INPUT).isEmpty() || pEntity.getItem(RIGHT_INPUT).isEmpty());
+        boolean hasFuel = !fuelSlot.isEmpty();
 
-        Recipe<?> recipe;
-        Optional<AbstractAlloySmeltingRecipe> foundRecipe = pEntity.getRecipe(left, right);
+        if (pEntity.isLit() || hasFuel && hasInput) {
+            AbstractAlloySmeltingRecipe recipe = pLevel.getRecipeManager().getRecipeFor(
+                pEntity.recipeType,
+                new SimpleContainer(left, right, alloyCompound),
+                pLevel
+            ).orElse(null);
 
-        if (foundRecipe.isPresent()) {
-            recipe = foundRecipe.get();
-        } else {
-            recipe = null;
-        }
+            int stackSize = pEntity.getMaxStackSize();
+            boolean canSmelt = pEntity.canSmelt(recipe, pEntity.itemStackHandler, stackSize);
 
-        int maxStackSize = pEntity.getMaxStackSize();
-        if (!pEntity.isLit() && pEntity.canSmelt((AbstractAlloySmeltingRecipe) recipe, pEntity.itemStackHandler, maxStackSize)) {
-            pEntity.litTime = pEntity.getBurnDuration(fuel);
-            pEntity.litDuration = pEntity.litTime;
+            if (!pEntity.isLit() && canSmelt) {
+                pEntity.litTime = pEntity.getBurnDuration(fuelSlot);
+                pEntity.litDuration = pEntity.litTime;
 
-            if (pEntity.isLit()) {
-                flag1 = true;
-                if (fuel.hasCraftingRemainingItem()) {
-                    pEntity.itemStackHandler.setStackInSlot(FUEL, fuel.getCraftingRemainingItem());
-                } else if (hasFuel) {
-                    Item fuelItem = fuel.getItem();
-                    fuel.shrink(1);
+                if (pEntity.isLit()) {
+                    isDirty = true;
 
-                    if (fuel.isEmpty()) {
-                        pEntity.itemStackHandler.setStackInSlot(FUEL, fuel.getCraftingRemainingItem());
+                    if (fuelSlot.hasCraftingRemainingItem()) {
+                        pEntity.itemStackHandler.setStackInSlot(FUEL, fuelSlot.getCraftingRemainingItem());
+                    } else if (hasFuel) {
+                        Item item = fuelSlot.getItem();
+                        fuelSlot.shrink(1);
+
+                        if (fuelSlot.isEmpty()) {
+                            pEntity.itemStackHandler.setStackInSlot(FUEL, fuelSlot.getCraftingRemainingItem());
+                        }
                     }
                 }
             }
-        }
 
-        if (hasFuel && hasOutput) {
-            if (pEntity.isLit() && pEntity.canSmelt((AbstractAlloySmeltingRecipe) recipe, pEntity.itemStackHandler, maxStackSize)) {
+            canSmelt = pEntity.canSmelt(recipe, pEntity.itemStackHandler, stackSize);
+            if (pEntity.isLit() && canSmelt) {
                 ++pEntity.cookingProgress;
 
                 if (pEntity.cookingProgress == pEntity.cookingTotalTime) {
-                    pEntity.cookingProgress = 0;
-                    pEntity.cookingTotalTime = getTotalCookingTime(pLevel, pEntity);
+                   pEntity.cookingProgress = 0;
+                   pEntity.cookingTotalTime = getTotalCookingTime(pLevel, pEntity);
 
-                    if (pEntity.smelt(recipe, pEntity.itemStackHandler, maxStackSize)) {
-                        pEntity.setRecipeUsed(recipe);
-                    }
+                   if (pEntity.smelt(recipe, pEntity.itemStackHandler, stackSize)) {
+                       pEntity.setRecipeUsed(recipe);
+                   }
 
-                    flag1 = true;
+                   isDirty = true;
                 }
             } else {
                 pEntity.cookingProgress = 0;
@@ -494,52 +523,14 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
             pEntity.cookingProgress = Mth.clamp(pEntity.cookingProgress - 2, 0, pEntity.cookingTotalTime);
         }
 
-        if (flag != pEntity.isLit()) {
-            flag1 = true;
+        if (wasLit != pEntity.isLit()) {
+            isDirty = true;
             pState = pState.setValue(AbstractAlloySmelterBlock.LIT, Boolean.valueOf(pEntity.isLit()));
             pLevel.setBlock(pPos, pState, 3);
         }
 
-        if (flag1) {
+        if (isDirty) {
             setChanged(pLevel, pPos, pState);
-        }
-        */
-
-        ItemStack left = pEntity.itemStackHandler.getStackInSlot(LEFT_INPUT);
-        ItemStack right = pEntity.itemStackHandler.getStackInSlot(RIGHT_INPUT);
-        ItemStack alloyCompound = pEntity.itemStackHandler.getStackInSlot(ALLOY_COMPOUND);
-
-        /*
-        AbstractAlloySmeltingRecipe recipe = pLevel.getRecipeManager()
-                .getAllRecipesFor(pEntity.recipeType)
-                .stream()
-                .filter(r -> r.matches(new SimpleContainer(left, right, alloyCompound), pLevel))
-                .findFirst()
-                .orElse(null);
-        */
-
-        AbstractAlloySmeltingRecipe recipe = pLevel.getRecipeManager().getRecipeFor(
-                pEntity.recipeType,
-                new SimpleContainer(left, right, alloyCompound),
-                pLevel
-        ).orElse(null);
-
-        boolean canSmelt = pEntity.canSmelt(recipe, pEntity.itemStackHandler, pEntity.getMaxStackSize());
-
-        if (recipe != null && canSmelt) {
-            pEntity.cookingTotalTime = getTotalCookingTime(pLevel, pEntity);
-            pEntity.cookingProgress++;
-            setChanged(pLevel, pPos, pState);
-
-            if (pEntity.cookingProgress >= BURN_TIME_STANDARD) {
-                pEntity.smelt(recipe, pEntity.itemStackHandler, pEntity.getMaxStackSize());
-                pEntity.cookingProgress = 0;
-                setChanged(pLevel, pPos, pState);
-            }
-        } else {
-            pEntity.cookingProgress = 0;
-            setChanged(pLevel, pPos, pState);
-            pLevel.sendBlockUpdated(pPos, pState, pEntity.getBlockState(), 3);
         }
     }
 }
