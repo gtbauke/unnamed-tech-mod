@@ -1,0 +1,29 @@
+{
+  "itemGroup.utm_main_tab": "Unnamed Tech Mod",
+  "item.unnamedtechmod.example_item": "Example Item",
+
+  "item.unnamedtechmod.raw_tin_ore": "Estanho Bruto",
+  "item.unnamedtechmod.tin_dust": "Pó de Estanho",
+  "item.unnamedtechmod.tin_plate": "Placa de Estanho",
+  "item.unnamedtechmod.tin_ingot": "Barra de Estanho",
+  "item.unnamedtechmod.bronze_dust": "Pó de Bronze",
+  "item.unnamedtechmod.bronze_plate": "Placa de Bronze",
+  "item.unnamedtechmod.bronze_ingot": "Barra de Bronze",
+  "item.unnamedtechmod.iron_dust": "Pó de Ferro",
+  "item.unnamedtechmod.iron_plate": "Placa de Ferro",
+  "item.unnamedtechmod.copper_dust": "Pó de Cobre",
+  "item.unnamedtechmod.copper_plate": "Placa de Cobre",
+  "item.unnamedtechmod.gold_dust": "Pó de Ouro",
+  "item.unnamedtechmod.gold_plate": "Placa de Ouro",
+  "item.unnamedtechmod.light_clay_ball": "Bola de Argila Clara",
+  "item.unnamedtechmod.light_brick": "Tijolo Claro",
+  "item.unnamedtechmod.redstone_copper_alloy": "Liga de Redstone e Cobre",
+
+  "block.unnamedtechmod.tin_ore": "Minério de Estanho",
+  "block.unnamedtechmod.deepslate_tin_ore": "Minério de Estanho de Ardósia",
+  "block.unnamedtechmod.raw_tin_block": "Bloco de Estanho Bruto",
+  "block.unnamedtechmod.light_bricks": "Tijolos Claros",
+  "block.unnamedtechmod.basic_alloy_smelter": "Fundição de Ligas Básica",
+
+  "container.basic_alloy_smelter": "Fundição de Ligas Básica"
+}
