@@ -1,7 +1,10 @@
 package io.github.gtbauke.unnamedtechmod.recipe;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
+import io.github.gtbauke.unnamedtechmod.utils.RecipeIngredient;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -22,8 +25,8 @@ public class BasicAlloySmelterRecipe extends AbstractAlloySmeltingRecipe {
             Type.ID
     );
 
-    protected BasicAlloySmelterRecipe(ResourceLocation id, ItemStack left, ItemStack right, int alloyCompoundAmount, ItemStack result, float experience, int cookingTime) {
-        super(Type.INSTANCE, id, "", left, right, alloyCompoundAmount, result, experience, cookingTime);
+    protected BasicAlloySmelterRecipe(ResourceLocation id, NonNullList<RecipeIngredient> ingredients, int alloyCompoundAmount, ItemStack result, float experience, int cookingTime) {
+        super(Type.INSTANCE, id, "", ingredients, alloyCompoundAmount, result, experience, cookingTime);
     }
 
     @Override
@@ -40,37 +43,44 @@ public class BasicAlloySmelterRecipe extends AbstractAlloySmeltingRecipe {
             ItemStack output = ShapedRecipe.itemStackFromJson(
                     GsonHelper.getAsJsonObject(pSerializedRecipe, "output"));
 
-            ItemStack left = ShapedRecipe.itemStackFromJson(
-                    GsonHelper.getAsJsonObject(pSerializedRecipe, "left")
-            );
+            JsonArray ingredientsArray = GsonHelper.getAsJsonArray(pSerializedRecipe, "ingredients");
+            NonNullList<RecipeIngredient> recipeIngredients = NonNullList.withSize(ingredientsArray.size(), RecipeIngredient.EMPTY);
 
-            ItemStack right = ShapedRecipe.itemStackFromJson(
-                    GsonHelper.getAsJsonObject(pSerializedRecipe, "right")
-            );
+            for (int i = 0; i < recipeIngredients.size(); i++) {
+                recipeIngredients.set(i, RecipeIngredient.fromJson(ingredientsArray.get(i)));
+            }
 
             int alloyCompoundAmount = GsonHelper.getAsInt(pSerializedRecipe, "alloyCompoundAmount", 0);
             int cookingTime = GsonHelper.getAsInt(pSerializedRecipe, "cookingTime", 1);
             float experience = GsonHelper.getAsFloat(pSerializedRecipe, "experience", 0);
 
-            return new BasicAlloySmelterRecipe(pRecipeId, left, right, alloyCompoundAmount, output, experience, cookingTime);
+            return new BasicAlloySmelterRecipe(pRecipeId, recipeIngredients, alloyCompoundAmount, output, experience, cookingTime);
         }
 
         @Override
         public @Nullable BasicAlloySmelterRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
-            ItemStack left = pBuffer.readItem();
-            ItemStack right = pBuffer.readItem();
+            NonNullList<RecipeIngredient> recipeIngredients = NonNullList.withSize(pBuffer.readInt(), RecipeIngredient.EMPTY);
+
+            for (int i = 0; i < recipeIngredients.size(); i++) {
+                recipeIngredients.set(i, RecipeIngredient.fromNetwork(pBuffer));
+            }
+
             int alloyCompoundAmount = pBuffer.readInt();
             int cookingTime = pBuffer.readInt();
             float experience = pBuffer.readFloat();
             ItemStack output = pBuffer.readItem();
 
-            return new BasicAlloySmelterRecipe(pRecipeId, left, right, alloyCompoundAmount, output, experience, cookingTime);
+            return new BasicAlloySmelterRecipe(pRecipeId, recipeIngredients, alloyCompoundAmount, output, experience, cookingTime);
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf pBuffer, BasicAlloySmelterRecipe pRecipe) {
-            pBuffer.writeItemStack(pRecipe.left, false);
-            pBuffer.writeItemStack(pRecipe.right, false);
+            pBuffer.writeInt(pRecipe.ingredients.size());
+
+            for (RecipeIngredient ingredient : pRecipe.ingredients) {
+                ingredient.toNetwork(pBuffer);
+            }
+
             pBuffer.writeInt(pRecipe.alloyCompoundAmount);
             pBuffer.writeInt(pRecipe.cookingTime);
             pBuffer.writeFloat(pRecipe.experience);

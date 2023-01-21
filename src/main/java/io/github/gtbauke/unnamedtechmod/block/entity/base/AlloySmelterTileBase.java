@@ -362,10 +362,14 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
             return false;
         }
 
-        boolean hasItemInLeftSlot = !pInventory.getStackInSlot(LEFT_INPUT).isEmpty();
-        boolean hasItemInRightSlot = !pInventory.getStackInSlot(RIGHT_INPUT).isEmpty();
-        boolean hasCorrectAmountInLeftSlot = pInventory.getStackInSlot(LEFT_INPUT).getCount() >= pRecipe.getLeft().getCount();
-        boolean hasCorrectAmountInRightSlot = pInventory.getStackInSlot(RIGHT_INPUT).getCount() >= pRecipe.getRight().getCount();
+        ItemStack left = pInventory.getStackInSlot(LEFT_INPUT);
+        ItemStack right = pInventory.getStackInSlot(RIGHT_INPUT);
+
+        boolean hasItemInLeftSlot = !left.isEmpty();
+        boolean hasItemInRightSlot = !right.isEmpty();
+
+        boolean hasCorrectIngredients = pRecipe.ingredientsContain(new SimpleContainer(left, right));
+
         boolean hasAlloyCompound = pInventory.getStackInSlot(ALLOY_COMPOUND).is(ModTags.Items.ALLOY_COMPOUND);
         boolean hasCorrectAmountOfAlloyCompound = pInventory.getStackInSlot(ALLOY_COMPOUND).getCount() >= pRecipe.getAlloyCompoundAmount();
 
@@ -375,7 +379,7 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
                 pInventory.getStackInSlot(OUTPUT).getCount() + pRecipe.getResultItem().getCount() <= pRecipe.getResultItem().getMaxStackSize());
 
         boolean canSmelt = hasItemInLeftSlot && hasItemInRightSlot &&
-                hasCorrectAmountInLeftSlot && hasCorrectAmountInRightSlot &&
+                hasCorrectIngredients &&
                 hasAlloyCompound && hasCorrectAmountOfAlloyCompound &&
                 canInsertResultInOutputSlot;
 
@@ -408,8 +412,8 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
             return false;
         }
 
-        left.shrink(alloyRecipe.getLeft().getCount());
-        right.shrink(alloyRecipe.getRight().getCount());
+        left.shrink(alloyRecipe.getUsedAmountOf(left.getItem()));
+        right.shrink(alloyRecipe.getUsedAmountOf(right.getItem()));
         alloyCompound.shrink(alloyRecipe.getAlloyCompoundAmount());
 
         return true;

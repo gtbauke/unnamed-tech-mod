@@ -3,6 +3,7 @@ package io.github.gtbauke.unnamedtechmod.recipe;
 import com.google.gson.JsonObject;
 import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
 import io.github.gtbauke.unnamedtechmod.utils.AlloySmelting;
+import io.github.gtbauke.unnamedtechmod.utils.RecipeIngredient;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -12,6 +13,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,45 +21,41 @@ public abstract class AbstractAlloySmeltingRecipe implements Recipe<SimpleContai
     protected final RecipeType<?> recipeType;
     public final ResourceLocation id;
     protected final String group;
-    protected final ItemStack left;
-    protected final ItemStack right;
-    protected final int alloyCompoundAmount;
 
+    protected final NonNullList<RecipeIngredient> ingredients;
     protected final ItemStack result;
-    protected final float experience;
-    protected final int cookingTime;
 
-    protected AbstractAlloySmeltingRecipe(RecipeType<?> recipeType, ResourceLocation id, String group, ItemStack left, ItemStack right, int alloyCompoundAmount, ItemStack result, float experience, int cookingTime) {
+    protected final int alloyCompoundAmount;
+    protected final int cookingTime;
+    protected final float experience;
+
+    protected AbstractAlloySmeltingRecipe(RecipeType<?> recipeType, ResourceLocation id, String group, NonNullList<RecipeIngredient> ingredients, int alloyCompoundAmount, ItemStack result, float experience, int cookingTime) {
         this.recipeType = recipeType;
         this.id = id;
         this.group = group;
-        this.left = left;
-        this.right = right;
-        this.alloyCompoundAmount = alloyCompoundAmount;
+
+        this.ingredients = ingredients;
         this.result = result;
+
+        this.alloyCompoundAmount = alloyCompoundAmount;
         this.experience = experience;
         this.cookingTime = cookingTime;
     }
 
     @Override
     public boolean matches(SimpleContainer pContainer, Level pLevel) {
-        Ingredient leftIngredient = Ingredient.of(left);
-        int leftAmount = left.getCount();
+        boolean containsEachIngredient = ingredients.stream().map(ingredient -> {
+            boolean containerHas = pContainer.hasAnyMatching(stack ->
+                    ingredient.getIngredient().test(stack) &&
+                    ingredient.getAmount() == stack.getCount()
+            );
 
-        Ingredient rightIngredient = Ingredient.of(right);
-        int rightAmount = right.getCount();
-
-        boolean isCorrectIngredientLeft = leftIngredient.test(pContainer.getItem(AlloySmelting.LEFT_INPUT));
-        boolean isCorrectAmountLeft = pContainer.getItem(AlloySmelting.LEFT_INPUT).getCount() >= leftAmount;
-
-        boolean isCorrectIngredientRight = rightIngredient.test(pContainer.getItem(AlloySmelting.RIGHT_INPUT));
-        boolean isCorrectAmountRight = pContainer.getItem(AlloySmelting.RIGHT_INPUT).getCount() >= rightAmount;
+            return containerHas;
+        }).allMatch(p -> true);
 
         boolean hasCorrectAlloyCompoundAmount = pContainer.getItem(AlloySmelting.ALLOY_COMPOUND).getCount() >= alloyCompoundAmount;
 
-        return isCorrectIngredientLeft && isCorrectAmountLeft &&
-                isCorrectIngredientRight && isCorrectAmountRight &&
-                hasCorrectAlloyCompoundAmount;
+        return containsEachIngredient && hasCorrectAlloyCompoundAmount;
     }
 
     @Override
@@ -90,7 +88,17 @@ public abstract class AbstractAlloySmeltingRecipe implements Recipe<SimpleContai
 
     @Override
     public NonNullList<Ingredient> getIngredients() {
-        return NonNullList.of(Ingredient.of(left), Ingredient.of(right));
+        NonNullList<Ingredient> recipeIngredients = NonNullList.withSize(ingredients.size(), Ingredient.EMPTY);
+
+        for (int i = 0; i < recipeIngredients.size(); i++) {
+            recipeIngredients.set(i, ingredients.get(i).getIngredient());
+        }
+
+        return recipeIngredients;
+    }
+
+    public NonNullList<RecipeIngredient> getRecipeIngredients() {
+        return ingredients;
     }
 
     @Override
@@ -103,15 +111,24 @@ public abstract class AbstractAlloySmeltingRecipe implements Recipe<SimpleContai
         return recipeType;
     }
 
-    public ItemStack getLeft() {
-        return left;
-    }
-
-    public ItemStack getRight() {
-        return right;
-    }
 
     public int getAlloyCompoundAmount() {
         return alloyCompoundAmount;
+    }
+
+    public boolean ingredientsContain(SimpleContainer inputs) {
+        return ingredients.stream().allMatch(ingredient -> inputs.hasAnyMatching(stack ->
+                    ingredient.getIngredient().test(stack) &&
+                    ingredient.getAmount() == stack.getCount()
+        ));
+    }
+
+    public int getUsedAmountOf(ItemLike input) {
+        RecipeIngredient ingredient = ingredients.stream()
+                .filter(i -> i.getIngredient().test(new ItemStack(input)))
+                .findFirst()
+                .orElse(null);
+
+        return ingredient.getAmount();
     }
 }

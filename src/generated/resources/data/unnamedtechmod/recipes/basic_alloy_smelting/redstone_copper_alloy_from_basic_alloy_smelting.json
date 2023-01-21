@@ -3,14 +3,17 @@
   "alloyCompoundAmount": 1,
   "cookingTime": 200,
   "experience": 0.7,
-  "left": {
-    "item": "minecraft:copper_ingot"
-  },
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "count": 3,
+      "item": "minecraft:redstone"
+    }
+  ],
   "output": {
     "item": "unnamedtechmod:redstone_copper_alloy"
-  },
-  "right": {
-    "count": 3,
-    "item": "minecraft:redstone"
   }
 }

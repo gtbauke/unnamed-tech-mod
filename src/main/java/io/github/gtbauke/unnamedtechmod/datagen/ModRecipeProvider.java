@@ -109,8 +109,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         ), ModItems.BRONZE_INGOT.get(), 0.7f, 200, "bronze_ingot");
 
         BasicAlloySmeltingRecipeBuilder.alloySmelting(ModItems.REDSTONE_COPPER_ALLOY.get())
-                .left(Items.COPPER_INGOT)
-                .right(Items.REDSTONE, 3)
+                .requires(Items.COPPER_INGOT)
+                .requires(Items.REDSTONE, 3)
                 .alloyCompoundAmount(1)
                 .cookingTime(200)
                 .experience(0.7f)
@@ -118,8 +118,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .save(pFinishedRecipeConsumer);
 
         BasicAlloySmeltingRecipeBuilder.alloySmelting(ModItems.BRONZE_INGOT.get(), 2)
-                .left(ModItems.COPPER_DUST.get())
-                .right(ModItems.TIN_DUST.get(), 3)
+                .requires(ModItems.COPPER_DUST.get())
+                .requires(ModItems.TIN_DUST.get(), 3)
                 .alloyCompoundAmount(1)
                 .experience(0.7f)
                 .cookingTime(200)

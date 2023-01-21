@@ -3,15 +3,18 @@
   "alloyCompoundAmount": 1,
   "cookingTime": 200,
   "experience": 0.7,
-  "left": {
-    "item": "unnamedtechmod:copper_dust"
-  },
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "unnamedtechmod:copper_dust"
+    },
+    {
+      "count": 3,
+      "item": "unnamedtechmod:tin_dust"
+    }
+  ],
   "output": {
     "count": 2,
     "item": "unnamedtechmod:bronze_ingot"
-  },
-  "right": {
-    "count": 3,
-    "item": "unnamedtechmod:tin_dust"
   }
 }
