@@ -368,7 +368,7 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
         boolean hasItemInLeftSlot = !left.isEmpty();
         boolean hasItemInRightSlot = !right.isEmpty();
 
-        boolean hasCorrectIngredients = pRecipe.ingredientsContain(new SimpleContainer(left, right));
+        boolean hasCorrectIngredients = pRecipe.contains(left) && pRecipe.contains(right);
 
         boolean hasAlloyCompound = pInventory.getStackInSlot(ALLOY_COMPOUND).is(ModTags.Items.ALLOY_COMPOUND);
         boolean hasCorrectAmountOfAlloyCompound = pInventory.getStackInSlot(ALLOY_COMPOUND).getCount() >= pRecipe.getAlloyCompoundAmount();
@@ -402,7 +402,6 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
         ItemStack output = pStacks.getStackInSlot(OUTPUT);
 
         ItemStack recipeResult = alloyRecipe.assemble(new SimpleContainer(left, right, alloyCompound));
-        System.out.println(recipeResult);
 
         if (output.isEmpty()) {
             pStacks.setStackInSlot(OUTPUT, recipeResult);
@@ -468,7 +467,6 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
             canSmelt = pEntity.canSmelt(recipe, pEntity.itemStackHandler, stackSize);
             if (pEntity.isLit() && canSmelt) {
                 ++pEntity.cookingProgress;
-                System.out.println(pEntity.cookingProgress);
 
                 if (pEntity.cookingProgress >= pEntity.cookingTotalTime) {
                     pEntity.cookingProgress = 0;

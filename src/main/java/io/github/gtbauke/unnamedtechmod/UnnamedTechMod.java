@@ -21,9 +21,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod(UnnamedTechMod.MOD_ID)
 public class UnnamedTechMod {
@@ -34,6 +33,8 @@ public class UnnamedTechMod {
             return new ItemStack(ModItems.EXAMPLE_ITEM.get());
         }
     };
+
+    public static Logger LOGGER = LogManager.getLogger(MOD_ID);
 
     public UnnamedTechMod() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();

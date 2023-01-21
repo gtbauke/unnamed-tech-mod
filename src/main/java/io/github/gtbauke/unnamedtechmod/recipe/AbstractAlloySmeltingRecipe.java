@@ -1,21 +1,17 @@
 package io.github.gtbauke.unnamedtechmod.recipe;
 
-import com.google.gson.JsonObject;
 import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
 import io.github.gtbauke.unnamedtechmod.utils.AlloySmelting;
 import io.github.gtbauke.unnamedtechmod.utils.RecipeIngredient;
 import net.minecraft.core.NonNullList;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractAlloySmeltingRecipe implements Recipe<SimpleContainer> {
     protected final RecipeType<?> recipeType;
@@ -44,18 +40,41 @@ public abstract class AbstractAlloySmeltingRecipe implements Recipe<SimpleContai
 
     @Override
     public boolean matches(SimpleContainer pContainer, Level pLevel) {
-        boolean containsEachIngredient = ingredients.stream().map(ingredient -> {
-            boolean containerHas = pContainer.hasAnyMatching(stack ->
-                    ingredient.getIngredient().test(stack) &&
-                    ingredient.getAmount() == stack.getCount()
-            );
+        if (pContainer.getContainerSize() != ingredients.size() + 1) {
+            return false;
+        }
 
-            return containerHas;
-        }).allMatch(p -> true);
+        for (int i = 0; i < pContainer.getContainerSize(); i++) {
+            ItemStack stack = pContainer.getItem(i);
 
-        boolean hasCorrectAlloyCompoundAmount = pContainer.getItem(AlloySmelting.ALLOY_COMPOUND).getCount() >= alloyCompoundAmount;
+            if (i == pContainer.getContainerSize() - 1) {
+                if (stack.getCount() < alloyCompoundAmount) {
+                    return false;
+                }
+            } else {
+                boolean ingredientsContainsStack = contains(stack);
 
-        return containsEachIngredient && hasCorrectAlloyCompoundAmount;
+                if (!ingredientsContainsStack) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public boolean contains(ItemStack stack) {
+        for (int i = 0; i < ingredients.size(); i++) {
+            RecipeIngredient ingredient = ingredients.get(i);
+
+            if (ingredient.getIngredient().test(stack)) {
+                if (stack.getCount() >= ingredient.getAmount()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     @Override
@@ -116,8 +135,18 @@ public abstract class AbstractAlloySmeltingRecipe implements Recipe<SimpleContai
         return alloyCompoundAmount;
     }
 
+    public boolean isIngredient(ItemLike item) {
+        for (RecipeIngredient ingredient : ingredients) {
+            if (!ingredient.getIngredient().test(new ItemStack(item))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public boolean ingredientsContain(SimpleContainer inputs) {
-        return ingredients.stream().allMatch(ingredient -> inputs.hasAnyMatching(stack ->
+        return ingredients.subList(0, ingredients.size() - 1).stream().allMatch(ingredient -> inputs.hasAnyMatching(stack ->
                     ingredient.getIngredient().test(stack) &&
                     ingredient.getAmount() == stack.getCount()
         ));

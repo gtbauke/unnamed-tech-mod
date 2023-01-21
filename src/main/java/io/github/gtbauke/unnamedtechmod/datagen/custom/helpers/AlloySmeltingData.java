@@ -1,9 +1,7 @@
 package io.github.gtbauke.unnamedtechmod.datagen.custom.helpers;
 
-import io.github.gtbauke.unnamedtechmod.utils.ItemWithAmount;
 import io.github.gtbauke.unnamedtechmod.utils.RecipeIngredient;
 import net.minecraft.core.NonNullList;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class AlloySmeltingData {
