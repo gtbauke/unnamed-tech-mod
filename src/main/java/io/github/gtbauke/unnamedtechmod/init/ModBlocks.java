@@ -2,6 +2,7 @@ package io.github.gtbauke.unnamedtechmod.init;
 
 import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
 import io.github.gtbauke.unnamedtechmod.block.BasicAlloySmelterBlock;
+import io.github.gtbauke.unnamedtechmod.block.CrankBlock;
 import io.github.gtbauke.unnamedtechmod.block.base.AbstractAlloySmelterBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -56,6 +57,13 @@ public class ModBlocks {
                     .strength(2.5f, 20f)
                     .requiresCorrectToolForDrops()
                     .lightLevel(state -> state.getValue(AbstractAlloySmelterBlock.LIT) ? 13 : 0)),
+            new Item.Properties().tab(UnnamedTechMod.MOD_TAB)
+    );
+
+    public static final RegistryObject<CrankBlock> CRANK_BLOCK = register(
+            "crank",
+            () -> new CrankBlock(BlockBehaviour.Properties.of(Material.WOOD)
+                    .strength(1f).noCollission()),
             new Item.Properties().tab(UnnamedTechMod.MOD_TAB)
     );
 
