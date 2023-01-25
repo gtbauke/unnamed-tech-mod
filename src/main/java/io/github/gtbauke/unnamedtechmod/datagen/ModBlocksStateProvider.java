@@ -2,6 +2,7 @@ package io.github.gtbauke.unnamedtechmod.datagen;
 
 import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
 import io.github.gtbauke.unnamedtechmod.block.base.AbstractAlloySmelterBlock;
+import io.github.gtbauke.unnamedtechmod.block.base.AbstractMaceratorBlock;
 import io.github.gtbauke.unnamedtechmod.init.ModBlocks;
 import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
@@ -101,7 +102,66 @@ public class ModBlocksStateProvider extends BlockStateProvider {
                 .modelFile(activeStateFile)
                 .addModel();
 
+        getVariantBuilder(ModBlocks.MANUAL_MACERATOR.get())
+                .partialState()
+                .with(AbstractMaceratorBlock.FACING, Direction.EAST)
+                .with(AbstractMaceratorBlock.WORKING, false)
+                .modelForState()
+                .rotationY(90)
+                .modelFile(defaultStateFile)
+                .addModel()
+                .partialState()
+                .with(AbstractMaceratorBlock.FACING, Direction.WEST)
+                .with(AbstractMaceratorBlock.WORKING, false)
+                .modelForState()
+                .rotationY(270)
+                .modelFile(defaultStateFile)
+                .addModel()
+                .partialState()
+                .with(AbstractMaceratorBlock.FACING, Direction.NORTH)
+                .with(AbstractMaceratorBlock.WORKING, false)
+                .modelForState()
+                .rotationY(0)
+                .modelFile(defaultStateFile)
+                .addModel()
+                .partialState()
+                .with(AbstractMaceratorBlock.FACING, Direction.SOUTH)
+                .with(AbstractMaceratorBlock.WORKING, false)
+                .modelForState()
+                .rotationY(180)
+                .modelFile(defaultStateFile)
+                .addModel()
+                .partialState()
+                .with(AbstractMaceratorBlock.FACING, Direction.EAST)
+                .with(AbstractMaceratorBlock.WORKING, true)
+                .modelForState()
+                .rotationY(90)
+                .modelFile(activeStateFile)
+                .addModel()
+                .partialState()
+                .with(AbstractMaceratorBlock.FACING, Direction.WEST)
+                .with(AbstractMaceratorBlock.WORKING, true)
+                .modelForState()
+                .rotationY(270)
+                .modelFile(activeStateFile)
+                .addModel()
+                .partialState()
+                .with(AbstractMaceratorBlock.FACING, Direction.NORTH)
+                .with(AbstractMaceratorBlock.WORKING, true)
+                .modelForState()
+                .rotationY(0)
+                .modelFile(activeStateFile)
+                .addModel()
+                .partialState()
+                .with(AbstractMaceratorBlock.FACING, Direction.SOUTH)
+                .with(AbstractMaceratorBlock.WORKING, true)
+                .modelForState()
+                .rotationY(180)
+                .modelFile(activeStateFile)
+                .addModel();
+
         itemOnly(ModBlocks.BASIC_ALLOY_SMELTER.get());
+        itemOnly(ModBlocks.MANUAL_MACERATOR.get());
     }
 
     private void simpleBlockWithItem(Block block) {

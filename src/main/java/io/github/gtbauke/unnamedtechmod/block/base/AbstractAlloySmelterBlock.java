@@ -33,7 +33,7 @@ public abstract class AbstractAlloySmelterBlock extends BaseEntityBlock {
         super(pProperties);
         registerDefaultState(stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
-                .setValue(LIT, Boolean.valueOf(false))
+                .setValue(LIT, Boolean.FALSE)
         );
     }
 
