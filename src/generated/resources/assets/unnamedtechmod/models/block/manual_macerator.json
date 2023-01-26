@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/orientable",
+  "parent": "minecraft:block/orientable_with_bottom",
   "textures": {
+    "bottom": "unnamedtechmod:block/manual_macerator_bottom",
     "front": "unnamedtechmod:block/manual_macerator_front",
     "side": "unnamedtechmod:block/manual_macerator_side",
     "top": "unnamedtechmod:block/manual_macerator_top"

@@ -1,5 +1,6 @@
 package io.github.gtbauke.unnamedtechmod.datagen;
 
+import com.mojang.logging.LogUtils;
 import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
 import io.github.gtbauke.unnamedtechmod.block.base.AbstractAlloySmelterBlock;
 import io.github.gtbauke.unnamedtechmod.block.base.AbstractMaceratorBlock;
@@ -14,8 +15,11 @@ import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.slf4j.Logger;
 
 public class ModBlocksStateProvider extends BlockStateProvider {
+    private static final Logger LOGGER = LogUtils.getLogger();
+
     public ModBlocksStateProvider(DataGenerator gen, ExistingFileHelper exFileHelper) {
         super(gen, UnnamedTechMod.MOD_ID, exFileHelper);
     }
@@ -29,11 +33,91 @@ public class ModBlocksStateProvider extends BlockStateProvider {
         simpleBlockWithItem(ModBlocks.LIGHT_BRICKS.get());
 
         machineBlock(ModBlocks.BASIC_ALLOY_SMELTER.get(), AbstractAlloySmelterBlock.LIT);
-        machineBlock(ModBlocks.MANUAL_MACERATOR.get(), AbstractMaceratorBlock.WORKING);
+        machineBlockWithBottom(ModBlocks.MANUAL_MACERATOR.get(), AbstractMaceratorBlock.WORKING);
+    }
+
+    private void machineBlockWithBottom(Block block, BooleanProperty workingProperty) {
+        var registryName = ForgeRegistries.BLOCKS.getKey(block).getPath();
+
+        ModelFile defaultStateFile = models().orientableWithBottom(
+                registryName,
+                modTexture(registryName + "_side"),
+                modTexture(registryName + "_front"),
+                modTexture(registryName + "_bottom"),
+                modTexture(registryName + "_top")
+        );
+
+        ModelFile activeStateFile = models().orientableWithBottom(
+                registryName + "_on",
+                modTexture(registryName + "_side"),
+                modTexture(registryName + "_front_on"),
+                modTexture(registryName + "_bottom"),
+                modTexture(registryName + "_top")
+        );
+
+        getVariantBuilder(block)
+                .partialState()
+                .with(AbstractAlloySmelterBlock.FACING, Direction.EAST)
+                .with(workingProperty, false)
+                .modelForState()
+                .rotationY(90)
+                .modelFile(defaultStateFile)
+                .addModel()
+                .partialState()
+                .with(AbstractAlloySmelterBlock.FACING, Direction.WEST)
+                .with(workingProperty, false)
+                .modelForState()
+                .rotationY(270)
+                .modelFile(defaultStateFile)
+                .addModel()
+                .partialState()
+                .with(AbstractAlloySmelterBlock.FACING, Direction.NORTH)
+                .with(workingProperty, false)
+                .modelForState()
+                .rotationY(0)
+                .modelFile(defaultStateFile)
+                .addModel()
+                .partialState()
+                .with(AbstractAlloySmelterBlock.FACING, Direction.SOUTH)
+                .with(workingProperty, false)
+                .modelForState()
+                .rotationY(180)
+                .modelFile(defaultStateFile)
+                .addModel()
+                .partialState()
+                .with(AbstractAlloySmelterBlock.FACING, Direction.EAST)
+                .with(workingProperty, true)
+                .modelForState()
+                .rotationY(90)
+                .modelFile(activeStateFile)
+                .addModel()
+                .partialState()
+                .with(AbstractAlloySmelterBlock.FACING, Direction.WEST)
+                .with(workingProperty, true)
+                .modelForState()
+                .rotationY(270)
+                .modelFile(activeStateFile)
+                .addModel()
+                .partialState()
+                .with(AbstractAlloySmelterBlock.FACING, Direction.NORTH)
+                .with(workingProperty, true)
+                .modelForState()
+                .rotationY(0)
+                .modelFile(activeStateFile)
+                .addModel()
+                .partialState()
+                .with(AbstractAlloySmelterBlock.FACING, Direction.SOUTH)
+                .with(workingProperty, true)
+                .modelForState()
+                .rotationY(180)
+                .modelFile(activeStateFile)
+                .addModel();
+
+        itemOnly(block);
     }
 
     private void machineBlock(Block block, BooleanProperty workingProperty) {
-        String registryName = ForgeRegistries.BLOCKS.getKey(block).getPath();
+        var registryName = ForgeRegistries.BLOCKS.getKey(block).getPath();
 
         ModelFile defaultStateFile = models().orientable(
                 registryName,
