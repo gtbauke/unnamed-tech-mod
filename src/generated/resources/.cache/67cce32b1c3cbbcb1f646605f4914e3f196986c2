@@ -1,6 +1,7 @@
-// 1.19.2	2023-01-15T02:59:43.6012506	LootTables
+// 1.19.2	2023-01-26T14:41:00.4112611	LootTables
 6545427ddff4dc98691d312c237772af71bd43d3 data/unnamedtechmod/loot_tables/blocks/basic_alloy_smelter.json
 0bd65c2955ff68d068b1fd5e11620147baaac8d9 data/unnamedtechmod/loot_tables/blocks/deepslate_tin_ore.json
 ab9dfa4a501c831d74d21c30f241937caeeb7c6f data/unnamedtechmod/loot_tables/blocks/light_bricks.json
+c50681e1a1a6c83b602cc37e6d6218c60c61e3d4 data/unnamedtechmod/loot_tables/blocks/manual_macerator.json
 db6d1d9829c40b569d0fb6fdcfa1869ea9665404 data/unnamedtechmod/loot_tables/blocks/raw_tin_block.json
 dcfccd1b0ffa2a05bfea0bcbdbb0221475060206 data/unnamedtechmod/loot_tables/blocks/tin_ore.json

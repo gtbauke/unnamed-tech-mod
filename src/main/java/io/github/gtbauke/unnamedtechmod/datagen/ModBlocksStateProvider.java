@@ -8,6 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -25,143 +26,88 @@ public class ModBlocksStateProvider extends BlockStateProvider {
         simpleBlockWithItem(ModBlocks.DEEPSLATE_TIN_ORE.get());
 
         simpleBlockWithItem(ModBlocks.RAW_TIN_BLOCK.get());
-
         simpleBlockWithItem(ModBlocks.LIGHT_BRICKS.get());
 
-        String basicAlloySmelter = ForgeRegistries.BLOCKS.getKey(ModBlocks.BASIC_ALLOY_SMELTER.get()).getPath();
+        machineBlock(ModBlocks.BASIC_ALLOY_SMELTER.get(), AbstractAlloySmelterBlock.LIT);
+        machineBlock(ModBlocks.MANUAL_MACERATOR.get(), AbstractMaceratorBlock.WORKING);
+    }
+
+    private void machineBlock(Block block, BooleanProperty workingProperty) {
+        String registryName = ForgeRegistries.BLOCKS.getKey(block).getPath();
 
         ModelFile defaultStateFile = models().orientable(
-                basicAlloySmelter,
-                modTexture(basicAlloySmelter + "_side"),
-                modTexture(basicAlloySmelter + "_front"),
-                modTexture(basicAlloySmelter + "_top")
+                registryName,
+                modTexture(registryName + "_side"),
+                modTexture(registryName + "_front"),
+                modTexture(registryName + "_top")
         );
 
         ModelFile activeStateFile = models().orientable(
-                basicAlloySmelter + "_on",
-                modTexture(basicAlloySmelter + "_side"),
-                modTexture(basicAlloySmelter + "_front_on"),
-                modTexture(basicAlloySmelter + "_top")
+                registryName + "_on",
+                modTexture(registryName + "_side"),
+                modTexture(registryName + "_front_on"),
+                modTexture(registryName + "_top")
         );
 
-        getVariantBuilder(ModBlocks.BASIC_ALLOY_SMELTER.get())
+        getVariantBuilder(block)
                 .partialState()
                 .with(AbstractAlloySmelterBlock.FACING, Direction.EAST)
-                .with(AbstractAlloySmelterBlock.LIT, false)
+                .with(workingProperty, false)
                 .modelForState()
                 .rotationY(90)
                 .modelFile(defaultStateFile)
                 .addModel()
                 .partialState()
                 .with(AbstractAlloySmelterBlock.FACING, Direction.WEST)
-                .with(AbstractAlloySmelterBlock.LIT, false)
+                .with(workingProperty, false)
                 .modelForState()
                 .rotationY(270)
                 .modelFile(defaultStateFile)
                 .addModel()
                 .partialState()
                 .with(AbstractAlloySmelterBlock.FACING, Direction.NORTH)
-                .with(AbstractAlloySmelterBlock.LIT, false)
+                .with(workingProperty, false)
                 .modelForState()
                 .rotationY(0)
                 .modelFile(defaultStateFile)
                 .addModel()
                 .partialState()
                 .with(AbstractAlloySmelterBlock.FACING, Direction.SOUTH)
-                .with(AbstractAlloySmelterBlock.LIT, false)
+                .with(workingProperty, false)
                 .modelForState()
                 .rotationY(180)
                 .modelFile(defaultStateFile)
                 .addModel()
                 .partialState()
                 .with(AbstractAlloySmelterBlock.FACING, Direction.EAST)
-                .with(AbstractAlloySmelterBlock.LIT, true)
+                .with(workingProperty, true)
                 .modelForState()
                 .rotationY(90)
                 .modelFile(activeStateFile)
                 .addModel()
                 .partialState()
                 .with(AbstractAlloySmelterBlock.FACING, Direction.WEST)
-                .with(AbstractAlloySmelterBlock.LIT, true)
+                .with(workingProperty, true)
                 .modelForState()
                 .rotationY(270)
                 .modelFile(activeStateFile)
                 .addModel()
                 .partialState()
                 .with(AbstractAlloySmelterBlock.FACING, Direction.NORTH)
-                .with(AbstractAlloySmelterBlock.LIT, true)
+                .with(workingProperty, true)
                 .modelForState()
                 .rotationY(0)
                 .modelFile(activeStateFile)
                 .addModel()
                 .partialState()
                 .with(AbstractAlloySmelterBlock.FACING, Direction.SOUTH)
-                .with(AbstractAlloySmelterBlock.LIT, true)
+                .with(workingProperty, true)
                 .modelForState()
                 .rotationY(180)
                 .modelFile(activeStateFile)
                 .addModel();
 
-        getVariantBuilder(ModBlocks.MANUAL_MACERATOR.get())
-                .partialState()
-                .with(AbstractMaceratorBlock.FACING, Direction.EAST)
-                .with(AbstractMaceratorBlock.WORKING, false)
-                .modelForState()
-                .rotationY(90)
-                .modelFile(defaultStateFile)
-                .addModel()
-                .partialState()
-                .with(AbstractMaceratorBlock.FACING, Direction.WEST)
-                .with(AbstractMaceratorBlock.WORKING, false)
-                .modelForState()
-                .rotationY(270)
-                .modelFile(defaultStateFile)
-                .addModel()
-                .partialState()
-                .with(AbstractMaceratorBlock.FACING, Direction.NORTH)
-                .with(AbstractMaceratorBlock.WORKING, false)
-                .modelForState()
-                .rotationY(0)
-                .modelFile(defaultStateFile)
-                .addModel()
-                .partialState()
-                .with(AbstractMaceratorBlock.FACING, Direction.SOUTH)
-                .with(AbstractMaceratorBlock.WORKING, false)
-                .modelForState()
-                .rotationY(180)
-                .modelFile(defaultStateFile)
-                .addModel()
-                .partialState()
-                .with(AbstractMaceratorBlock.FACING, Direction.EAST)
-                .with(AbstractMaceratorBlock.WORKING, true)
-                .modelForState()
-                .rotationY(90)
-                .modelFile(activeStateFile)
-                .addModel()
-                .partialState()
-                .with(AbstractMaceratorBlock.FACING, Direction.WEST)
-                .with(AbstractMaceratorBlock.WORKING, true)
-                .modelForState()
-                .rotationY(270)
-                .modelFile(activeStateFile)
-                .addModel()
-                .partialState()
-                .with(AbstractMaceratorBlock.FACING, Direction.NORTH)
-                .with(AbstractMaceratorBlock.WORKING, true)
-                .modelForState()
-                .rotationY(0)
-                .modelFile(activeStateFile)
-                .addModel()
-                .partialState()
-                .with(AbstractMaceratorBlock.FACING, Direction.SOUTH)
-                .with(AbstractMaceratorBlock.WORKING, true)
-                .modelForState()
-                .rotationY(180)
-                .modelFile(activeStateFile)
-                .addModel();
-
-        itemOnly(ModBlocks.BASIC_ALLOY_SMELTER.get());
-        itemOnly(ModBlocks.MANUAL_MACERATOR.get());
+        itemOnly(block);
     }
 
     private void simpleBlockWithItem(Block block) {

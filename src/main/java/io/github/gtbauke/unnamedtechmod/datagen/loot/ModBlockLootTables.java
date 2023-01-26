@@ -23,6 +23,7 @@ public class ModBlockLootTables extends BlockLoot {
         dropSelf(ModBlocks.LIGHT_BRICKS.get());
 
         dropSelf(ModBlocks.BASIC_ALLOY_SMELTER.get());
+        dropSelf(ModBlocks.MANUAL_MACERATOR.get());
     }
 
     @Override
