@@ -14,8 +14,6 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -23,7 +21,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractAlloySmelterBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
@@ -93,10 +90,5 @@ public abstract class AbstractAlloySmelterBlock extends BaseEntityBlock {
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         pBuilder.add(FACING, LIT);
-    }
-
-    @javax.annotation.Nullable
-    protected static <T extends BlockEntity> BlockEntityTicker<T> createAlloySmelterTicker(Level pLevel, BlockEntityType<T> pServerType, BlockEntityType<? extends AlloySmelterTileBase> pClientType) {
-        return pLevel.isClientSide ? null : createTickerHelper(pServerType, pClientType, AlloySmelterTileBase::tick);
     }
 }
