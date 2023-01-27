@@ -21,6 +21,15 @@ public class ModBlockEntities {
                     ).build(null)
             );
 
+    public static final RegistryObject<BlockEntityType<ManualMaceratorEntity>> MANUAL_MACERATOR =
+            BLOCK_ENTITIES.register(
+                    "manual_macerator",
+                    () -> BlockEntityType.Builder.of(
+                            ManualMaceratorEntity::new,
+                            ModBlocks.MANUAL_MACERATOR.get()
+                    ).build(null)
+            );
+
     public static void register(IEventBus bus) {
         BLOCK_ENTITIES.register(bus);
     }

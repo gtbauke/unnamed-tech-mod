@@ -17,6 +17,9 @@ public class ModMenuTypes {
     public static final RegistryObject<MenuType<BasicAlloySmelterMenu>> BASIC_ALLOY_SMELTER_MENU =
             registerMenuType(BasicAlloySmelterMenu::new, "basic_alloy_smelter_menu");
 
+    public static final RegistryObject<MenuType<ManualMaceratorMenu>> MANUAL_MACERATOR_MENU =
+            registerMenuType(ManualMaceratorMenu::new, "manual_macerator_menu");
+
     private static <T extends AbstractContainerMenu>RegistryObject<MenuType<T>> registerMenuType(IContainerFactory<T> factory, String name) {
         return MENUS.register(name, () -> IForgeMenuType.create(factory));
     }
