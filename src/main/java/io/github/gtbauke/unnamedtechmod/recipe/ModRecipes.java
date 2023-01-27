@@ -14,6 +14,9 @@ public class ModRecipes {
     public static final RegistryObject<RecipeSerializer<BasicAlloySmelterRecipe>> BASIC_ALLOY_SMELTER_SERIALIZER =
             SERIALIZERS.register(BasicAlloySmelterRecipe.Type.ID, () -> BasicAlloySmelterRecipe.Serializer.INSTANCE);
 
+    public static final RegistryObject<RecipeSerializer<ManualMaceratorRecipe>> MANUAL_MACERATOR_SERIALIZER =
+            SERIALIZERS.register(ManualMaceratorRecipe.Type.ID, () -> ManualMaceratorRecipe.Serializer.INSTANCE);
+
     public static void register(IEventBus bus) {
         SERIALIZERS.register(bus);
     }

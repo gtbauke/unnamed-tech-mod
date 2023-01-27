@@ -9,6 +9,7 @@ import io.github.gtbauke.unnamedtechmod.init.ModItems;
 import io.github.gtbauke.unnamedtechmod.init.ModPlacedFeatures;
 import io.github.gtbauke.unnamedtechmod.recipe.ModRecipes;
 import io.github.gtbauke.unnamedtechmod.screen.BasicAlloySmelterScreen;
+import io.github.gtbauke.unnamedtechmod.screen.ManualMaceratorScreen;
 import io.github.gtbauke.unnamedtechmod.screen.ModMenuTypes;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.CreativeModeTab;
@@ -61,6 +62,11 @@ public class UnnamedTechMod {
             MenuScreens.register(
                     ModMenuTypes.BASIC_ALLOY_SMELTER_MENU.get(),
                     BasicAlloySmelterScreen::new
+            );
+
+            MenuScreens.register(
+                    ModMenuTypes.MANUAL_MACERATOR_MENU.get(),
+                    ManualMaceratorScreen::new
             );
         }
     }

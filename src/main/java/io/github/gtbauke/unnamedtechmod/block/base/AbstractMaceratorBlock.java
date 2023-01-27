@@ -1,6 +1,5 @@
 package io.github.gtbauke.unnamedtechmod.block.base;
 
-import io.github.gtbauke.unnamedtechmod.block.entity.base.AlloySmelterTileBase;
 import io.github.gtbauke.unnamedtechmod.block.entity.base.MaceratorTileBase;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -20,7 +19,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
 
 public abstract class AbstractMaceratorBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
@@ -31,12 +29,6 @@ public abstract class AbstractMaceratorBlock extends BaseEntityBlock {
         registerDefaultState(stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(WORKING, Boolean.FALSE));
-    }
-
-    @Nullable
-    @Override
-    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return null;
     }
 
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {

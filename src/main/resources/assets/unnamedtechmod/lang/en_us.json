@@ -28,5 +28,6 @@
   "block.unnamedtechmod.manual_macerator": "Manual Macerator",
   "block.unnamedtechmod.crank": "Crank",
 
-  "container.basic_alloy_smelter": "Basic Alloy Smelter"
+  "container.basic_alloy_smelter": "Basic Alloy Smelter",
+  "container.manual_macerator": "Manual Macerator"
 }

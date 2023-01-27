@@ -11,30 +11,12 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 
-public abstract class AbstractAlloySmelterScreen<T extends AbstractAlloySmelterMenu> extends AbstractContainerScreen<T> {
+public abstract class AbstractAlloySmelterScreen<T extends AbstractAlloySmelterMenu> extends AbstractExtendedContainerScreen<T> {
     private final ResourceLocation texture;
 
     public AbstractAlloySmelterScreen(T pMenu, Inventory pPlayerInventory, Component pTitle, ResourceLocation pTexture) {
         super(pMenu, pPlayerInventory, pTitle);
         this.texture = pTexture;
-    }
-
-    @Override
-    protected void init() {
-        super.init();
-        this.titleLabelX = (this.imageWidth - this.font.width(this.title)) / 2;
-    }
-
-    @Override
-    protected void containerTick() {
-        super.containerTick();
-    }
-
-    @Override
-    public void render(PoseStack pPoseStack, int mouseX, int mouseY, float delta) {
-        renderBackground(pPoseStack);
-        super.render(pPoseStack, mouseX, mouseY, delta);
-        renderTooltip(pPoseStack, mouseX, mouseY);
     }
 
     @Override
@@ -57,15 +39,5 @@ public abstract class AbstractAlloySmelterScreen<T extends AbstractAlloySmelterM
             int l = this.menu.getBurnProgress();
             this.blit(pPoseStack, x + 79, y + 34, 176, 14, l + 1, 16);
         }
-    }
-
-    @Override
-    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
-        return super.mouseClicked(pMouseX, pMouseY, pButton);
-    }
-
-    @Override
-    protected void slotClicked(Slot pSlot, int pSlotId, int pMouseButton, ClickType pType) {
-        super.slotClicked(pSlot, pSlotId, pMouseButton, pType);
     }
 }

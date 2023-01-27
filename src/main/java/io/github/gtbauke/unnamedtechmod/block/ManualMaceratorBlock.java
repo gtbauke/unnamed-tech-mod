@@ -1,8 +1,9 @@
 package io.github.gtbauke.unnamedtechmod.block;
 
 import io.github.gtbauke.unnamedtechmod.block.base.AbstractMaceratorBlock;
-import io.github.gtbauke.unnamedtechmod.block.entity.BasicAlloySmelterEntity;
 import io.github.gtbauke.unnamedtechmod.block.entity.ManualMaceratorEntity;
+import io.github.gtbauke.unnamedtechmod.block.entity.ModBlockEntities;
+import io.github.gtbauke.unnamedtechmod.block.entity.base.MaceratorTileBase;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -10,12 +11,21 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.network.NetworkHooks;
+
+import javax.annotation.Nullable;
 
 public class ManualMaceratorBlock extends AbstractMaceratorBlock {
     public ManualMaceratorBlock(Properties pProperties) {
         super(pProperties);
+    }
+
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
+        return createTickerHelper(pBlockEntityType, ModBlockEntities.MANUAL_MACERATOR.get(), MaceratorTileBase::tick);
     }
 
     @Override
@@ -42,6 +52,8 @@ public class ManualMaceratorBlock extends AbstractMaceratorBlock {
         } else {
             throw new IllegalStateException("Our container provider is missing");
         }
+
+        return;
     }
 
     @org.jetbrains.annotations.Nullable

@@ -1,12 +1,15 @@
 package io.github.gtbauke.unnamedtechmod.block.entity;
 
-import io.github.gtbauke.unnamedtechmod.block.ManualMaceratorBlock;
 import io.github.gtbauke.unnamedtechmod.block.entity.base.MaceratorTileBase;
 import io.github.gtbauke.unnamedtechmod.recipe.ManualMaceratorRecipe;
+import io.github.gtbauke.unnamedtechmod.screen.ManualMaceratorMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
@@ -63,4 +66,16 @@ public class ManualMaceratorEntity extends MaceratorTileBase {
         itemStackHandler.setStackInSlot(pSlot, ItemStack.EMPTY);
         return stack;
     }
+
+    @Override
+    public Component getDisplayName() {
+        return Component.translatable("container.manual_macerator");
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
+        return new ManualMaceratorMenu(pContainerId, pPlayerInventory, this, this.dataAccess);
+    }
+
 }

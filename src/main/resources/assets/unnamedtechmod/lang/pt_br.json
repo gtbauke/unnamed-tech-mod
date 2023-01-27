@@ -28,5 +28,6 @@
   "block.unnamedtechmod.manual_macerator": "Moedor Manual",
   "block.unnamedtechmod.crank": "Manivela",
 
-  "container.basic_alloy_smelter": "Fundição de Ligas Básica"
+  "container.basic_alloy_smelter": "Fundição de Ligas Básica",
+  "container.manual_macerator": "Manual Macerator"
 }
