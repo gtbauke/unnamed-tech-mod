@@ -35,6 +35,8 @@ public class ManualMaceratorEntity extends MaceratorTileBase {
     };
 
     public void crankUsed() {
+        if (!this.canCrush()) return;
+
         if (!this.isCrushing()) {
             BlockPos pos = this.worldPosition;
             BlockState state = level.getBlockState(pos).setValue(AbstractMaceratorBlock.WORKING, true);

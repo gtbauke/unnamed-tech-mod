@@ -2,9 +2,7 @@ package io.github.gtbauke.unnamedtechmod.datagen.custom;
 
 import com.google.gson.JsonObject;
 import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
-import io.github.gtbauke.unnamedtechmod.datagen.custom.helpers.AlloySmeltingData;
 import io.github.gtbauke.unnamedtechmod.datagen.custom.helpers.MaceratorData;
-import io.github.gtbauke.unnamedtechmod.recipe.BasicAlloySmelterRecipe;
 import io.github.gtbauke.unnamedtechmod.recipe.ManualMaceratorRecipe;
 import io.github.gtbauke.unnamedtechmod.utils.RecipeIngredient;
 import io.github.gtbauke.unnamedtechmod.utils.Utils;

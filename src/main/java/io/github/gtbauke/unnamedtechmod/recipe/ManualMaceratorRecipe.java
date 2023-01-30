@@ -14,7 +14,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import org.jetbrains.annotations.Nullable;
 
-public class ManualMaceratorRecipe extends AbstractMaceratorRecipe{
+public class ManualMaceratorRecipe extends AbstractMaceratorRecipe {
     protected ManualMaceratorRecipe(ResourceLocation id, RecipeIngredient ingredient, ItemStack result, float experience, int crushingTime) {
         super(Type.INSTANCE, id, "", ingredient, result, experience, crushingTime);
     }

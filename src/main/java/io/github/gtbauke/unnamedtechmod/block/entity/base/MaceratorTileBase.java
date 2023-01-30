@@ -1,6 +1,7 @@
 package io.github.gtbauke.unnamedtechmod.block.entity.base;
 
 import com.google.common.collect.Lists;
+import com.mojang.logging.LogUtils;
 import io.github.gtbauke.unnamedtechmod.block.base.AbstractAlloySmelterBlock;
 import io.github.gtbauke.unnamedtechmod.block.base.AbstractMaceratorBlock;
 import io.github.gtbauke.unnamedtechmod.block.entity.WrappedHandler;
@@ -38,6 +39,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
 
 import java.util.List;
 import java.util.Map;
@@ -121,7 +123,22 @@ public abstract class MaceratorTileBase extends TileEntityInventory implements
     protected abstract AbstractMaceratorRecipe getRecipe(ItemStack itemLeft);
 
     protected boolean isCrushing() {
-        return crushingTime > 0 && getRecipe(getItem(INPUT)) != null;
+        LOGGER.debug("recipe null: {}", getRecipe(getItem(INPUT)) == null);
+        return crushingTime > 0 && canCrush();
+    }
+
+    public boolean canCrush() {
+        AbstractMaceratorRecipe recipe = getRecipe(getItem(INPUT));
+
+        if (recipe == null) {
+            return false;
+        }
+
+        ItemStack output = recipe.getResultItem();
+        ItemStack outputSlot = getItem(OUTPUT);
+
+        boolean outputSlotEmpty = outputSlot.isEmpty();
+        return outputSlotEmpty || outputSlot.is(output.getItem()) && outputSlot.getCount() + output.getCount() <= outputSlot.getMaxStackSize();
     }
 
     public void setCustomName(Component name) {
@@ -317,6 +334,7 @@ public abstract class MaceratorTileBase extends TileEntityInventory implements
         ) <= 64.0D;
     }
 
+    private static final Logger LOGGER = LogUtils.getLogger();
     public static void tick(Level pLevel, BlockPos pPos, BlockState pState, MaceratorTileBase pEntity) {
         boolean isCrushing = pEntity.isCrushing();
         boolean isDirty = false;
@@ -369,5 +387,7 @@ public abstract class MaceratorTileBase extends TileEntityInventory implements
         if (isDirty) {
             setChanged(pLevel, pPos, pState);
         }
+
+        LOGGER.debug("Crushing: " + pEntity.isCrushing() + " | Crushing Time: " + pEntity.crushingTime + " | Crushing Progress: " + pEntity.crushingProgress + " | Crushing Total Time: " + pEntity.crushingTotalTime + " | Duration" + pEntity.crushingDuration + " | Input: " + pEntity.getItem(INPUT) + " | Output: " + pEntity.getItem(OUTPUT));
     }
 }
