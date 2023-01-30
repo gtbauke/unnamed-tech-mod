@@ -1,5 +1,6 @@
 package io.github.gtbauke.unnamedtechmod.datagen.custom;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
 import io.github.gtbauke.unnamedtechmod.datagen.custom.helpers.MaceratorData;
@@ -100,11 +101,7 @@ public class ManualMaceratorRecipeBuilder implements RecipeBuilder {
 
         @Override
         public void serializeRecipeData(JsonObject pJson) {
-            JsonObject ingredient = new JsonObject();
-            ingredient.addProperty("item", Utils.getCraftingRegistryPath(data.ingredient.asItemStack().getItem()));
-            if (data.ingredient.getAmount() > 1) {
-                ingredient.addProperty("count", data.ingredient.getAmount());
-            }
+            JsonElement ingredient = data.ingredient.toJson();
 
             JsonObject result = new JsonObject();
             result.addProperty("item", Utils.getCraftingRegistryPath(data.result.getItem()));
