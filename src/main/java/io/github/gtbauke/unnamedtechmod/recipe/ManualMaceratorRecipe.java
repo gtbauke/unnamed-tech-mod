@@ -15,14 +15,14 @@ import net.minecraft.world.item.crafting.ShapedRecipe;
 import org.jetbrains.annotations.Nullable;
 
 public class ManualMaceratorRecipe extends AbstractMaceratorRecipe{
-    protected ManualMaceratorRecipe(ResourceLocation id, NonNullList<RecipeIngredient> ingredients, ItemStack result, float experience, int crushingTime) {
-        super(Type.INSTANCE, id, "", ingredients, result, experience, crushingTime);
+    protected ManualMaceratorRecipe(ResourceLocation id, RecipeIngredient ingredient, ItemStack result, float experience, int crushingTime) {
+        super(Type.INSTANCE, id, "", ingredient, result, experience, crushingTime);
     }
 
     public static class Type implements RecipeType<ManualMaceratorRecipe> {
         private Type() {}
 
-        public static final ManualMaceratorRecipe.Type INSTANCE = new ManualMaceratorRecipe.Type();
+        public static final Type INSTANCE = new ManualMaceratorRecipe.Type();
         public static final String ID = "manual_macerator";
     }
 
@@ -32,7 +32,7 @@ public class ManualMaceratorRecipe extends AbstractMaceratorRecipe{
     }
 
     public static class Serializer implements RecipeSerializer<ManualMaceratorRecipe> {
-        public static final ManualMaceratorRecipe.Serializer INSTANCE = new ManualMaceratorRecipe.Serializer();
+        public static final Serializer INSTANCE = new ManualMaceratorRecipe.Serializer();
         public static final ResourceLocation ID = new ResourceLocation(UnnamedTechMod.MOD_ID, ManualMaceratorRecipe.Type.ID);
 
         @Override
@@ -40,37 +40,31 @@ public class ManualMaceratorRecipe extends AbstractMaceratorRecipe{
             ItemStack output = ShapedRecipe.itemStackFromJson(
                     GsonHelper.getAsJsonObject(pSerializedRecipe, "output"));
 
-            JsonArray ingredientsArray = GsonHelper.getAsJsonArray(pSerializedRecipe, "ingredients");
-            NonNullList<RecipeIngredient> recipeIngredients = NonNullList.withSize(ingredientsArray.size(), RecipeIngredient.EMPTY);
+            RecipeIngredient input = RecipeIngredient.fromJson(
+                    GsonHelper.getAsJsonObject(pSerializedRecipe, "input"));
 
-            for (int i = 0; i < recipeIngredients.size(); i++) {
-                recipeIngredients.set(i, RecipeIngredient.fromJson(ingredientsArray.get(i)));
-            }
+            int cookingTime = GsonHelper.getAsInt(pSerializedRecipe, "crushingTime", 200);
+            float experience = GsonHelper.getAsFloat(pSerializedRecipe, "experience", 1);
 
-            int cookingTime = GsonHelper.getAsInt(pSerializedRecipe, "cookingTime", 1);
-            float experience = GsonHelper.getAsFloat(pSerializedRecipe, "experience", 0);
-
-            return new ManualMaceratorRecipe(pRecipeId, recipeIngredients, output, experience, cookingTime);
+            return new ManualMaceratorRecipe(pRecipeId, input, output, experience, cookingTime);
         }
 
         @Override
         public @Nullable ManualMaceratorRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
-            NonNullList<RecipeIngredient> recipeIngredients = NonNullList.withSize(pBuffer.readInt(), RecipeIngredient.EMPTY);
-
-            for (int i = 0; i < recipeIngredients.size(); i++) {
-                recipeIngredients.set(i, RecipeIngredient.fromNetwork(pBuffer));
-            }
-
+            RecipeIngredient input = RecipeIngredient.fromNetwork(pBuffer);
             int cookingTime = pBuffer.readInt();
             float experience = pBuffer.readFloat();
             ItemStack output = pBuffer.readItem();
 
-            return new ManualMaceratorRecipe(pRecipeId, recipeIngredients, output, experience, cookingTime);
+            return new ManualMaceratorRecipe(pRecipeId, input, output, experience, cookingTime);
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf pBuffer, ManualMaceratorRecipe pRecipe) {
-
+            pRecipe.ingredient.toNetwork(pBuffer);
+            pBuffer.writeInt(pRecipe.crushingTime);
+            pBuffer.writeFloat(pRecipe.experience);
+            pBuffer.writeItemStack(pRecipe.getResultItem(), false);
         }
     }
 }

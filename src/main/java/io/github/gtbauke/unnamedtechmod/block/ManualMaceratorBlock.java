@@ -36,6 +36,14 @@ public class ManualMaceratorBlock extends AbstractMaceratorBlock {
 
         Direction direction = pHit.getDirection();
         if (direction == Direction.UP) {
+            BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
+
+            if (blockEntity instanceof ManualMaceratorEntity entity) {
+                entity.crankUsed();
+            } else {
+                throw new IllegalStateException("Our container provider is missing");
+            }
+
             return InteractionResult.SUCCESS;
         }
 
@@ -52,8 +60,6 @@ public class ManualMaceratorBlock extends AbstractMaceratorBlock {
         } else {
             throw new IllegalStateException("Our container provider is missing");
         }
-
-        return;
     }
 
     @org.jetbrains.annotations.Nullable

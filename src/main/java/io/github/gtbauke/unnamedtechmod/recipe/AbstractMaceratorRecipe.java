@@ -16,18 +16,18 @@ public abstract class AbstractMaceratorRecipe implements Recipe<SimpleContainer>
     public final ResourceLocation id;
     protected final String group;
 
-    protected final NonNullList<RecipeIngredient> ingredients;
+    protected final RecipeIngredient ingredient;
     protected final ItemStack result;
 
     protected final int crushingTime;
     protected final float experience;
 
-    protected AbstractMaceratorRecipe(RecipeType<?> recipeType, ResourceLocation id, String group, NonNullList<RecipeIngredient> ingredients, ItemStack result, float experience, int crushingTime) {
+    protected AbstractMaceratorRecipe(RecipeType<?> recipeType, ResourceLocation id, String group, RecipeIngredient ingredient, ItemStack result, float experience, int crushingTime) {
         this.recipeType = recipeType;
         this.id = id;
         this.group = group;
 
-        this.ingredients = ingredients;
+        this.ingredient = ingredient;
         this.result = result;
 
         this.experience = experience;
@@ -36,7 +36,7 @@ public abstract class AbstractMaceratorRecipe implements Recipe<SimpleContainer>
 
     @Override
     public boolean matches(SimpleContainer pContainer, Level pLevel) {
-        if (pContainer.getContainerSize() != ingredients.size() + 1) {
+        if (pContainer.getContainerSize() != 2) {
             return false;
         }
 
@@ -54,13 +54,9 @@ public abstract class AbstractMaceratorRecipe implements Recipe<SimpleContainer>
     }
 
     public boolean contains(ItemStack stack) {
-        for (int i = 0; i < ingredients.size(); i++) {
-            RecipeIngredient ingredient = ingredients.get(i);
-
-            if (ingredient.getIngredient().test(stack)) {
-                if (stack.getCount() >= ingredient.getAmount()) {
-                    return true;
-                }
+        if (ingredient.getIngredient().test(stack)) {
+            if (stack.getCount() >= ingredient.getAmount()) {
+                return true;
             }
         }
 
@@ -97,18 +93,7 @@ public abstract class AbstractMaceratorRecipe implements Recipe<SimpleContainer>
 
     @Override
     public NonNullList<Ingredient> getIngredients() {
-        NonNullList<Ingredient> recipeIngredients = NonNullList.withSize(ingredients.size(), Ingredient.EMPTY);
-
-        for (int i = 0; i < recipeIngredients.size(); i++) {
-            recipeIngredients.set(i, ingredients.get(i).getIngredient());
-        }
-
-        return recipeIngredients;
-    }
-
-
-    public NonNullList<RecipeIngredient> getRecipeIngredients() {
-        return ingredients;
+        return NonNullList.withSize(1, ingredient.getIngredient());
     }
 
     @Override
@@ -122,28 +107,10 @@ public abstract class AbstractMaceratorRecipe implements Recipe<SimpleContainer>
     }
 
     public boolean isIngredient(ItemLike item) {
-        for (RecipeIngredient ingredient : ingredients) {
-            if (!ingredient.getIngredient().test(new ItemStack(item))) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public boolean ingredientsContain(SimpleContainer inputs) {
-        return ingredients.subList(0, ingredients.size() - 1).stream().allMatch(ingredient -> inputs.hasAnyMatching(stack ->
-                ingredient.getIngredient().test(stack) &&
-                        ingredient.getAmount() == stack.getCount()
-        ));
+        return ingredient.getIngredient().test(new ItemStack(item));
     }
 
     public int getUsedAmountOf(ItemLike input) {
-        RecipeIngredient ingredient = ingredients.stream()
-                .filter(i -> i.getIngredient().test(new ItemStack(input)))
-                .findFirst()
-                .orElse(null);
-
         return ingredient.getAmount();
     }
 }

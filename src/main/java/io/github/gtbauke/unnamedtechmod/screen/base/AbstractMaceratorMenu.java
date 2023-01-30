@@ -37,8 +37,8 @@ public abstract class AbstractMaceratorMenu extends AbstractExtendedContainerMen
         addPlayerHotbar(pPlayerInventory);
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(itemHandler -> {
-            addSlot(new SlotItemHandler(itemHandler, AlloySmelting.LEFT_INPUT, 40, 35));
-            addSlot(new SlotItemHandler(itemHandler, AlloySmelting.OUTPUT, 116, 35));
+            addSlot(new SlotItemHandler(itemHandler, MaceratorTileBase.INPUT, 40, 35));
+            addSlot(new SlotItemHandler(itemHandler, MaceratorTileBase.OUTPUT, 116, 35));
         });
 
         addDataSlots(pData);
