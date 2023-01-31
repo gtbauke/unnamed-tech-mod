@@ -47,12 +47,13 @@ public class ModBlocksStateProvider extends BlockStateProvider {
                 modTexture(registryName + "_top")
         );
 
+        // TODO needs a more generic way for animated textures
         ModelFile activeStateFile = models().orientableWithBottom(
                 registryName + "_on",
                 modTexture(registryName + "_side"),
                 modTexture(registryName + "_front_on"),
                 modTexture(registryName + "_bottom"),
-                modTexture(registryName + "_top")
+                modTexture(registryName + "_top_on")
         );
 
         getVariantBuilder(block)

@@ -4,6 +4,8 @@ import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
 import io.github.gtbauke.unnamedtechmod.block.BasicAlloySmelterBlock;
 import io.github.gtbauke.unnamedtechmod.block.ManualMaceratorBlock;
 import io.github.gtbauke.unnamedtechmod.block.base.AbstractAlloySmelterBlock;
+import io.github.gtbauke.unnamedtechmod.block.base.AbstractMaceratorBlock;
+import io.github.gtbauke.unnamedtechmod.block.entity.base.MaceratorTileBase;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -64,7 +66,8 @@ public class ModBlocks {
             "manual_macerator",
             () -> new ManualMaceratorBlock(BlockBehaviour.Properties.of(Material.STONE)
                     .strength(2.5f, 20f)
-                    .requiresCorrectToolForDrops()),
+                    .requiresCorrectToolForDrops()
+                    .lightLevel(state -> state.getValue(AbstractMaceratorBlock.WORKING) ? 2 : 0)),
             new Item.Properties().tab(UnnamedTechMod.MOD_TAB)
     );
 

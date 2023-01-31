@@ -121,7 +121,6 @@ public abstract class MaceratorTileBase extends TileEntityInventory implements
     protected abstract AbstractMaceratorRecipe getRecipe(ItemStack itemLeft);
 
     protected boolean isCrushing() {
-        LOGGER.debug("recipe null: {}", getRecipe(getItem(INPUT)) == null);
         return crushingTime > 0 && canCrush();
     }
 
@@ -190,10 +189,6 @@ public abstract class MaceratorTileBase extends TileEntityInventory implements
 
     @Override
     public void setItem(int pSlot, ItemStack pStack) {
-        if (pSlot == OUTPUT) {
-            return;
-        }
-
         ItemStack itemStack = itemStackHandler.getStackInSlot(pSlot);
         boolean flag = !pStack.isEmpty() && pStack.sameItem(itemStack) && ItemStack.tagMatches(pStack, itemStack);
 
@@ -332,7 +327,6 @@ public abstract class MaceratorTileBase extends TileEntityInventory implements
         ) <= 64.0D;
     }
 
-    private static final Logger LOGGER = UnnamedTechMod.LOGGER;
     public static void tick(Level pLevel, BlockPos pPos, BlockState pState, MaceratorTileBase pEntity) {
         boolean isCrushing = pEntity.isCrushing();
         boolean isDirty = false;
@@ -362,7 +356,7 @@ public abstract class MaceratorTileBase extends TileEntityInventory implements
 
                         if (outputSlotEmpty) {
                             pEntity.setItem(OUTPUT, output.copy());
-                        } else if (outputSlot.getItem() == output.getItem()) {
+                        } else if (outputSlot.is(output.getItem())) {
                             outputSlot.grow(output.getCount());
                         }
 
@@ -385,7 +379,5 @@ public abstract class MaceratorTileBase extends TileEntityInventory implements
         if (isDirty) {
             setChanged(pLevel, pPos, pState);
         }
-
-        LOGGER.debug("Crushing: " + pEntity.isCrushing() + " | Crushing Time: " + pEntity.crushingTime + " | Crushing Progress: " + pEntity.crushingProgress + " | Crushing Total Time: " + pEntity.crushingTotalTime + " | Duration" + pEntity.crushingDuration + " | Input: " + pEntity.getItem(INPUT) + " | Output: " + pEntity.getItem(OUTPUT));
     }
 }

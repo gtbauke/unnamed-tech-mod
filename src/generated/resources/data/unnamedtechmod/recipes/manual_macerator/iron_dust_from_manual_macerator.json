@@ -1,0 +1,13 @@
+{
+  "type": "unnamedtechmod:manual_macerator",
+  "crushingTime": 200,
+  "experience": 0.7,
+  "input": {
+    "count": 1,
+    "item": "minecraft:iron_ingot"
+  },
+  "output": {
+    "count": 2,
+    "item": "unnamedtechmod:iron_dust"
+  }
+}

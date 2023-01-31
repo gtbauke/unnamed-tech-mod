@@ -36,7 +36,7 @@ public abstract class AbstractMaceratorRecipe implements Recipe<SimpleContainer>
 
     @Override
     public boolean matches(SimpleContainer pContainer, Level pLevel) {
-        if (pContainer.getContainerSize() != 2 || pLevel.isClientSide()) {
+        if (pContainer.getContainerSize() != 1 || pLevel.isClientSide()) {
             return false;
         }
 
