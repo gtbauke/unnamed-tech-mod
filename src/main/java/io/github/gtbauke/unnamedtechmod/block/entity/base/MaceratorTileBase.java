@@ -1,11 +1,9 @@
 package io.github.gtbauke.unnamedtechmod.block.entity.base;
 
 import com.google.common.collect.Lists;
-import com.mojang.logging.LogUtils;
-import io.github.gtbauke.unnamedtechmod.block.base.AbstractAlloySmelterBlock;
+import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
 import io.github.gtbauke.unnamedtechmod.block.base.AbstractMaceratorBlock;
 import io.github.gtbauke.unnamedtechmod.block.entity.WrappedHandler;
-import io.github.gtbauke.unnamedtechmod.recipe.AbstractAlloySmeltingRecipe;
 import io.github.gtbauke.unnamedtechmod.recipe.AbstractMaceratorRecipe;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -37,9 +35,9 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemStackHandler;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
 
 import java.util.List;
 import java.util.Map;
@@ -60,8 +58,8 @@ public abstract class MaceratorTileBase extends TileEntityInventory implements
 
     protected int crushingTime;
     protected int crushingDuration;
-    protected int crushingProgress;
-    protected int crushingTotalTime;
+    protected int crushingProgress = 100;
+    protected int crushingTotalTime = 200;
     public final RecipeType<? extends AbstractMaceratorRecipe> recipeType;
 
     protected final ContainerData dataAccess;
@@ -334,7 +332,7 @@ public abstract class MaceratorTileBase extends TileEntityInventory implements
         ) <= 64.0D;
     }
 
-    private static final Logger LOGGER = LogUtils.getLogger();
+    private static final Logger LOGGER = UnnamedTechMod.LOGGER;
     public static void tick(Level pLevel, BlockPos pPos, BlockState pState, MaceratorTileBase pEntity) {
         boolean isCrushing = pEntity.isCrushing();
         boolean isDirty = false;

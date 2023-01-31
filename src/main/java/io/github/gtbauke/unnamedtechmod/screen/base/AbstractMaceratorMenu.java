@@ -1,5 +1,6 @@
 package io.github.gtbauke.unnamedtechmod.screen.base;
 
+import io.github.gtbauke.unnamedtechmod.block.entity.base.AlloySmelterTileBase;
 import io.github.gtbauke.unnamedtechmod.block.entity.base.MaceratorTileBase;
 import io.github.gtbauke.unnamedtechmod.init.ModBlocks;
 import io.github.gtbauke.unnamedtechmod.recipe.AbstractMaceratorRecipe;
@@ -37,7 +38,7 @@ public abstract class AbstractMaceratorMenu extends AbstractExtendedContainerMen
         addPlayerHotbar(pPlayerInventory);
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(itemHandler -> {
-            addSlot(new SlotItemHandler(itemHandler, MaceratorTileBase.INPUT, 40, 35));
+            addSlot(new SlotItemHandler(itemHandler, MaceratorTileBase.INPUT, 41, 36));
             addSlot(new SlotItemHandler(itemHandler, MaceratorTileBase.OUTPUT, 116, 35));
         });
 
@@ -51,4 +52,14 @@ public abstract class AbstractMaceratorMenu extends AbstractExtendedContainerMen
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()), pPlayer, ModBlocks.MANUAL_MACERATOR.get());
     }
 
+    public boolean isCrushing() {
+        return data.get(MaceratorTileBase.DATA_CRUSHING_PROGRESS) > 0;
+    }
+
+    public int getProgress() {
+        int progress = this.data.get(MaceratorTileBase.DATA_CRUSHING_PROGRESS);
+        int totalProgress = this.data.get(MaceratorTileBase.DATA_CRUSHING_TOTAL_TIME);
+
+        return totalProgress != 0 ? ((progress * 27) / totalProgress) : 0;
+    }
 }

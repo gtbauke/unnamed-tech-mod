@@ -26,5 +26,10 @@ public abstract class AbstractMaceratorScreen<T extends AbstractMaceratorMenu> e
         int y = (height - imageHeight) / 2;
 
         this.blit(pPoseStack, x, y, 0, 0, imageWidth, imageHeight);
+
+        if (menu.isCrushing()) {
+            int l = this.menu.getProgress();
+            this.blit(pPoseStack, x + 71, y + 35, 176, 0, l + 1, 16);
+        }
     }
 }

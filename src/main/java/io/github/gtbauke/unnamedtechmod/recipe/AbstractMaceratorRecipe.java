@@ -36,28 +36,18 @@ public abstract class AbstractMaceratorRecipe implements Recipe<SimpleContainer>
 
     @Override
     public boolean matches(SimpleContainer pContainer, Level pLevel) {
-        if (pContainer.getContainerSize() != 2) {
+        if (pContainer.getContainerSize() != 2 || pLevel.isClientSide()) {
             return false;
         }
 
-        for (int i = 0; i < pContainer.getContainerSize(); i++) {
-            ItemStack stack = pContainer.getItem(i);
+        ItemStack stack = pContainer.getItem(0);
 
-            boolean ingredientsContainsStack = contains(stack);
-
-            if (!ingredientsContainsStack) {
-                return false;
-            }
-        }
-
-        return true;
+        return contains(stack);
     }
 
     public boolean contains(ItemStack stack) {
         if (ingredient.getIngredient().test(stack)) {
-            if (stack.getCount() >= ingredient.getAmount()) {
-                return true;
-            }
+            return stack.getCount() >= ingredient.getAmount();
         }
 
         return false;
