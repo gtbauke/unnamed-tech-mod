@@ -7,6 +7,7 @@ import io.github.gtbauke.unnamedtechmod.block.entity.base.MaceratorTileBase;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -30,7 +31,7 @@ public class ManualMaceratorBlock extends AbstractMaceratorBlock {
 
     @Override
     public InteractionResult use(BlockState pState, net.minecraft.world.level.Level pLevel, BlockPos pPos, net.minecraft.world.entity.player.Player pPlayer, net.minecraft.world.InteractionHand pHand, net.minecraft.world.phys.BlockHitResult pHit) {
-        if (pLevel.isClientSide) {
+        if (pLevel.isClientSide || pHand == InteractionHand.OFF_HAND) {
             return InteractionResult.SUCCESS;
         }
 

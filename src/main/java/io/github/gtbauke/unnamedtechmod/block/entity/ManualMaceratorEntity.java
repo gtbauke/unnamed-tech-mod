@@ -62,11 +62,7 @@ public class ManualMaceratorEntity extends MaceratorTileBase {
 
     @Override
     public boolean canPlaceItemThroughFace(int pIndex, ItemStack pItemStack, @Nullable Direction pDirection) {
-        if (pDirection == Direction.UP || pDirection == Direction.DOWN || pIndex == OUTPUT) {
-            return false;
-        }
-
-        return true;
+        return pDirection != Direction.UP && pDirection != Direction.DOWN && pIndex != OUTPUT;
     }
 
     @Override

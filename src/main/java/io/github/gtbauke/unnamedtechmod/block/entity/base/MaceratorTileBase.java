@@ -1,7 +1,6 @@
 package io.github.gtbauke.unnamedtechmod.block.entity.base;
 
 import com.google.common.collect.Lists;
-import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
 import io.github.gtbauke.unnamedtechmod.block.base.AbstractMaceratorBlock;
 import io.github.gtbauke.unnamedtechmod.block.entity.WrappedHandler;
 import io.github.gtbauke.unnamedtechmod.recipe.AbstractMaceratorRecipe;
@@ -35,7 +34,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemStackHandler;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -58,27 +56,29 @@ public abstract class MaceratorTileBase extends TileEntityInventory implements
 
     protected int crushingTime;
     protected int crushingDuration;
-    protected int crushingProgress = 100;
-    protected int crushingTotalTime = 200;
+    protected int crushingProgress;
+    protected int crushingTotalTime;
     public final RecipeType<? extends AbstractMaceratorRecipe> recipeType;
+    protected final Object2IntOpenHashMap<ResourceLocation> recipesUsed = new Object2IntOpenHashMap<>();
 
     protected final ContainerData dataAccess;
 
-    private LazyOptional<ItemStackHandler> lazyItemHandler = LazyOptional.empty();
-
     private final Map<Direction, LazyOptional<WrappedHandler>> directionWrappedHandlerMap =
-            Map.of(Direction.DOWN, LazyOptional.of(() -> new WrappedHandler(itemStackHandler, (i) -> i == OUTPUT, (i, s) -> false)),
-                    Direction.NORTH, LazyOptional.of(() -> new WrappedHandler(itemStackHandler, (index) -> index == INPUT,
+            Map.of(Direction.DOWN, LazyOptional.of(() ->
+                            new WrappedHandler(itemStackHandler, (i) -> i == OUTPUT,
+                            (i, s) -> false)),
+                    Direction.NORTH, LazyOptional.of(() ->
+                            new WrappedHandler(itemStackHandler, (index) -> index == INPUT,
                             (index, stack) -> itemStackHandler.isItemValid(INPUT, stack))),
-                    Direction.SOUTH, LazyOptional.of(() -> new WrappedHandler(itemStackHandler, (index) -> index == INPUT,
+                    Direction.SOUTH, LazyOptional.of(() ->
+                            new WrappedHandler(itemStackHandler, (index) -> index == INPUT,
                             (index, stack) -> itemStackHandler.isItemValid(INPUT, stack))),
-                    Direction.EAST, LazyOptional.of(() -> new WrappedHandler(itemStackHandler, (index) -> index == INPUT,
+                    Direction.EAST, LazyOptional.of(() ->
+                            new WrappedHandler(itemStackHandler, (index) -> index == INPUT,
                             (index, stack) -> itemStackHandler.isItemValid(INPUT, stack))),
-                    Direction.WEST, LazyOptional.of(() -> new WrappedHandler(itemStackHandler, (index) -> index == INPUT,
+                    Direction.WEST, LazyOptional.of(() ->
+                            new WrappedHandler(itemStackHandler, (index) -> index == INPUT,
                             (index, stack) -> itemStackHandler.isItemValid(INPUT, stack))));
-
-    private final Object2IntOpenHashMap<ResourceLocation> recipesUsed = new Object2IntOpenHashMap<>();
-
 
     public MaceratorTileBase(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state, RecipeType<? extends AbstractMaceratorRecipe> recipeType) {
         super(tileEntityType, pos, state, INVENTORY_SIZE);
@@ -110,6 +110,17 @@ public abstract class MaceratorTileBase extends TileEntityInventory implements
                 return 4;
             }
         };
+        this.itemStackHandler = new ItemStackHandler(INVENTORY_SIZE) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                setChanged();
+            }
+
+            @Override
+            public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+                return isItemValidForSlot(slot, stack);
+            }
+        };
     }
 
     protected static int getTotalCrushingTime(Level pLevel, MaceratorTileBase pBlockEntity) {
@@ -134,20 +145,14 @@ public abstract class MaceratorTileBase extends TileEntityInventory implements
         ItemStack output = recipe.getResultItem();
         ItemStack outputSlot = getItem(OUTPUT);
 
-        boolean outputSlotEmpty = outputSlot.isEmpty();
-        return outputSlotEmpty || outputSlot.is(output.getItem()) && outputSlot.getCount() + output.getCount() <= outputSlot.getMaxStackSize();
-    }
-
-    public void setCustomName(Component name) {
-        this.name = name;
+        return outputSlot.isEmpty() || outputSlot.is(output.getItem()) && outputSlot.getCount() + output.getCount() <= outputSlot.getMaxStackSize();
     }
 
     @Override
     public void load(CompoundTag pTag) {
         super.load(pTag);
 
-        crushingTime = pTag.getInt("CrushingTime");
-        crushingProgress = pTag.getInt("CrushingTime");
+        crushingProgress = pTag.getInt("CrushingProgress");
         crushingTotalTime = pTag.getInt("CrushingTimeTotal");
 
         CompoundTag compoundTag = pTag.getCompound("RecipesUsed");
@@ -161,8 +166,7 @@ public abstract class MaceratorTileBase extends TileEntityInventory implements
     protected void saveAdditional(CompoundTag pTag) {
         super.saveAdditional(pTag);
 
-        pTag.putInt("CrushingTime", crushingTime);
-        pTag.putInt("CrushingTime", crushingProgress);
+        pTag.putInt("CrushingProgress", crushingProgress);
         pTag.putInt("CrushingTimeTotal", crushingTotalTime);
 
         CompoundTag nbt = new CompoundTag();
@@ -171,15 +175,6 @@ public abstract class MaceratorTileBase extends TileEntityInventory implements
         });
 
         pTag.put("RecipesUsed", nbt);
-    }
-
-    public void dropContents() {
-        for (int i = 0; i <= 4; i++) {
-            ItemStack stack = getItem(i);
-
-            Containers.dropItemStack(level, worldPosition.getX(),
-                    worldPosition.getY(), worldPosition.getZ(), stack);
-        }
     }
 
     @Override
@@ -205,13 +200,6 @@ public abstract class MaceratorTileBase extends TileEntityInventory implements
     }
 
     @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        lazyItemHandler.invalidate();
-    }
-
-
-    @Override
     public boolean canPlaceItem(int pIndex, ItemStack pStack) {
         return pIndex == INPUT;
     }
@@ -226,24 +214,18 @@ public abstract class MaceratorTileBase extends TileEntityInventory implements
 
     }
 
-    @Override
-    public void onLoad() {
-        super.onLoad();
-        lazyItemHandler = LazyOptional.of(() -> itemStackHandler);
-    }
-
-    @Override
-    public void setRecipeUsed(@Nullable Recipe<?> pRecipe) {
-        if (pRecipe == null) return;
-
-        ResourceLocation resourceLocation = pRecipe.getId();
-        recipesUsed.addTo(resourceLocation, 1);
-    }
-
     @Nullable
     @Override
     public Recipe<?> getRecipeUsed() {
         return null;
+    }
+
+    @Override
+    public void setRecipeUsed(@Nullable Recipe<?> pRecipe) {
+        if (pRecipe != null) {
+            ResourceLocation resourceLocation = pRecipe.getId();
+            recipesUsed.addTo(resourceLocation, 1);
+        }
     }
 
     @Override
@@ -337,7 +319,13 @@ public abstract class MaceratorTileBase extends TileEntityInventory implements
 
         ItemStack input = pEntity.getItem(INPUT);
 
-        if (!input.isEmpty() && isCrushing){
+        boolean inputEmpty = input.isEmpty();
+        if (inputEmpty) {
+            pEntity.crushingProgress = 0;
+            pEntity.crushingTime = 0;
+        }
+
+        if (!inputEmpty && isCrushing){
             AbstractMaceratorRecipe recipe = pEntity.getRecipe(input);
 
             if (recipe != null) {

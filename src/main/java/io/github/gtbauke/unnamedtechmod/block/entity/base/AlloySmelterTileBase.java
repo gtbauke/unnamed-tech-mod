@@ -5,6 +5,7 @@ import io.github.gtbauke.unnamedtechmod.block.base.AbstractAlloySmelterBlock;
 import io.github.gtbauke.unnamedtechmod.block.entity.WrappedHandler;
 import io.github.gtbauke.unnamedtechmod.init.ModItems;
 import io.github.gtbauke.unnamedtechmod.recipe.AbstractAlloySmeltingRecipe;
+import io.github.gtbauke.unnamedtechmod.utils.AlloySmelting;
 import io.github.gtbauke.unnamedtechmod.utils.ModTags;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -66,10 +67,9 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
     protected int cookingTotalTime;
 
     public final RecipeType<? extends AbstractAlloySmeltingRecipe> recipeType;
+    protected final Object2IntOpenHashMap<ResourceLocation> recipesUsed = new Object2IntOpenHashMap<>();
 
     protected final ContainerData dataAccess;
-
-    private final Object2IntOpenHashMap<ResourceLocation> recipesUsed = new Object2IntOpenHashMap<>();
 
     public AlloySmelterTileBase(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state, RecipeType<? extends AbstractAlloySmeltingRecipe> recipeType) {
         super(tileEntityType, pos, state, INVENTORY_SIZE);
@@ -101,24 +101,30 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
                 return 4;
             }
         };
+        this.itemStackHandler = new ItemStackHandler(INVENTORY_SIZE) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                setChanged();
+            }
+
+            @Override
+            public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+                return switch (slot) {
+                    case AlloySmelting.LEFT_INPUT -> isItemValidForSlot(AlloySmelting.LEFT_INPUT, stack);
+                    case AlloySmelting.RIGHT_INPUT -> isItemValidForSlot(AlloySmelting.RIGHT_INPUT, stack);
+                    case AlloySmelting.ALLOY_COMPOUND -> isItemValidForSlot(AlloySmelting.ALLOY_COMPOUND, stack);
+                    case AlloySmelting.FUEL -> isItemValidForSlot(AlloySmelting.FUEL, stack);
+                    case AlloySmelting.OUTPUT -> false;
+                    default -> super.isItemValid(slot, stack);
+                };
+            }
+        };
     }
 
     protected boolean isLit() { return litTime > 0; }
 
     protected abstract AbstractAlloySmeltingRecipe getRecipe(ItemStack itemLeft, ItemStack itemRight, ItemStack alloyCompound);
 
-    public void dropContents() {
-        for (int i = 0; i <= 4; i++) {
-            ItemStack stack = getItem(i);
-
-            Containers.dropItemStack(level, worldPosition.getX(),
-                    worldPosition.getY(), worldPosition.getZ(), stack);
-        }
-    }
-
-    public void setCustomName(Component name) {
-        this.name = name;
-    }
 
     @Override
     public void load(CompoundTag pTag) {
@@ -173,7 +179,6 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
         return ForgeHooks.getBurnTime(stack, null) > 0;
     }
 
-    private LazyOptional<ItemStackHandler> lazyItemHandler = LazyOptional.empty();
     private final Map<Direction, LazyOptional<WrappedHandler>> directionWrappedHandlerMap =
             Map.of(Direction.DOWN, LazyOptional.of(() -> new WrappedHandler(itemStackHandler, (i) -> i == 2, (i, s) -> false)),
                     Direction.NORTH, LazyOptional.of(() -> new WrappedHandler(itemStackHandler, (index) -> index == 1,
@@ -238,18 +243,6 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
         }
 
         return false;
-    }
-
-    @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        lazyItemHandler.invalidate();
-    }
-
-    @Override
-    public void onLoad() {
-        super.onLoad();
-        lazyItemHandler = LazyOptional.of(() -> itemStackHandler);
     }
 
     @Nullable

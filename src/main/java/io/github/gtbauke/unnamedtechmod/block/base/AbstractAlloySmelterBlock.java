@@ -1,6 +1,7 @@
 package io.github.gtbauke.unnamedtechmod.block.base;
 
 import io.github.gtbauke.unnamedtechmod.block.entity.base.AlloySmelterTileBase;
+import io.github.gtbauke.unnamedtechmod.block.entity.base.TileEntityInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -22,8 +23,7 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
-public abstract class AbstractAlloySmelterBlock extends BaseEntityBlock {
-    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+public abstract class AbstractAlloySmelterBlock extends AbstractMachineBlock {
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
     protected AbstractAlloySmelterBlock(Properties pProperties) {
@@ -34,38 +34,12 @@ public abstract class AbstractAlloySmelterBlock extends BaseEntityBlock {
         );
     }
 
-    @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if (pLevel.isClientSide) {
-            return InteractionResult.SUCCESS;
-        }
-
-        openContainer(pLevel, pPos, pPlayer);
-        return InteractionResult.CONSUME;
-    }
-
-    protected abstract void openContainer(Level pLevel, BlockPos pPos, Player pPlayer);
-
-    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        return this.defaultBlockState().setValue(FACING, pContext.getHorizontalDirection().getOpposite());
-    }
-
-    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, LivingEntity pPlacer, ItemStack pStack) {
-        if (pStack.hasCustomHoverName()) {
-            BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
-
-            if (blockEntity instanceof AlloySmelterTileBase alloySmelter) {
-                alloySmelter.setCustomName(pStack.getHoverName());
-            }
-        }
-    }
-
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
         if (!pState.is(pNewState.getBlock())) {
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
             if (blockEntity instanceof AlloySmelterTileBase alloySmelter) {
                 if (pLevel instanceof ServerLevel) {
-                    Containers.dropContents(pLevel, pPos, alloySmelter);
+                    ((TileEntityInventory) blockEntity).dropContents();
                     alloySmelter.getRecipesToAwardAndPopExperience((ServerLevel)pLevel, Vec3.atCenterOf(pPos));
                 }
 
@@ -76,19 +50,9 @@ public abstract class AbstractAlloySmelterBlock extends BaseEntityBlock {
         }
     }
 
-    public RenderShape getRenderShape(BlockState pState) {
-        return RenderShape.MODEL;
-    }
-
-    public BlockState rotate(BlockState pState, Rotation pRotation) {
-        return pState.setValue(FACING, pRotation.rotate(pState.getValue(FACING)));
-    }
-
-    public BlockState mirror(BlockState pState, Mirror pMirror) {
-        return pState.rotate(pMirror.getRotation(pState.getValue(FACING)));
-    }
-
+    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(FACING, LIT);
+        super.createBlockStateDefinition(pBuilder);
+        pBuilder.add(LIT);
     }
 }

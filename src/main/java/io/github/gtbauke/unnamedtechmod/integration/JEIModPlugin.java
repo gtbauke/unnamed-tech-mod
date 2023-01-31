@@ -2,6 +2,7 @@ package io.github.gtbauke.unnamedtechmod.integration;
 
 import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
 import io.github.gtbauke.unnamedtechmod.recipe.BasicAlloySmelterRecipe;
+import io.github.gtbauke.unnamedtechmod.recipe.ManualMaceratorRecipe;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.recipe.RecipeType;
@@ -19,6 +20,10 @@ public class JEIModPlugin implements IModPlugin {
     public static RecipeType<BasicAlloySmelterRecipe> BASIC_ALLOY_SMELTING_TYPE =
             new RecipeType<>(BasicAlloySmeltingRecipeCategory.UID, BasicAlloySmelterRecipe.class);
 
+    public static RecipeType<ManualMaceratorRecipe> MANUAL_MACERATOR_TYPE =
+            new RecipeType<>(ManualMaceratorRecipeCategory.UID, ManualMaceratorRecipe.class);
+
+
     @Override
     public ResourceLocation getPluginUid() {
         return new ResourceLocation(UnnamedTechMod.MOD_ID, "jei_plugin");
@@ -29,6 +34,10 @@ public class JEIModPlugin implements IModPlugin {
         registration.addRecipeCategories(new BasicAlloySmeltingRecipeCategory(
                 registration.getJeiHelpers().getGuiHelper()
         ));
+
+        registration.addRecipeCategories(new ManualMaceratorRecipeCategory(
+                registration.getJeiHelpers().getGuiHelper()
+        ));
     }
 
     @Override
@@ -37,6 +46,10 @@ public class JEIModPlugin implements IModPlugin {
         List<BasicAlloySmelterRecipe> basicAlloySmelterRecipeList =
                 recipeManager.getAllRecipesFor(BasicAlloySmelterRecipe.Type.INSTANCE);
 
+        List<ManualMaceratorRecipe> manualMaceratorRecipeList =
+                recipeManager.getAllRecipesFor(ManualMaceratorRecipe.Type.INSTANCE);
+
         registration.addRecipes(BASIC_ALLOY_SMELTING_TYPE, basicAlloySmelterRecipeList);
+        registration.addRecipes(MANUAL_MACERATOR_TYPE, manualMaceratorRecipeList);
     }
 }

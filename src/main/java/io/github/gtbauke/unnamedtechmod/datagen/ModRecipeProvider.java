@@ -142,7 +142,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .save(pFinishedRecipeConsumer);
 
         ManualMaceratorRecipeBuilder.crushing(ModItems.IRON_DUST.get(), 2)
-                .requires(Items.IRON_INGOT)
+                .requires(Items.RAW_IRON)
                 .crushingTime(200)
                 .experience(0.7f)
                 .unlockedBy("has_item", has(ModBlocks.MANUAL_MACERATOR.get()))

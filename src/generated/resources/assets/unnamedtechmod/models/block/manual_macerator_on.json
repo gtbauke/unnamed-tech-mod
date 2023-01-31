@@ -4,6 +4,6 @@
     "bottom": "unnamedtechmod:block/manual_macerator_bottom",
     "front": "unnamedtechmod:block/manual_macerator_front_on",
     "side": "unnamedtechmod:block/manual_macerator_side",
-    "top": "unnamedtechmod:block/manual_macerator_top"
+    "top": "unnamedtechmod:block/manual_macerator_top_on"
   }
 }

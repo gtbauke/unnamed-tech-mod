@@ -1,8 +1,11 @@
 package io.github.gtbauke.unnamedtechmod.block.base;
 
+import io.github.gtbauke.unnamedtechmod.block.entity.base.AlloySmelterTileBase;
 import io.github.gtbauke.unnamedtechmod.block.entity.base.MaceratorTileBase;
+import io.github.gtbauke.unnamedtechmod.block.entity.base.TileEntityInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -18,10 +21,10 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractMaceratorBlock extends BaseEntityBlock {
-    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+public abstract class AbstractMaceratorBlock extends AbstractMachineBlock {
     public static final BooleanProperty WORKING = BlockStateProperties.LIT;
 
     protected AbstractMaceratorBlock(Properties pProperties) {
@@ -31,50 +34,24 @@ public abstract class AbstractMaceratorBlock extends BaseEntityBlock {
                 .setValue(WORKING, Boolean.FALSE));
     }
 
-    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        return this.defaultBlockState().setValue(FACING, pContext.getHorizontalDirection().getOpposite());
-    }
-
-    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, LivingEntity pPlacer, ItemStack pStack) {
-        if (pStack.hasCustomHoverName()) {
+    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
+        if (!pState.is(pNewState.getBlock())) {
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
+            if (blockEntity instanceof MaceratorTileBase maceratorBlock) {
+                if (pLevel instanceof ServerLevel) {
+                    ((TileEntityInventory) blockEntity).dropContents();
+                    maceratorBlock.getRecipesToAwardAndPopExperience((ServerLevel)pLevel, Vec3.atCenterOf(pPos));
+                }
 
-            if (blockEntity instanceof MaceratorTileBase macerator) {
-                macerator.setCustomName(pStack.getHoverName());
+                pLevel.updateNeighbourForOutputSignal(pPos, this);
             }
+
+            super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
         }
-    }
-
-    public RenderShape getRenderShape(BlockState pState) {
-        return RenderShape.MODEL;
-    }
-
-    public BlockState rotate(BlockState pState, Rotation pRotation) {
-        return pState.setValue(FACING, pRotation.rotate(pState.getValue(FACING)));
-    }
-
-    public BlockState mirror(BlockState pState, Mirror pMirror) {
-        return pState.rotate(pMirror.getRotation(pState.getValue(FACING)));
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(FACING, WORKING);
-    }
-
-    @Override
-    public InteractionResult use(BlockState pState, net.minecraft.world.level.Level pLevel, BlockPos pPos, net.minecraft.world.entity.player.Player pPlayer, net.minecraft.world.InteractionHand pHand, net.minecraft.world.phys.BlockHitResult pHit) {
-        if (pLevel.isClientSide) {
-            return InteractionResult.SUCCESS;
-        }
-
-        openContainer(pLevel, pPos, pPlayer);
-        return InteractionResult.CONSUME;
-    }
-
-    protected abstract void openContainer(Level pLevel, BlockPos pPos, Player pPlayer);
-
-    @javax.annotation.Nullable
-    protected static <T extends BlockEntity> BlockEntityTicker<T> createMaceratorTicker(Level pLevel, BlockEntityType<T> pServerType, BlockEntityType<? extends MaceratorTileBase> pClientType) {
-        return pLevel.isClientSide ? null : createTickerHelper(pServerType, pClientType, MaceratorTileBase::tick);
+        super.createBlockStateDefinition(pBuilder);
+        pBuilder.add(WORKING);
     }
 }

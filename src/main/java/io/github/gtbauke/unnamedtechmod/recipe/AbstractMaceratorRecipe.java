@@ -53,6 +53,10 @@ public abstract class AbstractMaceratorRecipe implements Recipe<SimpleContainer>
         return false;
     }
 
+    public RecipeIngredient getIngredient() {
+        return this.ingredient;
+    }
+
     @Override
     public ItemStack assemble(SimpleContainer pContainer) {
         return result.copy();
