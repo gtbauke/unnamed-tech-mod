@@ -28,6 +28,9 @@
   "block.unnamedtechmod.manual_macerator": "Moedor Manual",
   "block.unnamedtechmod.crank": "Manivela",
 
+  "block.unnamedtechmod.basic_heater": "Aquecedor de Metais",
+  "block.unnamedtechmod.basic_press": "Prensa de Metais",
+
   "container.basic_alloy_smelter": "Fundição de Ligas Básica",
-  "container.manual_macerator": "Manual Macerator"
+  "container.manual_macerator": "Moedor Manual"
 }

@@ -1,4 +1,4 @@
-// 1.19.2	2023-01-30T21:37:04.826614	Recipes
+// 1.19.2	2023-01-31T23:06:42.6151452	Recipes
 8c59b067dc8899a3da5b6d815c3381670f2ae5cd data/minecraft/advancements/recipes/misc/copper_ingot_from_blasting_copper_dust.json
 d230615a1d00f8151de656dec65edba32124a149 data/minecraft/advancements/recipes/misc/copper_ingot_from_smelting_copper_dust.json
 32515d88a6a04f27718614d15f68873837af3a06 data/minecraft/advancements/recipes/misc/gold_ingot_from_blasting_gold_dust.json
@@ -40,6 +40,6 @@ c3d5358845a7e41b1981160f57f985a78249d6b7 data/unnamedtechmod/recipes/light_brick
 f9ddb8c6c0aa6b04f363335be13498c46cd84828 data/unnamedtechmod/recipes/light_bricks.json
 6a6bba666b0fb37302c65d8d210453a1b9dfb559 data/unnamedtechmod/recipes/light_clay_ball.json
 1f02aeaab588d6e6b51c6ed9cd9a7f97abafabe1 data/unnamedtechmod/recipes/manual_macerator.json
-9d4675721c23d1395110ebf6f485ad42e56f921e data/unnamedtechmod/recipes/manual_macerator/iron_dust_from_manual_macerator.json
+0ff2c3982e6d35a0e088a0830022c8e1e4f27074 data/unnamedtechmod/recipes/manual_macerator/iron_dust_from_manual_macerator.json
 26a6ad39e3061aff73adb659d46caba8a99c0c20 data/unnamedtechmod/recipes/raw_tin_block.json
 8746d5c1cf66cf9786c67cd6bafd2c39b98870d9 data/unnamedtechmod/recipes/raw_tin_ore.json

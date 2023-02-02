@@ -2,18 +2,18 @@ package io.github.gtbauke.unnamedtechmod.datagen;
 
 import com.mojang.logging.LogUtils;
 import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
+import io.github.gtbauke.unnamedtechmod.block.BasicHeaterBlock;
 import io.github.gtbauke.unnamedtechmod.block.base.AbstractAlloySmelterBlock;
 import io.github.gtbauke.unnamedtechmod.block.base.AbstractMaceratorBlock;
+import io.github.gtbauke.unnamedtechmod.block.base.AbstractMachineBlock;
+import io.github.gtbauke.unnamedtechmod.block.properties.HeaterType;
 import io.github.gtbauke.unnamedtechmod.init.ModBlocks;
 import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ItemModelBuilder;
-import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.client.model.generators.VariantBlockStateBuilder;
+import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ public class ModBlocksStateProvider extends BlockStateProvider {
     }
 
     @Override
-    protected void registerStatesAndModels() {
+    protected void registerStatesAndModels(){
         simpleBlockWithItem(ModBlocks.TIN_ORE.get());
         simpleBlockWithItem(ModBlocks.DEEPSLATE_TIN_ORE.get());
 
@@ -35,6 +35,111 @@ public class ModBlocksStateProvider extends BlockStateProvider {
 
         machineBlock(ModBlocks.BASIC_ALLOY_SMELTER.get(), AbstractAlloySmelterBlock.LIT);
         machineBlockWithBottom(ModBlocks.MANUAL_MACERATOR.get(), AbstractMaceratorBlock.WORKING);
+
+        ModelFile.ExistingModelFile defaultStateFile = models().getExistingFile(new ResourceLocation(UnnamedTechMod.MOD_ID, "block/basic_heater"));
+
+        var registryName = ForgeRegistries.BLOCKS.getKey(ModBlocks.BASIC_HEATER.get()).getPath();
+        ModelFile connectedToPressStateFile = models().orientable(
+                registryName + "_connected_to_press",
+                modTexture("heater_press_connected"),
+                modTexture("heater_press_connected_front"),
+                modTexture("manual_macerator_top"));
+
+        getVariantBuilder(ModBlocks.BASIC_HEATER.get())
+                .partialState()
+                .with(AbstractMachineBlock.FACING, Direction.EAST)
+                .with(BasicHeaterBlock.TYPE, HeaterType.UNCONNECTED)
+                .modelForState()
+                .rotationY(90)
+                .modelFile(defaultStateFile)
+                .addModel()
+                .partialState()
+                .with(AbstractMachineBlock.FACING, Direction.WEST)
+                .with(BasicHeaterBlock.TYPE, HeaterType.UNCONNECTED)
+                .modelForState()
+                .rotationY(270)
+                .modelFile(defaultStateFile)
+                .addModel()
+                .partialState()
+                .with(AbstractMachineBlock.FACING, Direction.NORTH)
+                .with(BasicHeaterBlock.TYPE, HeaterType.UNCONNECTED)
+                .modelForState()
+                .rotationY(0)
+                .modelFile(defaultStateFile)
+                .addModel()
+                .partialState()
+                .with(AbstractMachineBlock.FACING, Direction.SOUTH)
+                .with(BasicHeaterBlock.TYPE, HeaterType.UNCONNECTED)
+                .modelForState()
+                .rotationY(180)
+                .modelFile(defaultStateFile)
+                .addModel()
+                .partialState()
+                .with(AbstractMachineBlock.FACING, Direction.EAST)
+                .with(BasicHeaterBlock.TYPE, HeaterType.CONNECTED_TO_PRESS)
+                .modelForState()
+                .rotationY(90)
+                .modelFile(connectedToPressStateFile)
+                .addModel()
+                .partialState()
+                .with(AbstractMachineBlock.FACING, Direction.WEST)
+                .with(BasicHeaterBlock.TYPE, HeaterType.CONNECTED_TO_PRESS)
+                .modelForState()
+                .rotationY(270)
+                .modelFile(connectedToPressStateFile)
+                .addModel()
+                .partialState()
+                .with(AbstractMachineBlock.FACING, Direction.NORTH)
+                .with(BasicHeaterBlock.TYPE, HeaterType.CONNECTED_TO_PRESS)
+                .modelForState()
+                .rotationY(0)
+                .modelFile(connectedToPressStateFile)
+                .addModel()
+                .partialState()
+                .with(AbstractMachineBlock.FACING, Direction.SOUTH)
+                .with(BasicHeaterBlock.TYPE, HeaterType.CONNECTED_TO_PRESS)
+                .modelForState()
+                .rotationY(180)
+                .modelFile(connectedToPressStateFile)
+                .addModel();
+
+        itemOnly(ModBlocks.BASIC_HEATER.get());
+
+        var registryName2 = ForgeRegistries.BLOCKS.getKey(ModBlocks.BASIC_PRESS.get()).getPath();
+        ModelFile defaultStateFile2 = models().orientable(
+                registryName2,
+                modTexture(registryName2 + "_side"),
+                modTexture(registryName2 + "_front"),
+                modTexture(registryName2 + "_top")
+        );
+
+        getVariantBuilder(ModBlocks.BASIC_PRESS.get())
+                .partialState()
+                .with(AbstractMachineBlock.FACING, Direction.EAST)
+                .modelForState()
+                .rotationY(90)
+                .modelFile(defaultStateFile2)
+                .addModel()
+                .partialState()
+                .with(AbstractMachineBlock.FACING, Direction.WEST)
+                .modelForState()
+                .rotationY(270)
+                .modelFile(defaultStateFile2)
+                .addModel()
+                .partialState()
+                .with(AbstractMachineBlock.FACING, Direction.NORTH)
+                .modelForState()
+                .rotationY(0)
+                .modelFile(defaultStateFile2)
+                .addModel()
+                .partialState()
+                .with(AbstractMachineBlock.FACING, Direction.SOUTH)
+                .modelForState()
+                .rotationY(180)
+                .modelFile(defaultStateFile2)
+                .addModel();
+
+        itemOnly(ModBlocks.BASIC_PRESS.get());
     }
 
     private void machineBlockWithBottom(Block block, BooleanProperty workingProperty) {
