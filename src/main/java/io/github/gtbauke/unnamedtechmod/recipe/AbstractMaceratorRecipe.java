@@ -11,27 +11,13 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 
-public abstract class AbstractMaceratorRecipe implements Recipe<SimpleContainer> {
-    protected final RecipeType<?> recipeType;
-    public final ResourceLocation id;
-    protected final String group;
-
-    protected final RecipeIngredient ingredient;
-    protected final ItemStack result;
-
-    protected final int crushingTime;
-    protected final float experience;
+public abstract class AbstractMaceratorRecipe extends AbstractMachineRecipe implements Recipe<SimpleContainer> {
+     protected final RecipeIngredient ingredient;
 
     protected AbstractMaceratorRecipe(RecipeType<?> recipeType, ResourceLocation id, String group, RecipeIngredient ingredient, ItemStack result, float experience, int crushingTime) {
-        this.recipeType = recipeType;
-        this.id = id;
-        this.group = group;
+        super(recipeType, id, group, result, crushingTime, experience);
 
         this.ingredient = ingredient;
-        this.result = result;
-
-        this.experience = experience;
-        this.crushingTime = crushingTime;
     }
 
     @Override
@@ -57,47 +43,13 @@ public abstract class AbstractMaceratorRecipe implements Recipe<SimpleContainer>
         return this.ingredient;
     }
 
-    @Override
-    public ItemStack assemble(SimpleContainer pContainer) {
-        return result.copy();
-    }
-
-    @Override
-    public boolean canCraftInDimensions(int pWidth, int pHeight) {
-        return true;
-    }
-
-    public float getExperience() {
-        return experience;
-    }
-
-    @Override
-    public ItemStack getResultItem() {
-        return result;
-    }
-
-    @Override
-    public String getGroup() {
-        return group;
-    }
-
     public int getCrushingTime() {
-        return crushingTime;
+        return processingTime;
     }
 
     @Override
     public NonNullList<Ingredient> getIngredients() {
         return NonNullList.withSize(1, ingredient.getIngredient());
-    }
-
-    @Override
-    public ResourceLocation getId() {
-        return id;
-    }
-
-    @Override
-    public RecipeType<?> getType() {
-        return recipeType;
     }
 
     public boolean isIngredient(ItemLike item) {

@@ -2,6 +2,7 @@ package io.github.gtbauke.unnamedtechmod.block;
 
 import io.github.gtbauke.unnamedtechmod.block.base.AbstractMachineBlock;
 import io.github.gtbauke.unnamedtechmod.block.entity.BasicPressEntity;
+import io.github.gtbauke.unnamedtechmod.block.entity.ManualMaceratorEntity;
 import io.github.gtbauke.unnamedtechmod.block.entity.ModBlockEntities;
 import io.github.gtbauke.unnamedtechmod.block.entity.base.PressTileBase;
 import io.github.gtbauke.unnamedtechmod.block.properties.HeaterType;
@@ -9,6 +10,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -21,17 +24,41 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class BasicPressBlock extends AbstractMachineBlock {
     public static final BooleanProperty CONNECTED_TO_HEATER = BooleanProperty.create("connected_to_heater");
+    public static final BooleanProperty WORKING = BooleanProperty.create("working");
 
     public BasicPressBlock(Properties pProperties) {
         super(pProperties);
         registerDefaultState(stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(CONNECTED_TO_HEATER, false));
+    }
+
+    @Override
+    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+        if (pLevel.isClientSide || pHand != InteractionHand.MAIN_HAND) {
+            return InteractionResult.SUCCESS;
+        }
+
+        if (pHit.getDirection() == pState.getValue(FACING)) {
+            BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
+
+            if (blockEntity instanceof BasicPressEntity entity) {
+                entity.crankUsed();
+            } else {
+                throw new IllegalStateException("Our container provider is missing");
+            }
+
+            return InteractionResult.SUCCESS;
+        }
+
+        openContainer(pLevel, pPos, pPlayer);
+        return InteractionResult.CONSUME;
     }
 
     @Override
@@ -77,6 +104,10 @@ public class BasicPressBlock extends AbstractMachineBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return new BasicPressEntity(pPos, pState);
+        if (pState.getValue(CONNECTED_TO_HEATER)) {
+            return new BasicPressEntity(pPos, pState);
+        }
+
+        return  null;
     }
 }

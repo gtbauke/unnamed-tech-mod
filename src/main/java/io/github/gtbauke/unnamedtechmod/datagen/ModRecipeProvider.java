@@ -1,6 +1,7 @@
 package io.github.gtbauke.unnamedtechmod.datagen;
 
 import io.github.gtbauke.unnamedtechmod.datagen.custom.BasicAlloySmeltingRecipeBuilder;
+import io.github.gtbauke.unnamedtechmod.datagen.custom.BasicPressRecipeBuilder;
 import io.github.gtbauke.unnamedtechmod.datagen.custom.ManualMaceratorRecipeBuilder;
 import io.github.gtbauke.unnamedtechmod.init.ModBlocks;
 import io.github.gtbauke.unnamedtechmod.init.ModItems;
@@ -146,6 +147,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .crushingTime(200)
                 .experience(0.7f)
                 .unlockedBy("has_item", has(ModBlocks.MANUAL_MACERATOR.get()))
+                .save(pFinishedRecipeConsumer);
+
+        BasicPressRecipeBuilder.pressing(ModItems.IRON_PLATE.get(), 1)
+                .requires(Items.IRON_INGOT)
+                .pressingTime(200)
+                .experience(0.8f)
+                .unlockedBy("has_item", has(ModBlocks.BASIC_PRESS.get()))
                 .save(pFinishedRecipeConsumer);
     }
 }

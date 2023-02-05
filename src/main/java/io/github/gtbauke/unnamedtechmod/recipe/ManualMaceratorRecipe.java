@@ -62,7 +62,7 @@ public class ManualMaceratorRecipe extends AbstractMaceratorRecipe {
         @Override
         public void toNetwork(FriendlyByteBuf pBuffer, ManualMaceratorRecipe pRecipe) {
             pRecipe.ingredient.toNetwork(pBuffer);
-            pBuffer.writeInt(pRecipe.crushingTime);
+            pBuffer.writeInt(pRecipe.processingTime);
             pBuffer.writeFloat(pRecipe.experience);
             pBuffer.writeItemStack(pRecipe.getResultItem(), false);
         }

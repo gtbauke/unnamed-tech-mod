@@ -36,8 +36,8 @@ public abstract class AbstractPressMenu extends AbstractExtendedContainerMenu {
         addPlayerHotbar(pPlayerInventory);
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(itemHandler -> {
-            addSlot(new SlotItemHandler(itemHandler, PressTileBase.INPUT, 56, 53));
-            addSlot(new SlotItemHandler(itemHandler, PressTileBase.FUEL, 56, 17));
+            addSlot(new SlotItemHandler(itemHandler, PressTileBase.INPUT, 56, 17));
+            addSlot(new SlotItemHandler(itemHandler, PressTileBase.FUEL, 56, 53));
             addSlot(new SlotItemHandler(itemHandler, PressTileBase.OUTPUT, 116, 35));
         });
         addDataSlots(pData);

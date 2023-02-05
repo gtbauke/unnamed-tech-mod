@@ -4,6 +4,7 @@ import io.github.gtbauke.unnamedtechmod.block.BasicPressBlock;
 import io.github.gtbauke.unnamedtechmod.block.base.AbstractMaceratorBlock;
 import io.github.gtbauke.unnamedtechmod.block.entity.WrappedHandler;
 import io.github.gtbauke.unnamedtechmod.recipe.AbstractAlloySmeltingRecipe;
+import io.github.gtbauke.unnamedtechmod.recipe.AbstractMaceratorRecipe;
 import io.github.gtbauke.unnamedtechmod.recipe.AbstractPressRecipe;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.BlockPos;
@@ -48,9 +49,9 @@ public abstract class PressTileBase extends TileEntityInventory implements
 
     protected int pressingTime;
     protected int litTime;
-    protected int pressingDuration;
+    protected int pressingDuration = 50;
     protected int pressingProgress;
-    protected int pressingTotalTime;
+    protected int pressingTotalTime = 100;
 
     public final RecipeType<? extends AbstractPressRecipe> recipeType;
     protected final Object2IntOpenHashMap<ResourceLocation> recipesUsed = new Object2IntOpenHashMap<>();
@@ -169,7 +170,7 @@ public abstract class PressTileBase extends TileEntityInventory implements
         ItemStack input = pBlockEntity.itemStackHandler.getStackInSlot(INPUT);
 
         AbstractPressRecipe recipe = pBlockEntity.getRecipe(input);
-        return recipe == null ? PRESSING_TIME_STANDARD : 200;//recipe.getCookingTime();
+        return recipe == null ? PRESSING_TIME_STANDARD : recipe.getProcessingTime();
     }
 
     @Override
@@ -180,6 +181,27 @@ public abstract class PressTileBase extends TileEntityInventory implements
     @Override
     public void clearContent() {
 
+    }
+
+    public boolean isPressing() {
+        return pressingTime > 0;
+    }
+
+    public boolean isLit() {
+        return litTime > 0;
+    }
+
+    public boolean canPress() {
+        AbstractPressRecipe recipe = getRecipe(getItem(INPUT));
+
+        if (recipe == null) {
+            return false;
+        }
+
+        ItemStack output = recipe.getResultItem();
+        ItemStack outputSlot = getItem(OUTPUT);
+
+        return outputSlot.isEmpty() || outputSlot.is(output.getItem()) && outputSlot.getCount() + output.getCount() <= outputSlot.getMaxStackSize();
     }
 
     @Override
