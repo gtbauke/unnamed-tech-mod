@@ -3,6 +3,8 @@ package io.github.gtbauke.unnamedtechmod;
 import io.github.gtbauke.unnamedtechmod.block.entity.ModBlockEntities;
 import io.github.gtbauke.unnamedtechmod.config.ModClientConfig;
 import io.github.gtbauke.unnamedtechmod.config.ModCommonConfig;
+import io.github.gtbauke.unnamedtechmod.fluid.ModFluidTypes;
+import io.github.gtbauke.unnamedtechmod.fluid.ModFluids;
 import io.github.gtbauke.unnamedtechmod.init.ModConfiguredFeatures;
 import io.github.gtbauke.unnamedtechmod.init.ModBlocks;
 import io.github.gtbauke.unnamedtechmod.init.ModItems;
@@ -45,6 +47,8 @@ public class UnnamedTechMod {
         ModBlockEntities.register(bus);
         ModMenuTypes.register(bus);
         ModRecipes.register(bus);
+        ModFluids.register(bus);
+        ModFluidTypes.register(bus);
 
         ModConfiguredFeatures.CONFIGURED_FEATURE.register(bus);
         ModPlacedFeatures.PLACED_FEATURES.register(bus);
