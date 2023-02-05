@@ -112,6 +112,14 @@ public abstract class TileEntityInventory extends BlockEntity implements
     }
 
     @Override
+    public void setItem(int pSlot, ItemStack pStack) {
+        itemStackHandler.setStackInSlot(pSlot, pStack);
+        if (pStack.getCount() > this.getMaxStackSize()) {
+            pStack.setCount(this.getMaxStackSize());
+        }
+    }
+
+    @Override
     public boolean stillValid(Player pPlayer) {
         if (level.getBlockEntity(worldPosition) != this) {
             return false;

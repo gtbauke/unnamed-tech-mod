@@ -1,16 +1,22 @@
 package io.github.gtbauke.unnamedtechmod.screen.base;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 
 public abstract class AbstractExtendedContainerScreen<T extends AbstractContainerMenu> extends AbstractContainerScreen<T> {
-    public AbstractExtendedContainerScreen(T pMenu, Inventory pPlayerInventory, Component pTitle) {
+    protected final ResourceLocation texture;
+
+    public AbstractExtendedContainerScreen(T pMenu, Inventory pPlayerInventory, Component pTitle, ResourceLocation tex) {
         super(pMenu, pPlayerInventory, pTitle);
+        this.texture = tex;
     }
 
     @Override
@@ -40,5 +46,12 @@ public abstract class AbstractExtendedContainerScreen<T extends AbstractContaine
     @Override
     protected void containerTick() {
         super.containerTick();
+    }
+
+    @Override
+    protected void renderBg(PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, this.texture);
     }
 }

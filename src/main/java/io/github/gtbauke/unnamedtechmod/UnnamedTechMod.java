@@ -9,6 +9,7 @@ import io.github.gtbauke.unnamedtechmod.init.ModItems;
 import io.github.gtbauke.unnamedtechmod.init.ModPlacedFeatures;
 import io.github.gtbauke.unnamedtechmod.recipe.ModRecipes;
 import io.github.gtbauke.unnamedtechmod.screen.BasicAlloySmelterScreen;
+import io.github.gtbauke.unnamedtechmod.screen.BasicPressScreen;
 import io.github.gtbauke.unnamedtechmod.screen.ManualMaceratorScreen;
 import io.github.gtbauke.unnamedtechmod.screen.ModMenuTypes;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -67,6 +68,11 @@ public class UnnamedTechMod {
             MenuScreens.register(
                     ModMenuTypes.MANUAL_MACERATOR_MENU.get(),
                     ManualMaceratorScreen::new
+            );
+
+            MenuScreens.register(
+                    ModMenuTypes.BASIC_PRESS.get(),
+                    BasicPressScreen::new
             );
         }
     }

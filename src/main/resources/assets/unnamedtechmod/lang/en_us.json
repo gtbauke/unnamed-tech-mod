@@ -32,5 +32,6 @@
   "block.unnamedtechmod.basic_press": "Metals Press",
 
   "container.basic_alloy_smelter": "Basic Alloy Smelter",
-  "container.manual_macerator": "Manual Macerator"
+  "container.manual_macerator": "Manual Macerator",
+  "container.basic_press": "Basic Press"
 }

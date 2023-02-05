@@ -32,5 +32,6 @@
   "block.unnamedtechmod.basic_press": "Prensa de Metais",
 
   "container.basic_alloy_smelter": "Fundição de Ligas Básica",
-  "container.manual_macerator": "Moedor Manual"
+  "container.manual_macerator": "Moedor Manual",
+  "container.basic_press": "Basic Press"
 }

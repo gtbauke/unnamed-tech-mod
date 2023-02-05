@@ -1,6 +1,7 @@
 package io.github.gtbauke.unnamedtechmod.screen;
 
 import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
+import io.github.gtbauke.unnamedtechmod.recipe.BasicPressRecipe;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;
@@ -19,6 +20,9 @@ public class ModMenuTypes {
 
     public static final RegistryObject<MenuType<ManualMaceratorMenu>> MANUAL_MACERATOR_MENU =
             registerMenuType(ManualMaceratorMenu::new, "manual_macerator_menu");
+
+    public static final RegistryObject<MenuType<BasicPressMenu>> BASIC_PRESS =
+            registerMenuType(BasicPressMenu::new, "basic_press_menu");
 
     private static <T extends AbstractContainerMenu>RegistryObject<MenuType<T>> registerMenuType(IContainerFactory<T> factory, String name) {
         return MENUS.register(name, () -> IForgeMenuType.create(factory));

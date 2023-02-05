@@ -1,10 +1,13 @@
 package io.github.gtbauke.unnamedtechmod.block;
 
-import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
 import io.github.gtbauke.unnamedtechmod.block.base.AbstractMachineBlock;
+import io.github.gtbauke.unnamedtechmod.block.entity.BasicPressEntity;
 import io.github.gtbauke.unnamedtechmod.block.properties.HeaterType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -15,7 +18,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class BasicHeaterBlock extends AbstractMachineBlock {
@@ -24,11 +28,38 @@ public class BasicHeaterBlock extends AbstractMachineBlock {
     public BasicHeaterBlock(Properties pProperties) {
         super(pProperties);
         registerDefaultState(stateDefinition.any()
-                .setValue(FACING, Direction.NORTH));
+                .setValue(FACING, Direction.NORTH)
+                .setValue(TYPE, HeaterType.UNCONNECTED));
     }
 
     @Override
-    protected void openContainer(Level pLevel, BlockPos pPos, Player pPlayer) { }
+    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+        if (pLevel.isClientSide) {
+            return InteractionResult.SUCCESS;
+        }
+
+        BlockState blockState = pLevel.getBlockState(pPos);
+        if (blockState.getValue(TYPE) == HeaterType.UNCONNECTED) {
+            return InteractionResult.PASS;
+        }
+
+        openContainer(pLevel, pPos, pPlayer);
+        return InteractionResult.CONSUME;
+    }
+
+    @Override
+    protected void openContainer(Level pLevel, BlockPos pPos, Player pPlayer) {
+        BlockState blockState = pLevel.getBlockState(pPos);
+        if (blockState.getValue(TYPE) == HeaterType.CONNECTED_TO_PRESS) {
+            BlockEntity blockEntity = pLevel.getBlockEntity(pPos.above());
+
+            if (blockEntity instanceof BasicPressEntity entity) {
+                NetworkHooks.openScreen((ServerPlayer) pPlayer, entity, pPos.above());
+            } else {
+                throw new IllegalStateException("Our container provider is missing");
+            }
+        }
+    }
 
     @Nullable
     @Override
@@ -51,7 +82,6 @@ public class BasicHeaterBlock extends AbstractMachineBlock {
         return blockstate.getBlock() instanceof BasicPressBlock;
     }
 
-    public Logger LOGGER = UnnamedTechMod.LOGGER;
     @Override
     public BlockState updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pNeighborPos) {
         if (pLevel.isClientSide()) return pState;
@@ -63,8 +93,6 @@ public class BasicHeaterBlock extends AbstractMachineBlock {
         else if (pNeighborState.getBlock() instanceof BasicPressBlock){
             return pState.setValue(TYPE, HeaterType.CONNECTED_TO_PRESS);
         }
-
-        LOGGER.debug("pDir " + pDirection.getName() +  " pNeighbourState " + pNeighborState);
 
         return super.updateShape(pState, pDirection, pNeighborState, pLevel, pCurrentPos, pNeighborPos);
     }
