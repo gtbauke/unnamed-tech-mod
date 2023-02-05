@@ -10,6 +10,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.AirBlock;
@@ -19,11 +20,33 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.stream.Stream;
+
 public class BasicHeaterBlock extends AbstractMachineBlock {
     public static final EnumProperty<HeaterType> TYPE = EnumProperty.create("type", HeaterType.class);
+
+    private static final VoxelShape UNCONNECTED_SHAPE = Stream.of(
+            Block.box(14, 10, 2, 16, 12, 14),
+            Block.box(0, 0, 0, 16, 10, 16),
+            Block.box(0, 10, 0, 16, 12, 2),
+            Block.box(0, 10, 14, 16, 12, 16),
+            Block.box(0, 10, 2, 2, 12, 14),
+            Block.box(0, 10, 2, 2, 12, 14)
+    ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+
+    private static final VoxelShape CONNECTED_SHAPE = Block.box(0, 0, 0, 16, 16, 16);
+
+    @Override
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        return pState.getValue(TYPE) == HeaterType.UNCONNECTED ? UNCONNECTED_SHAPE : CONNECTED_SHAPE;
+    }
 
     public BasicHeaterBlock(Properties pProperties) {
         super(pProperties);

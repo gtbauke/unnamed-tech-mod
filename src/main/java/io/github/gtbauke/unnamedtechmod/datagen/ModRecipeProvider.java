@@ -153,6 +153,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .requires(Items.IRON_INGOT)
                 .pressingTime(200)
                 .experience(0.8f)
+                .minimumTemperature(200)
                 .unlockedBy("has_item", has(ModBlocks.BASIC_PRESS.get()))
                 .save(pFinishedRecipeConsumer);
     }

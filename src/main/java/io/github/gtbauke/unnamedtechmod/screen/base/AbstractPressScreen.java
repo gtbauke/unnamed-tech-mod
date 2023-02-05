@@ -1,8 +1,6 @@
 package io.github.gtbauke.unnamedtechmod.screen.base;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -10,6 +8,13 @@ import net.minecraft.world.entity.player.Inventory;
 public abstract class AbstractPressScreen<T extends AbstractPressMenu> extends AbstractExtendedContainerScreen<T> {
     public AbstractPressScreen(T pMenu, Inventory pPlayerInventory, Component pTitle, ResourceLocation pTexture) {
         super(pMenu, pPlayerInventory, pTitle, pTexture);
+        imageHeight = 175;
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        inventoryLabelY += 9;
     }
 
     @Override

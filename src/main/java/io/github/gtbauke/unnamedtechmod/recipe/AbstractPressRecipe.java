@@ -12,11 +12,13 @@ import net.minecraft.world.level.Level;
 
 public abstract class AbstractPressRecipe extends AbstractMachineRecipe implements Recipe<SimpleContainer> {
     protected final RecipeIngredient ingredient;
+    protected final int minTemp;
 
-    protected AbstractPressRecipe(RecipeType<?> recipeType, ResourceLocation id, String group, RecipeIngredient ingredient, ItemStack result, float experience, int crushingTime) {
+    protected AbstractPressRecipe(RecipeType<?> recipeType, ResourceLocation id, String group, RecipeIngredient ingredient, ItemStack result, float experience, int crushingTime, int minTemp) {
         super(recipeType, id, group, result, crushingTime, experience);
 
         this.ingredient = ingredient;
+        this.minTemp = minTemp;
     }
 
     @Override
@@ -41,5 +43,9 @@ public abstract class AbstractPressRecipe extends AbstractMachineRecipe implemen
     @Override
     public NonNullList<Ingredient> getIngredients() {
         return NonNullList.withSize(1, ingredient.getIngredient());
+    }
+
+    public int getMinTemp() {
+        return minTemp;
     }
 }

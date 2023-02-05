@@ -58,6 +58,11 @@ public class BasicPressRecipeBuilder implements RecipeBuilder {
         return this;
     }
 
+    public BasicPressRecipeBuilder minimumTemperature(int value) {
+        data.minimumTemperature = value;
+        return this;
+    }
+
     public BasicPressRecipeBuilder requires(ItemLike ingredient){
         data.ingredient = new RecipeIngredient(Ingredient.of(ingredient), 1);
         return this;
@@ -117,6 +122,7 @@ public class BasicPressRecipeBuilder implements RecipeBuilder {
 
             pJson.add("input", ingredient);
             pJson.addProperty("pressingTime", data.pressingTime);
+            pJson.addProperty("minimumTemperature", data.minimumTemperature);
             pJson.addProperty("experience", data.experience);
             pJson.add("output", result);
         }

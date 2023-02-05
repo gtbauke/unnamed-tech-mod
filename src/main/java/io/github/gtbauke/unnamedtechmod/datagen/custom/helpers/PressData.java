@@ -8,14 +8,16 @@ public class PressData {
     public ItemStack result;
 
     public int pressingTime;
+    public int minimumTemperature;
     public float experience;
 
     public PressData() {}
 
-    public PressData(ItemStack result, RecipeIngredient ingredient, int crushingTime, float experience) {
+    public PressData(ItemStack result, RecipeIngredient ingredient, int crushingTime, float experience, int minimumTemperature) {
         this.result = result;
         this.ingredient = ingredient;
         this.pressingTime = crushingTime;
         this.experience = experience;
+        this.minimumTemperature = minimumTemperature;
     }
 }

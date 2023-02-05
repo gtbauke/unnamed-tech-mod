@@ -1,0 +1,13 @@
+{
+  "type": "unnamedtechmod:basic_press",
+  "experience": 0.8,
+  "input": {
+    "count": 1,
+    "item": "minecraft:iron_ingot"
+  },
+  "minimumTemperature": 200,
+  "output": {
+    "item": "unnamedtechmod:iron_plate"
+  },
+  "pressingTime": 200
+}
