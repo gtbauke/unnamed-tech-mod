@@ -29,6 +29,20 @@ public abstract class AbstractExtendedContainerMenu extends AbstractContainerMen
         }
     }
 
+    protected void addPlayerInventory(Inventory playerInventory, int xOffset, int yOffset) {
+        for (int i = 0; i < 3; ++i) {
+            for (int l = 0; l < 9; ++l) {
+                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, (8 + l * 18) + xOffset, (84 + i * 18) + yOffset));
+            }
+        }
+    }
+
+    protected void addPlayerHotbar(Inventory playerInventory, int xOffset, int yOffset) {
+        for (int i = 0; i < 9; ++i) {
+            this.addSlot(new Slot(playerInventory, i, (8 + i * 18) + xOffset, (142) + yOffset));
+        }
+    }
+
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
     // must assign a slot number to each of the slots used by the GUI.

@@ -17,6 +17,9 @@ public class ModRecipes {
     public static final RegistryObject<RecipeSerializer<ManualMaceratorRecipe>> MANUAL_MACERATOR_SERIALIZER =
             SERIALIZERS.register(ManualMaceratorRecipe.Type.ID, () -> ManualMaceratorRecipe.Serializer.INSTANCE);
 
+    public static final RegistryObject<RecipeSerializer<BasicPressRecipe>> BASIC_PRESS_RECIPE =
+            SERIALIZERS.register(BasicPressRecipe.Type.ID, () -> BasicPressRecipe.Serializer.INSTANCE);
+
     public static void register(IEventBus bus) {
         SERIALIZERS.register(bus);
     }

@@ -8,16 +8,17 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 
-public abstract class AbstractMaceratorRecipe extends AbstractMachineRecipe implements Recipe<SimpleContainer> {
-     protected final RecipeIngredient ingredient;
+public abstract class AbstractPressRecipe extends AbstractMachineRecipe implements Recipe<SimpleContainer> {
+    protected final RecipeIngredient ingredient;
+    protected final int minTemp;
 
-    protected AbstractMaceratorRecipe(RecipeType<?> recipeType, ResourceLocation id, String group, RecipeIngredient ingredient, ItemStack result, float experience, int crushingTime) {
+    protected AbstractPressRecipe(RecipeType<?> recipeType, ResourceLocation id, String group, RecipeIngredient ingredient, ItemStack result, float experience, int crushingTime, int minTemp) {
         super(recipeType, id, group, result, crushingTime, experience);
 
         this.ingredient = ingredient;
+        this.minTemp = minTemp;
     }
 
     @Override
@@ -39,24 +40,12 @@ public abstract class AbstractMaceratorRecipe extends AbstractMachineRecipe impl
         return false;
     }
 
-    public RecipeIngredient getIngredient() {
-        return this.ingredient;
-    }
-
-    public int getCrushingTime() {
-        return processingTime;
-    }
-
     @Override
     public NonNullList<Ingredient> getIngredients() {
         return NonNullList.withSize(1, ingredient.getIngredient());
     }
 
-    public boolean isIngredient(ItemLike item) {
-        return ingredient.getIngredient().test(new ItemStack(item));
-    }
-
-    public int getUsedAmountOf(ItemLike input) {
-        return ingredient.getAmount();
+    public int getMinTemp() {
+        return minTemp;
     }
 }

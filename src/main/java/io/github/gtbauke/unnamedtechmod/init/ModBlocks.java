@@ -2,10 +2,11 @@ package io.github.gtbauke.unnamedtechmod.init;
 
 import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
 import io.github.gtbauke.unnamedtechmod.block.BasicAlloySmelterBlock;
+import io.github.gtbauke.unnamedtechmod.block.BasicHeaterBlock;
+import io.github.gtbauke.unnamedtechmod.block.BasicPressBlock;
 import io.github.gtbauke.unnamedtechmod.block.ManualMaceratorBlock;
 import io.github.gtbauke.unnamedtechmod.block.base.AbstractAlloySmelterBlock;
 import io.github.gtbauke.unnamedtechmod.block.base.AbstractMaceratorBlock;
-import io.github.gtbauke.unnamedtechmod.block.entity.base.MaceratorTileBase;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -70,6 +71,23 @@ public class ModBlocks {
                     .lightLevel(state -> state.getValue(AbstractMaceratorBlock.WORKING) ? 2 : 0)),
             new Item.Properties().tab(UnnamedTechMod.MOD_TAB)
     );
+
+    public static final RegistryObject<BasicHeaterBlock> BASIC_HEATER = register(
+            "basic_heater",
+            () -> new BasicHeaterBlock(BlockBehaviour.Properties.of(Material.STONE)
+                    .strength(2.5f, 20f)
+                    .requiresCorrectToolForDrops().noOcclusion()),
+            new Item.Properties().tab(UnnamedTechMod.MOD_TAB)
+    );
+
+    public static final RegistryObject<BasicPressBlock> BASIC_PRESS = register(
+            "basic_press",
+            () -> new BasicPressBlock(BlockBehaviour.Properties.of(Material.STONE)
+                    .strength(2.5f, 20f)
+                    .requiresCorrectToolForDrops().noOcclusion()),
+            new Item.Properties().tab(UnnamedTechMod.MOD_TAB)
+    );
+
 
     private static <T extends Block>RegistryObject<T> register(String name, Supplier<T> supplier, Item.Properties properties) {
         RegistryObject<T> block = BLOCKS.register(name, supplier);

@@ -43,8 +43,8 @@ public abstract class AbstractMachineBlock extends BaseEntityBlock {
         if (pStack.hasCustomHoverName()) {
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
 
-            if (blockEntity instanceof TileEntityInventory macerator) {
-                macerator.setCustomName(pStack.getHoverName());
+            if (blockEntity instanceof TileEntityInventory inv) {
+                inv.setCustomName(pStack.getHoverName());
             }
         }
     }

@@ -30,6 +30,16 @@ public class ModBlockEntities {
                     ).build(null)
             );
 
+    public static final RegistryObject<BlockEntityType<BasicPressEntity>> BASIC_PRESS =
+            BLOCK_ENTITIES.register(
+                    "basic_press",
+                    () -> BlockEntityType.Builder.of(
+                            BasicPressEntity::new,
+                            ModBlocks.BASIC_PRESS.get()
+                    ).build(null)
+            );
+
+
     public static void register(IEventBus bus) {
         BLOCK_ENTITIES.register(bus);
     }

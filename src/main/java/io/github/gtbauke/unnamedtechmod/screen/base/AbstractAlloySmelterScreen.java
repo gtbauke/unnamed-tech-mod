@@ -12,18 +12,13 @@ import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 
 public abstract class AbstractAlloySmelterScreen<T extends AbstractAlloySmelterMenu> extends AbstractExtendedContainerScreen<T> {
-    private final ResourceLocation texture;
-
     public AbstractAlloySmelterScreen(T pMenu, Inventory pPlayerInventory, Component pTitle, ResourceLocation pTexture) {
-        super(pMenu, pPlayerInventory, pTitle);
-        this.texture = pTexture;
+        super(pMenu, pPlayerInventory, pTitle, pTexture);
     }
 
     @Override
     protected void renderBg(PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, this.texture);
+        super.renderBg(pPoseStack, pPartialTick, pMouseX, pMouseY);
 
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
