@@ -122,6 +122,16 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 ModItems.BRONZE_DUST.get()
         ), ModItems.BRONZE_INGOT.get(), 0.7f, 200, "bronze_ingot");
 
+        ShapedRecipeBuilder.shaped(ModItems.EMPTY_FLUID_CELL.get(), 3)
+                .define('T', ModItems.TIN_PLATE.get())
+                .define('G', Items.GLASS_PANE.asItem())
+                .define('I', Items.IRON_INGOT)
+                .pattern("ITI")
+                .pattern("TGT")
+                .pattern("ITI")
+                .unlockedBy("has_item", has(ModItems.TIN_INGOT.get()))
+                .save(pFinishedRecipeConsumer);
+
         BasicAlloySmeltingRecipeBuilder.alloySmelting(ModItems.REDSTONE_COPPER_ALLOY.get())
                 .requires(Items.COPPER_INGOT)
                 .requires(Items.REDSTONE, 3)

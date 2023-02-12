@@ -8,6 +8,7 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class ModItemsModelProvider extends ItemModelProvider {
@@ -42,6 +43,9 @@ public class ModItemsModelProvider extends ItemModelProvider {
         simpleItem(ModItems.LIGHT_BRICK.get());
 
         simpleItem(ModItems.REDSTONE_COPPER_ALLOY.get());
+
+        simpleItem(ModItems.EMPTY_FLUID_CELL.get());
+        simpleItem(ModItems.WATER_FLUID_CELL.get());
     }
 
     private ItemModelBuilder simpleItem(Item item) {
