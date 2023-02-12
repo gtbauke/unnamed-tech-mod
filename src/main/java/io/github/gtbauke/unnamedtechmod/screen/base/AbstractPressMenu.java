@@ -27,7 +27,7 @@ public abstract class AbstractPressMenu extends AbstractExtendedContainerMenu {
         this.recipeType = pRecipeType;
         this.blockEntity = (PressTileBase) blockEntity;
         checkContainerSize(pPlayerInventory, PressTileBase.INVENTORY_SIZE);
-        checkContainerDataCount(pData, 5);
+        checkContainerDataCount(pData, 6);
 
         this.data = pData;
         this.level = pPlayerInventory.player.level;
@@ -68,12 +68,19 @@ public abstract class AbstractPressMenu extends AbstractExtendedContainerMenu {
     }
 
     public int getLitProgress() {
-        int litDuration = this.data.get(PressTileBase.DATA_PRESSING_DURATION);
+        int litDuration = this.data.get(PressTileBase.DATA_LIT_DURATION);
         if (litDuration == 0) {
             litDuration = PressTileBase.BURN_TIME_STANDARD;
         }
 
-        //return this.data.get(PressTileBase.DATA_LIT_TIME) * 13 / litDuration;
-        return (litDuration / 2) * 13 / litDuration;
+        return this.data.get(PressTileBase.DATA_LIT_TIME) * 13 / litDuration;
+    }
+
+    public int getTemperature() {
+        return this.data.get(PressTileBase.DATA_TEMPERATURE);
+    }
+
+    public int getRecipeTemperature() {
+        return this.blockEntity.getRecipeMinTemp();
     }
 }

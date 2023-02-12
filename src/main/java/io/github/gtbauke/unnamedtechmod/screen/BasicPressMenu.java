@@ -14,6 +14,6 @@ public class BasicPressMenu extends AbstractPressMenu {
     }
 
     public BasicPressMenu(int pContainerId, Inventory pPlayerInventory, FriendlyByteBuf pBuffer) {
-        this(pContainerId, pPlayerInventory, pPlayerInventory.player.level.getBlockEntity(pBuffer.readBlockPos()), new SimpleContainerData(5));
+        this(pContainerId, pPlayerInventory, pPlayerInventory.player.level.getBlockEntity(pBuffer.readBlockPos()), new SimpleContainerData(7));
     }
 }

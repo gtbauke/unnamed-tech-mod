@@ -45,6 +45,10 @@ public abstract class AbstractPressRecipe extends AbstractMachineRecipe implemen
         return NonNullList.withSize(1, ingredient.getIngredient());
     }
 
+    public int getIngredientAmount() {
+        return ingredient.getAmount();
+    }
+
     public int getMinTemp() {
         return minTemp;
     }

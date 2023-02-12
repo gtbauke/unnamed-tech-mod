@@ -1,11 +1,9 @@
 package io.github.gtbauke.unnamedtechmod.block.entity;
 
 import io.github.gtbauke.unnamedtechmod.block.BasicPressBlock;
-import io.github.gtbauke.unnamedtechmod.block.base.AbstractMaceratorBlock;
 import io.github.gtbauke.unnamedtechmod.block.entity.base.PressTileBase;
 import io.github.gtbauke.unnamedtechmod.recipe.AbstractPressRecipe;
 import io.github.gtbauke.unnamedtechmod.recipe.BasicPressRecipe;
-import io.github.gtbauke.unnamedtechmod.recipe.ManualMaceratorRecipe;
 import io.github.gtbauke.unnamedtechmod.screen.BasicPressMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
