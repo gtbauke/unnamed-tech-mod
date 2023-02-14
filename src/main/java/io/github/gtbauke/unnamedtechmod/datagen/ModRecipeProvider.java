@@ -159,11 +159,26 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_item", has(ModBlocks.MANUAL_MACERATOR.get()))
                 .save(pFinishedRecipeConsumer);
 
+        ManualMaceratorRecipeBuilder.crushing(ModItems.IRON_DUST.get(), 1)
+                .requires(Items.IRON_INGOT)
+                .crushingTime(200)
+                .experience(0.7f)
+                .unlockedBy("has_item", has(ModBlocks.MANUAL_MACERATOR.get()))
+                .save(pFinishedRecipeConsumer);
+
         BasicPressRecipeBuilder.pressing(ModItems.IRON_PLATE.get(), 1)
                 .requires(Items.IRON_INGOT)
                 .pressingTime(200)
                 .experience(0.8f)
-                .minimumTemperature(200)
+                .minimumTemperature(700)
+                .unlockedBy("has_item", has(ModBlocks.BASIC_PRESS.get()))
+                .save(pFinishedRecipeConsumer);
+
+        BasicPressRecipeBuilder.pressing(ModItems.COPPER_PLATE.get(), 1)
+                .requires(Items.COPPER_INGOT)
+                .pressingTime(200)
+                .experience(0.8f)
+                .minimumTemperature(470)
                 .unlockedBy("has_item", has(ModBlocks.BASIC_PRESS.get()))
                 .save(pFinishedRecipeConsumer);
     }

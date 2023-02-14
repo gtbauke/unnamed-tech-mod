@@ -10,6 +10,7 @@ import io.github.gtbauke.unnamedtechmod.utils.Constants;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.inventory.ContainerData;
@@ -43,27 +44,26 @@ public abstract class PressTileBase extends TileEntityInventory implements
     public static final int DATA_PRESSING_TIME = 0;
     public static final int DATA_LIT_TIME = 1;
     public static final int DATA_LIT_DURATION = 2;
-    public static final int DATA_PRESSING_DURATION = 3;
-    public static final int DATA_PRESSING_PROGRESS = 4;
-    public static final int DATA_PRESSING_TOTAL_TIME = 5;
-    public static final int DATA_TEMPERATURE = 6;
+    public static final int DATA_PRESSING_PROGRESS = 3;
+    public static final int DATA_PRESSING_TOTAL_TIME = 4;
+    public static final int DATA_TEMPERATURE = 5;
+    public static final int DATA_MIN_TEMP = 6;
+    public static final int DATA_AMOUNT = 7;
     public static final int PRESSING_TIME_STANDARD = 200;
     public static final int BURN_TIME_STANDARD = 1600;
 
     public static final int INVENTORY_SIZE = 3;
 
     protected int pressingTime;
-    protected int temperature;
+    protected float temperature = Constants.AMBIENT_TEMP;
     protected int litTime;
     protected int litDuration;
-    protected int pressingDuration;
     protected int pressingProgress;
-    protected int pressingTotalTime;
-    protected int ticksSinceFuelAddedOrRemoved;
+    protected int pressingTotalTime = PRESSING_TIME_STANDARD;
 
     protected Item lastFuelItem = Items.AIR;
 
-    protected int fuelMaxTemp = 200;
+    protected int fuelMaxTemp = Constants.AMBIENT_TEMP;
 
     public final RecipeType<? extends AbstractPressRecipe> recipeType;
     protected final Object2IntOpenHashMap<ResourceLocation> recipesUsed = new Object2IntOpenHashMap<>();
@@ -97,10 +97,10 @@ public abstract class PressTileBase extends TileEntityInventory implements
                     case DATA_PRESSING_TIME -> PressTileBase.this.pressingTime;
                     case DATA_LIT_TIME -> PressTileBase.this.litTime;
                     case DATA_LIT_DURATION -> PressTileBase.this.litDuration;
-                    case DATA_PRESSING_DURATION -> PressTileBase.this.pressingDuration;
                     case DATA_PRESSING_PROGRESS -> PressTileBase.this.pressingProgress;
                     case DATA_PRESSING_TOTAL_TIME -> PressTileBase.this.pressingTotalTime;
-                    case DATA_TEMPERATURE -> PressTileBase.this.temperature;
+                    case DATA_TEMPERATURE -> (int)PressTileBase.this.temperature;
+                    case DATA_MIN_TEMP -> PressTileBase.this.getRecipeMinTemp();
                     default -> 0;
                 };
             }
@@ -111,16 +111,16 @@ public abstract class PressTileBase extends TileEntityInventory implements
                     case DATA_PRESSING_TIME -> PressTileBase.this.pressingTime = pValue;
                     case DATA_LIT_TIME -> PressTileBase.this.litTime = pValue;
                     case DATA_LIT_DURATION -> PressTileBase.this.litDuration = pValue;
-                    case DATA_PRESSING_DURATION -> PressTileBase.this.pressingDuration = pValue;
                     case DATA_PRESSING_PROGRESS -> PressTileBase.this.pressingProgress = pValue;
                     case DATA_PRESSING_TOTAL_TIME -> PressTileBase.this.pressingTotalTime = pValue;
                     case DATA_TEMPERATURE -> PressTileBase.this.temperature = pValue;
+                    case DATA_MIN_TEMP -> PressTileBase.this.getRecipeMinTemp();
                 }
             }
 
             @Override
             public int getCount() {
-                return 7;
+                return DATA_AMOUNT;
             }
         };
         this.itemStackHandler = new ItemStackHandler(INVENTORY_SIZE) {
@@ -225,7 +225,7 @@ public abstract class PressTileBase extends TileEntityInventory implements
         boolean aboveTemp = temperature >= recipe.getMinTemp();
         boolean inputValid = getItem(INPUT).getCount() >= recipe.getIngredientAmount();
 
-        return outputSlot.isEmpty() || outputSlot.is(output.getItem()) && outputSlot.getCount() + output.getCount() <= outputSlot.getMaxStackSize() && aboveTemp;
+        return outputSlot.isEmpty() || outputSlot.is(output.getItem()) && outputSlot.getCount() + output.getCount() <= outputSlot.getMaxStackSize() && aboveTemp && inputValid;
     }
 
     @Override
@@ -265,48 +265,78 @@ public abstract class PressTileBase extends TileEntityInventory implements
         return null;
     }
 
+    @Override
+    public void load(CompoundTag pTag) {
+        super.load(pTag);
+
+        temperature = pTag.getFloat("temperature");
+        pressingTotalTime = pTag.getInt("pressingTotalTime");
+        pressingProgress = pTag.getInt("pressingProgress");
+        litTime = pTag.getInt("litTime");
+
+        litDuration = (int)(2.5F * ForgeHooks.getBurnTime(getItem(FUEL), recipeType));
+
+        CompoundTag compoundTag = pTag.getCompound("RecipesUsed");
+
+        for (String s : compoundTag.getAllKeys()) {
+            recipesUsed.put(new ResourceLocation(s), compoundTag.getInt(s));
+        }
+
+        Item item = getItem(FUEL).getItem();
+        lastFuelItem = item;
+        fuelMaxTemp = getMaxTempForFuel(item);
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag pTag) {
+        super.saveAdditional(pTag);
+
+        pTag.putFloat("temperature", temperature);
+        pTag.putInt("pressingTotalTime", pressingTotalTime);
+        pTag.putInt("pressingProgress", pressingProgress);
+        pTag.putInt("litTime", litTime);
+
+        CompoundTag nbt = new CompoundTag();
+        recipesUsed.forEach((recipeId, craftedAmount) -> {
+            nbt.putInt(recipeId.toString(), craftedAmount);
+        });
+
+        pTag.put("RecipesUsed", nbt);
+    }
+
     public static void tick(Level pLevel, BlockPos pPos, BlockState pState, PressTileBase pEntity) {
         if (!pState.getValue(BasicPressBlock.CONNECTED_TO_HEATER)) return;
 
         boolean wasLit = pEntity.isLit();
         boolean isDirty = false;
 
-        float a = -0.01f;
-        float b = 0.2f;
-        float g = 10; // -b/2a
-
-        if (wasLit) {
-            --pEntity.litTime;
-            int x = ++pEntity.ticksSinceFuelAddedOrRemoved;
-
-            if (x > g * pEntity.fuelMaxTemp) {
-                pEntity.temperature = pEntity.fuelMaxTemp;
-            } else {
-                float normalizedX = (float) x / pEntity.fuelMaxTemp;
-                pEntity.temperature = (int)((a * normalizedX * normalizedX + b * normalizedX) * pEntity.fuelMaxTemp);
-            }
-        }
-        else {
-            int x = ++pEntity.ticksSinceFuelAddedOrRemoved;
-
-            if (x > g * pEntity.fuelMaxTemp) {
-                pEntity.temperature = 0;
-            }
-            else {
-                float normalizedX = ((float) x / pEntity.fuelMaxTemp) - g;
-                pEntity.temperature = (int) (-a * normalizedX * normalizedX * pEntity.fuelMaxTemp);
-            }
-        }
-
         ItemStack fuelSlot = pEntity.getItem(FUEL);
         boolean hasFuel = !fuelSlot.isEmpty();
 
+        float a = -0.00025f;
+        float b = 0.005f;
+        float g = 10; // = -b/2a
+
+        if (pEntity.fuelMaxTemp == 0 || (!hasFuel && !wasLit)) {
+            pEntity.fuelMaxTemp = Constants.AMBIENT_TEMP;
+        }
+
+        float x = (pEntity.temperature / pEntity.fuelMaxTemp) * g;
+        float delta = (2 * a * x + b) * pEntity.fuelMaxTemp;
+
+        pEntity.temperature += delta;
+
+        // TODO redo this logic in a cleaner way
+        if (wasLit) {
+            --pEntity.litTime;
+        }
+
         ItemStack fuel = pEntity.getItem(FUEL);
-        if ((pEntity.isLit() || !fuel.isEmpty())) {
+        if ((pEntity.isLit() || hasFuel)) {
             AbstractPressRecipe recipe = pEntity.getRecipe(pEntity.getItem(INPUT));
 
             if (!pEntity.isLit()) {
-                pEntity.litTime = ForgeHooks.getBurnTime(fuel, pEntity.recipeType);
+                pEntity.litTime = (int)(2.5F * ForgeHooks.getBurnTime(fuel, pEntity.recipeType));
                 pEntity.litDuration = pEntity.litTime;
 
                 if (pEntity.isLit()) {
@@ -320,7 +350,6 @@ public abstract class PressTileBase extends TileEntityInventory implements
                         {
                             pEntity.lastFuelItem = item;
                             pEntity.fuelMaxTemp = getMaxTempForFuel(item);
-                            pEntity.ticksSinceFuelAddedOrRemoved = 0;
                         }
                     } else if (hasFuel) {
                         Item item = fuelSlot.getItem();
@@ -328,7 +357,6 @@ public abstract class PressTileBase extends TileEntityInventory implements
                         {
                             pEntity.lastFuelItem = item;
                             pEntity.fuelMaxTemp = getMaxTempForFuel(item);
-                            pEntity.ticksSinceFuelAddedOrRemoved = 0;
                         }
                         fuelSlot.shrink(1);
 
@@ -336,14 +364,12 @@ public abstract class PressTileBase extends TileEntityInventory implements
                             pEntity.itemStackHandler.setStackInSlot(FUEL, fuelSlot.getCraftingRemainingItem());
                         }
                     }
-                    else {
-                        pEntity.ticksSinceFuelAddedOrRemoved = 0;
-                    }
                 }
             }
 
-            if (pEntity.isLit() && pEntity.canPress()) {
+            if (pEntity.isLit() && pEntity.canPress() && pEntity.pressingTime > 0) {
                 ++pEntity.pressingProgress;
+                --pEntity.pressingTime;
 
                 if (pEntity.pressingProgress >= pEntity.pressingTotalTime) {
                     pEntity.pressingProgress = 0;
@@ -365,9 +391,6 @@ public abstract class PressTileBase extends TileEntityInventory implements
 
                     isDirty = true;
                 }
-            } else {
-                pEntity.pressingProgress = 0;
-                pEntity.temperature = Math.max(pEntity.temperature - 1, 0);
             }
         } else if (!pEntity.isLit() && pEntity.pressingProgress > 0) {
             pEntity.pressingProgress = Mth.clamp(pEntity.pressingProgress - 2, 0, pEntity.pressingTotalTime);

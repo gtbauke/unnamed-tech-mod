@@ -19,6 +19,16 @@ public abstract class AbstractPressScreen<T extends AbstractPressMenu> extends A
     }
 
     @Override
+    protected void renderTooltip(PoseStack pPoseStack, int pX, int pY) {
+        super.renderTooltip(pPoseStack, pX, pY);
+
+        // check of pX and pY are in the temperature bar
+        if (pX >= leftPos + 18 && pX <= leftPos + 18 + 14 && pY >= topPos + 41 - 34 && pY <= topPos + 42) {
+            renderTooltip(pPoseStack, Component.literal(menu.getTemperature() + " K"), pX, pY);
+        }
+    }
+
+    @Override
     protected void renderBg(PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
         super.renderBg(pPoseStack, pPartialTick, pMouseX, pMouseY);
 
@@ -39,14 +49,14 @@ public abstract class AbstractPressScreen<T extends AbstractPressMenu> extends A
 
         int temp = this.menu.getTemperature();
         int SCALE_MIN_TEMP = 0;
-        int SCALE_MAX_TEMP = 800;
+        int SCALE_MAX_TEMP = 1200;
         int tempScaled = ((temp - SCALE_MIN_TEMP) * 34) / (SCALE_MAX_TEMP - SCALE_MIN_TEMP);
         this.blit(pPoseStack, x + 17, y + 41 - tempScaled, 176, 25 + 33 - tempScaled, 16, tempScaled + 1);
 
         int recipeTemp = this.menu.getRecipeTemperature();
         if (recipeTemp == 0) return;
 
-        int recipeTempScaled = ((recipeTemp - SCALE_MIN_TEMP) * 34) / (SCALE_MAX_TEMP - SCALE_MIN_TEMP);
-        this.blit(pPoseStack, x + 17, y + 41 - recipeTempScaled, 176, 25 + 34, 3, 1);
+        int recipeTempScaled = (int)Math.ceil((float)(recipeTemp - SCALE_MIN_TEMP) * 34) / (SCALE_MAX_TEMP - SCALE_MIN_TEMP);
+        this.blit(pPoseStack, x + 17, y + 41 - recipeTempScaled, 176, 25 + 34, 16, 1);
     }
 }

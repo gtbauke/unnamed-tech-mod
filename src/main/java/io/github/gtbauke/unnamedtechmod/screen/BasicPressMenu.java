@@ -1,5 +1,6 @@
 package io.github.gtbauke.unnamedtechmod.screen;
 
+import io.github.gtbauke.unnamedtechmod.block.entity.base.PressTileBase;
 import io.github.gtbauke.unnamedtechmod.recipe.BasicPressRecipe;
 import io.github.gtbauke.unnamedtechmod.screen.base.AbstractPressMenu;
 import net.minecraft.network.FriendlyByteBuf;
@@ -14,6 +15,6 @@ public class BasicPressMenu extends AbstractPressMenu {
     }
 
     public BasicPressMenu(int pContainerId, Inventory pPlayerInventory, FriendlyByteBuf pBuffer) {
-        this(pContainerId, pPlayerInventory, pPlayerInventory.player.level.getBlockEntity(pBuffer.readBlockPos()), new SimpleContainerData(7));
+        this(pContainerId, pPlayerInventory, pPlayerInventory.player.level.getBlockEntity(pBuffer.readBlockPos()), new SimpleContainerData(PressTileBase.DATA_AMOUNT));
     }
 }

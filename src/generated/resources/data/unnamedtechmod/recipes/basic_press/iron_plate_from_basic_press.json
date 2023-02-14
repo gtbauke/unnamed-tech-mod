@@ -5,7 +5,7 @@
     "count": 1,
     "item": "minecraft:iron_ingot"
   },
-  "minimumTemperature": 200,
+  "minimumTemperature": 473,
   "output": {
     "item": "unnamedtechmod:iron_plate"
   },

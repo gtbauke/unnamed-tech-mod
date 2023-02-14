@@ -58,9 +58,7 @@ public abstract class AbstractPressMenu extends AbstractExtendedContainerMenu {
         int progress = this.data.get(PressTileBase.DATA_PRESSING_PROGRESS);
         int totalProgress = this.data.get(PressTileBase.DATA_PRESSING_TOTAL_TIME);
 
-        progress = totalProgress / 2;
-
-        return totalProgress != 0 ? ((progress * 27) / totalProgress) : 0;
+        return totalProgress != 0 ? ((progress * 22) / totalProgress) : 0;
     }
 
     public boolean isLit() {
@@ -81,6 +79,6 @@ public abstract class AbstractPressMenu extends AbstractExtendedContainerMenu {
     }
 
     public int getRecipeTemperature() {
-        return this.blockEntity.getRecipeMinTemp();
+        return this.data.get(PressTileBase.DATA_MIN_TEMP);
     }
 }

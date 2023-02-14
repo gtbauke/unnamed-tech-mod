@@ -64,7 +64,7 @@ public abstract class AlloySmelterTileBase extends TileEntityInventory implement
     protected int litTime;
     protected int litDuration;
     protected int cookingProgress;
-    protected int cookingTotalTime;
+    protected int cookingTotalTime = BURN_TIME_STANDARD;
 
     public final RecipeType<? extends AbstractAlloySmeltingRecipe> recipeType;
     protected final Object2IntOpenHashMap<ResourceLocation> recipesUsed = new Object2IntOpenHashMap<>();
