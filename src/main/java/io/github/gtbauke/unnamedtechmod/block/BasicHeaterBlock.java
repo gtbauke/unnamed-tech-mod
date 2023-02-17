@@ -18,6 +18,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -31,6 +33,7 @@ import java.util.stream.Stream;
 
 public class BasicHeaterBlock extends AbstractMachineBlock {
     public static final EnumProperty<HeaterType> TYPE = EnumProperty.create("type", HeaterType.class);
+    public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
     private static final VoxelShape UNCONNECTED_SHAPE = Stream.of(
             Block.box(14, 10, 2, 16, 12, 14),
@@ -52,6 +55,7 @@ public class BasicHeaterBlock extends AbstractMachineBlock {
         super(pProperties);
         registerDefaultState(stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
+                .setValue(LIT, false)
                 .setValue(TYPE, HeaterType.UNCONNECTED));
     }
 
@@ -123,5 +127,6 @@ public class BasicHeaterBlock extends AbstractMachineBlock {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         super.createBlockStateDefinition(pBuilder);
         pBuilder.add(TYPE);
+        pBuilder.add(LIT);
     }
 }

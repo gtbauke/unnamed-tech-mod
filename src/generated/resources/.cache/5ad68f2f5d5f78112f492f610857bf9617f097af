@@ -1,7 +1,7 @@
-// 1.19.2	2023-02-01T23:07:06.3382421	Block States: unnamedtechmod
+// 1.19.2	2023-02-17T15:29:48.0951785	Block States: unnamedtechmod
 c769858e9be86437a6dee0a070ef9236d77f1496 assets/unnamedtechmod/blockstates/basic_alloy_smelter.json
-7d991e2faa3796dd32c5c7f1840f8f7b4c5a93cb assets/unnamedtechmod/blockstates/basic_heater.json
-61d5009881df2fdfff924e55087eee5563ec1d23 assets/unnamedtechmod/blockstates/basic_press.json
+0cbfa6ed7da4446149c7c46ff725f533dc4e3d54 assets/unnamedtechmod/blockstates/basic_heater.json
+9fbca0fe9d3beda791dc151cf8b6ea608c8eb411 assets/unnamedtechmod/blockstates/basic_press.json
 c40487f7daac6d4bc57aa01f3a38d8367228076f assets/unnamedtechmod/blockstates/deepslate_tin_ore.json
 b3222f96a280dba7283bdfa6f953c5f7a2f45a90 assets/unnamedtechmod/blockstates/light_bricks.json
 eab16ea6c16d4244a71f873cf9562ba6a33b6a36 assets/unnamedtechmod/blockstates/manual_macerator.json

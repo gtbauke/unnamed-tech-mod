@@ -1,17 +1,32 @@
 {
   "variants": {
-    "facing=east": {
+    "facing=east,working=false": {
       "model": "unnamedtechmod:block/basic_press",
       "y": 90
     },
-    "facing=north": {
+    "facing=east,working=true": {
+      "model": "unnamedtechmod:block/basic_press",
+      "y": 90
+    },
+    "facing=north,working=false": {
       "model": "unnamedtechmod:block/basic_press"
     },
-    "facing=south": {
+    "facing=north,working=true": {
+      "model": "unnamedtechmod:block/basic_press"
+    },
+    "facing=south,working=false": {
       "model": "unnamedtechmod:block/basic_press",
       "y": 180
     },
-    "facing=west": {
+    "facing=south,working=true": {
+      "model": "unnamedtechmod:block/basic_press",
+      "y": 180
+    },
+    "facing=west,working=false": {
+      "model": "unnamedtechmod:block/basic_press",
+      "y": 270
+    },
+    "facing=west,working=true": {
       "model": "unnamedtechmod:block/basic_press",
       "y": 270
     }

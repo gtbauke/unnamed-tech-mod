@@ -1,32 +1,62 @@
 {
   "variants": {
-    "facing=east,type=connected_to_press": {
+    "facing=east,lit=false,type=connected_to_press": {
       "model": "unnamedtechmod:block/basic_heater_connected_to_press",
       "y": 90
     },
-    "facing=east,type=unconnected": {
+    "facing=east,lit=false,type=unconnected": {
       "model": "unnamedtechmod:block/basic_heater",
       "y": 90
     },
-    "facing=north,type=connected_to_press": {
+    "facing=east,lit=true,type=connected_to_press": {
+      "model": "unnamedtechmod:block/basic_heater_connected_to_press",
+      "y": 90
+    },
+    "facing=east,lit=true,type=unconnected": {
+      "model": "unnamedtechmod:block/basic_heater",
+      "y": 90
+    },
+    "facing=north,lit=false,type=connected_to_press": {
       "model": "unnamedtechmod:block/basic_heater_connected_to_press"
     },
-    "facing=north,type=unconnected": {
+    "facing=north,lit=false,type=unconnected": {
       "model": "unnamedtechmod:block/basic_heater"
     },
-    "facing=south,type=connected_to_press": {
+    "facing=north,lit=true,type=connected_to_press": {
+      "model": "unnamedtechmod:block/basic_heater_connected_to_press"
+    },
+    "facing=north,lit=true,type=unconnected": {
+      "model": "unnamedtechmod:block/basic_heater"
+    },
+    "facing=south,lit=false,type=connected_to_press": {
       "model": "unnamedtechmod:block/basic_heater_connected_to_press",
       "y": 180
     },
-    "facing=south,type=unconnected": {
+    "facing=south,lit=false,type=unconnected": {
       "model": "unnamedtechmod:block/basic_heater",
       "y": 180
     },
-    "facing=west,type=connected_to_press": {
+    "facing=south,lit=true,type=connected_to_press": {
+      "model": "unnamedtechmod:block/basic_heater_connected_to_press",
+      "y": 180
+    },
+    "facing=south,lit=true,type=unconnected": {
+      "model": "unnamedtechmod:block/basic_heater",
+      "y": 180
+    },
+    "facing=west,lit=false,type=connected_to_press": {
       "model": "unnamedtechmod:block/basic_heater_connected_to_press",
       "y": 270
     },
-    "facing=west,type=unconnected": {
+    "facing=west,lit=false,type=unconnected": {
+      "model": "unnamedtechmod:block/basic_heater",
+      "y": 270
+    },
+    "facing=west,lit=true,type=connected_to_press": {
+      "model": "unnamedtechmod:block/basic_heater_connected_to_press",
+      "y": 270
+    },
+    "facing=west,lit=true,type=unconnected": {
       "model": "unnamedtechmod:block/basic_heater",
       "y": 270
     }

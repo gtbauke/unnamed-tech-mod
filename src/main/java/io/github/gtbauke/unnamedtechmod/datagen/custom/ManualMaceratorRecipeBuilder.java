@@ -117,9 +117,10 @@ public class ManualMaceratorRecipeBuilder implements RecipeBuilder {
 
         @Override
         public ResourceLocation getId() {
-            String registryName = ForgeRegistries.ITEMS.getKey(data.result.getItem()).getPath();
+            String resultRegistryName = ForgeRegistries.ITEMS.getKey(data.result.getItem()).getPath();
+            String inputRegistryName = ForgeRegistries.ITEMS.getKey(data.ingredient.asItemStack().getItem()).getPath();
             return new ResourceLocation(UnnamedTechMod.MOD_ID,
-                    ManualMaceratorRecipe.Type.ID + "/" + registryName + "_from_manual_macerator");
+                    ManualMaceratorRecipe.Type.ID + "/" + resultRegistryName + "_from_" + inputRegistryName + "_in_manual_macerator");
         }
 
         @Override

@@ -3,11 +3,11 @@
   "experience": 0.8,
   "input": {
     "count": 1,
-    "item": "minecraft:iron_ingot"
+    "item": "minecraft:copper_ingot"
   },
-  "minimumTemperature": 700,
+  "minimumTemperature": 470,
   "output": {
-    "item": "unnamedtechmod:iron_plate"
+    "item": "unnamedtechmod:copper_plate"
   },
   "pressingTime": 200
 }

@@ -53,6 +53,7 @@ public abstract class PressTileBase extends TileEntityInventory implements
     public static final int BURN_TIME_STANDARD = 1600;
 
     public static final int INVENTORY_SIZE = 3;
+    private static final float BURN_TIME_MULTIPLIER = 2.5F;
 
     protected int pressingTime;
     protected float temperature = Constants.AMBIENT_TEMP;
@@ -274,7 +275,7 @@ public abstract class PressTileBase extends TileEntityInventory implements
         pressingProgress = pTag.getInt("pressingProgress");
         litTime = pTag.getInt("litTime");
 
-        litDuration = (int)(2.5F * ForgeHooks.getBurnTime(getItem(FUEL), recipeType));
+        litDuration = (int)(BURN_TIME_MULTIPLIER * ForgeHooks.getBurnTime(getItem(FUEL), recipeType));
 
         CompoundTag compoundTag = pTag.getCompound("RecipesUsed");
 
@@ -313,9 +314,12 @@ public abstract class PressTileBase extends TileEntityInventory implements
         ItemStack fuelSlot = pEntity.getItem(FUEL);
         boolean hasFuel = !fuelSlot.isEmpty();
 
+        // These values are the coefficients of a 2nd degree polynomial that models the temperature rise and decline
+        // Doing the derivative of the polynomial gives the temperature change per tick (delta) when using x = (temperature / maxTemp) * g
+        // therefore delta = 2ax + b. Everything is scaled by maxTemp to make the values accurate to the fuel type
         float a = -0.00025f;
         float b = 0.005f;
-        float g = 10; // = -b/2a
+        float g = 10; // = -b/2a (value when delta = 0)
 
         if (pEntity.fuelMaxTemp == 0 || (!hasFuel && !wasLit)) {
             pEntity.fuelMaxTemp = Constants.AMBIENT_TEMP;
@@ -326,7 +330,6 @@ public abstract class PressTileBase extends TileEntityInventory implements
 
         pEntity.temperature += delta;
 
-        // TODO redo this logic in a cleaner way
         if (wasLit) {
             --pEntity.litTime;
         }
@@ -336,7 +339,7 @@ public abstract class PressTileBase extends TileEntityInventory implements
             AbstractPressRecipe recipe = pEntity.getRecipe(pEntity.getItem(INPUT));
 
             if (!pEntity.isLit()) {
-                pEntity.litTime = (int)(2.5F * ForgeHooks.getBurnTime(fuel, pEntity.recipeType));
+                pEntity.litTime = (int)(BURN_TIME_MULTIPLIER * ForgeHooks.getBurnTime(fuel, pEntity.recipeType));
                 pEntity.litDuration = pEntity.litTime;
 
                 if (pEntity.isLit()) {
@@ -398,7 +401,7 @@ public abstract class PressTileBase extends TileEntityInventory implements
 
         if (wasLit != pEntity.isLit()) {
             isDirty = true;
-            //pLevel.setBlock(pPos, pState.setValue(BasicPressBlock, pEntity.isLit()), 3);
+            pLevel.setBlock(pPos, pState.setValue(BasicPressBlock.WORKING, pEntity.isPressing()), 3);
         }
 
         if (isDirty) {
