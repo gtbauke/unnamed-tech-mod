@@ -3,9 +3,11 @@
   "item.unnamedtechmod.example_item": "Example Item",
 
   "item.unnamedtechmod.raw_tin_ore": "Raw Tin Ore",
+  "item.unnamedtechmod.raw_lead_ore": "Raw Lead Ore",
   "item.unnamedtechmod.tin_dust": "Tin Dust",
   "item.unnamedtechmod.tin_plate": "Tin Plate",
   "item.unnamedtechmod.tin_ingot": "Tin Ingot",
+  "item.unnamedtechmod.lead_ingot": "Lead Ingot",
   "item.unnamedtechmod.bronze_dust": "Bronze Dust",
   "item.unnamedtechmod.bronze_plate": "Bronze Plate",
   "item.unnamedtechmod.bronze_ingot": "Bronze Ingot",
@@ -15,6 +17,9 @@
   "item.unnamedtechmod.copper_plate": "Copper Plate",
   "item.unnamedtechmod.gold_dust": "Gold Dust",
   "item.unnamedtechmod.gold_plate": "Gold Plate",
+  "item.unnamedtechmod.lead_dust": "Lead Dust",
+  "item.unnamedtechmod.lead_plate": "Lead Plate",
+
   "item.unnamedtechmod.light_clay_ball": "Light Clay Ball",
   "item.unnamedtechmod.light_brick": "Light Brick",
   "item.unnamedtechmod.redstone_copper_alloy": "Redstone Copper Alloy",
@@ -22,6 +27,11 @@
   "block.unnamedtechmod.tin_ore": "Tin Ore",
   "block.unnamedtechmod.deepslate_tin_ore": "Deepslate Tin Ore",
   "block.unnamedtechmod.raw_tin_block": "Raw Tin Block",
+
+  "block.unnamedtechmod.raw_lead_block": "Raw Lead Block",
+  "block.unnamedtechmod.lead_ore": "Lead Ore",
+  "block.unnamedtechmod.deepslate_lead_ore": "Deepslate Lead Ore",
+
   "block.unnamedtechmod.light_bricks": "Light Bricks",
   "block.unnamedtechmod.basic_alloy_smelter": "Basic Alloy Smelter",
 

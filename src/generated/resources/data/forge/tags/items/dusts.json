@@ -4,6 +4,7 @@
     "#forge:dusts/copper",
     "#forge:dusts/gold",
     "#forge:dusts/iron",
-    "#forge:dusts/bronze"
+    "#forge:dusts/bronze",
+    "#forge:dusts/lead"
   ]
 }

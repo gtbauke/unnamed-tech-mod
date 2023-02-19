@@ -88,12 +88,32 @@ public class ModBlocks {
             new Item.Properties().tab(UnnamedTechMod.MOD_TAB)
     );
 
+    public static final RegistryObject<Block> LEAD_ORE = registerOre("lead", () ->
+            new Block(BlockBehaviour.Properties.of(Material.STONE)
+                    .strength(2f, 18f)
+                    .requiresCorrectToolForDrops()));
+
+    public static final RegistryObject<Block> DEEPSLATE_LEAD_ORE = registerOre("deepslate_lead", () ->
+            new Block(BlockBehaviour.Properties.of(Material.STONE)
+                    .strength(2.7f, 18f)
+                    .requiresCorrectToolForDrops()));
+
+    public static final RegistryObject<Block> RAW_LEAD_BLOCK = register("raw_lead_block", () -> new Block(
+            BlockBehaviour.Properties.of(Material.STONE)
+                    .strength(2, 18)
+                    .requiresCorrectToolForDrops()
+    ), new Item.Properties().tab(UnnamedTechMod.MOD_TAB));
 
     private static <T extends Block>RegistryObject<T> register(String name, Supplier<T> supplier, Item.Properties properties) {
         RegistryObject<T> block = BLOCKS.register(name, supplier);
         ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), properties));
 
         return block;
+    }
+
+    private static <T extends Block>RegistryObject<T> registerOre(String name, Supplier<T> supplier) {
+        String finalName = name + "_ore";
+        return register(finalName, supplier, new Item.Properties().tab(UnnamedTechMod.MOD_TAB));
     }
 
     public static void register(IEventBus bus) {

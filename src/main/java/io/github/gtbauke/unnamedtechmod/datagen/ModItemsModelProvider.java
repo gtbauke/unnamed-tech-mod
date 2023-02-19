@@ -19,16 +19,20 @@ public class ModItemsModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
         simpleItem(ModItems.EXAMPLE_ITEM.get());
-        simpleItem(ModItems.RAW_TIN_ORE.get());
 
+        simpleItem(ModItems.RAW_TIN_ORE.get());
         simpleItem(ModItems.TIN_DUST.get());
         simpleItem(ModItems.TIN_PLATE.get());
         simpleItem(ModItems.TIN_INGOT.get());
 
+        simpleItem(ModItems.RAW_LEAD_ORE.get());
+        simpleItem(ModItems.LEAD_DUST.get());
+        simpleItem(ModItems.LEAD_PLATE.get());
+        simpleItem(ModItems.LEAD_INGOT.get());
+
         simpleItem(ModItems.BRONZE_DUST.get());
         simpleItem(ModItems.BRONZE_PLATE.get());
         simpleItem(ModItems.BRONZE_INGOT.get());
-
 
         simpleItem(ModItems.IRON_DUST.get());
         simpleItem(ModItems.IRON_PLATE.get());
@@ -43,9 +47,6 @@ public class ModItemsModelProvider extends ItemModelProvider {
         simpleItem(ModItems.LIGHT_BRICK.get());
 
         simpleItem(ModItems.REDSTONE_COPPER_ALLOY.get());
-
-        simpleItem(ModItems.EMPTY_FLUID_CELL.get());
-        simpleItem(ModItems.WATER_FLUID_CELL.get());
     }
 
     private ItemModelBuilder simpleItem(Item item) {

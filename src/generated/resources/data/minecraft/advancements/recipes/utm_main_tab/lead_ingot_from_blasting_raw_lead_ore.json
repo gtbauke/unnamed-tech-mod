@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_item": {
+    "has_raw_lead_ore": {
       "conditions": {
         "items": [
           {
             "items": [
-              "unnamedtechmod:tin_ingot"
+              "unnamedtechmod:raw_lead_ore"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "unnamedtechmod:empty_fluid_cell"
+        "recipe": "minecraft:lead_ingot_from_blasting_raw_lead_ore"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_item",
+      "has_raw_lead_ore",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "unnamedtechmod:empty_fluid_cell"
+      "minecraft:lead_ingot_from_blasting_raw_lead_ore"
     ]
   }
 }

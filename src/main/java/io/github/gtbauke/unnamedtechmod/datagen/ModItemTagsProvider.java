@@ -25,11 +25,15 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     @Override
     protected void addTags() {
         copy(ModTags.Blocks.ORES_TIN, ModTags.Items.ORES_TIN);
+        copy(ModTags.Blocks.ORES_LEAD, ModTags.Items.ORES_LEAD);
         copy(Tags.Blocks.ORES, Tags.Items.ORES);
 
         copy(ModTags.Blocks.STORAGE_BLOCKS_RAW_TIN, ModTags.Items.STORAGE_BLOCKS_RAW_TIN);
+        copy(ModTags.Blocks.STORAGE_BLOCKS_RAW_LEAD, ModTags.Items.STORAGE_BLOCKS_RAW_LEAD);
 
         builder(ModTags.Items.RAW_MATERIALS_TIN, ModItems.RAW_TIN_ORE.get());
+        builder(ModTags.Items.RAW_MATERIALS_LEAD, ModItems.RAW_LEAD_ORE.get());
+
         builder(ModTags.Items.ALLOYS, ModItems.REDSTONE_COPPER_ALLOY.get());
 
         getBuilder(ModTags.Items.ALLOY_COMPOUND)
@@ -41,26 +45,31 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         builder(ModTags.Items.DUSTS_GOLD, ModItems.GOLD_DUST.get());
         builder(ModTags.Items.DUSTS_COPPER, ModItems.COPPER_DUST.get());
         builder(ModTags.Items.DUSTS_BRONZE, ModItems.BRONZE_DUST.get());
+        builder(ModTags.Items.DUSTS_LEAD, ModItems.LEAD_DUST.get());
 
         getBuilder(Tags.Items.DUSTS)
                 .addTag(ModTags.Items.DUSTS_TIN)
                 .addTag(ModTags.Items.DUSTS_COPPER)
                 .addTag(ModTags.Items.DUSTS_GOLD)
                 .addTag(ModTags.Items.DUSTS_IRON)
-                .addTag(ModTags.Items.DUSTS_BRONZE);
+                .addTag(ModTags.Items.DUSTS_BRONZE)
+                .addTag(ModTags.Items.DUSTS_LEAD);
 
         builder(ModTags.Items.PLATES_TIN, ModItems.TIN_PLATE.get());
         builder(ModTags.Items.PLATES_IRON, ModItems.IRON_PLATE.get());
         builder(ModTags.Items.PLATES_GOLD, ModItems.GOLD_PLATE.get());
         builder(ModTags.Items.PLATES_COPPER, ModItems.COPPER_PLATE.get());
         builder(ModTags.Items.PLATES_BRONZE, ModItems.BRONZE_PLATE.get());
+        builder(ModTags.Items.PLATES_LEAD, ModItems.LEAD_PLATE.get());
 
         builder(ModTags.Items.INGOTS_TIN, ModItems.TIN_INGOT.get());
         builder(ModTags.Items.INGOTS_BRONZE, ModItems.BRONZE_INGOT.get());
+        builder(ModTags.Items.INGOTS_LEAD, ModItems.LEAD_INGOT.get());
 
         getBuilder(Tags.Items.INGOTS)
                 .addTag(ModTags.Items.INGOTS_TIN)
-                .addTag(ModTags.Items.INGOTS_BRONZE);
+                .addTag(ModTags.Items.INGOTS_BRONZE)
+                .addTag(ModTags.Items.INGOTS_LEAD);
     }
 
     private void builder(TagKey<Item> tag, ItemLike... items) {

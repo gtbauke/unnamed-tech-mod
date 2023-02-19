@@ -10,8 +10,10 @@ import io.github.gtbauke.unnamedtechmod.utils.ModTags;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.*;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 
@@ -25,20 +27,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     protected void buildCraftingRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
-        ShapedRecipeBuilder.shaped(ModBlocks.RAW_TIN_BLOCK.get())
-                .define('R', ModItems.RAW_TIN_ORE.get())
-                .pattern("RRR")
-                .pattern("RRR")
-                .pattern("RRR")
-                .unlockedBy("has_raw_tin", inventoryTrigger(
-                        ItemPredicate.Builder.item().of(ModTags.Items.RAW_MATERIALS_TIN).build())
-                ).save(pFinishedRecipeConsumer);
-
-        ShapelessRecipeBuilder.shapeless(ModItems.RAW_TIN_ORE.get(), 9)
-                .requires(ModBlocks.RAW_TIN_BLOCK.get())
-                .unlockedBy("has_raw_tin_block", inventoryTrigger(
-                        ItemPredicate.Builder.item().of(ModTags.Items.STORAGE_BLOCKS_RAW_TIN).build()
-                )).save(pFinishedRecipeConsumer);
+        nineBlockStorageRecipes(pFinishedRecipeConsumer, ModItems.RAW_TIN_ORE.get(), ModBlocks.RAW_TIN_BLOCK.get());
+        nineBlockStorageRecipes(pFinishedRecipeConsumer, ModItems.RAW_LEAD_ORE.get(), ModBlocks.RAW_LEAD_BLOCK.get());
 
         ShapelessRecipeBuilder.shapeless(ModItems.LIGHT_CLAY_BALL.get(), 3)
                 .requires(Items.CLAY_BALL, 3)
@@ -80,45 +70,29 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_item", has(ModBlocks.LIGHT_BRICKS.get()))
                 .save(pFinishedRecipeConsumer);
 
-        oreSmelting(pFinishedRecipeConsumer, List.of(
+        ore(pFinishedRecipeConsumer, List.of(
                 ModItems.RAW_TIN_ORE.get(),
                 ModItems.TIN_DUST.get()
         ), ModItems.TIN_INGOT.get(), 0.7f, 200, "tin_ingot");
 
-        oreBlasting(pFinishedRecipeConsumer, List.of(
-                ModItems.RAW_TIN_ORE.get(),
-                ModItems.TIN_DUST.get()
-        ), ModItems.TIN_INGOT.get(), 0.7f, 200, "tin_ingot");
+        ore(pFinishedRecipeConsumer, List.of(
+                ModItems.RAW_LEAD_ORE.get(),
+                ModItems.LEAD_DUST.get()
+        ), ModItems.LEAD_INGOT.get(), 0.7f, 200, "lead_ingot");
 
-        oreSmelting(pFinishedRecipeConsumer, List.of(
+        ore(pFinishedRecipeConsumer, List.of(
                 ModItems.COPPER_DUST.get()
         ), Items.COPPER_INGOT, 0.7f, 200, "copper_ingot");
 
-        oreBlasting(pFinishedRecipeConsumer, List.of(
-                ModItems.COPPER_DUST.get()
-        ), Items.COPPER_INGOT, 0.7f, 200, "copper_ingot");
-
-        oreSmelting(pFinishedRecipeConsumer, List.of(
+        ore(pFinishedRecipeConsumer, List.of(
                 ModItems.IRON_DUST.get()
         ), Items.IRON_INGOT, 0.7f, 200, "iron_ingot");
 
-        oreBlasting(pFinishedRecipeConsumer, List.of(
-                ModItems.IRON_DUST.get()
-        ), Items.IRON_INGOT, 0.7f, 200, "iron_ingot");
-
-        oreSmelting(pFinishedRecipeConsumer, List.of(
+        ore(pFinishedRecipeConsumer, List.of(
                 ModItems.GOLD_DUST.get()
         ), Items.GOLD_INGOT, 0.7f, 200, "gold_ingot");
 
-        oreBlasting(pFinishedRecipeConsumer, List.of(
-                ModItems.GOLD_DUST.get()
-        ), Items.GOLD_INGOT, 0.7f, 200, "gold_ingot");
-
-        oreSmelting(pFinishedRecipeConsumer, List.of(
-                ModItems.BRONZE_DUST.get()
-        ), ModItems.BRONZE_INGOT.get(), 0.7f, 200, "bronze_ingot");
-
-        oreBlasting(pFinishedRecipeConsumer, List.of(
+        ore(pFinishedRecipeConsumer, List.of(
                 ModItems.BRONZE_DUST.get()
         ), ModItems.BRONZE_INGOT.get(), 0.7f, 200, "bronze_ingot");
 
@@ -171,5 +145,10 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .minimumTemperature(470)
                 .unlockedBy("has_item", has(ModBlocks.BASIC_PRESS.get()))
                 .save(pFinishedRecipeConsumer);
+    }
+
+    private void ore(Consumer<FinishedRecipe> pFinishedRecipeConsumer, List<ItemLike> inputs, Item output, float experience, int time, String group) {
+        oreSmelting(pFinishedRecipeConsumer, inputs, output, experience, time, group);
+        oreBlasting(pFinishedRecipeConsumer, inputs, output, experience, time, group);
     }
 }

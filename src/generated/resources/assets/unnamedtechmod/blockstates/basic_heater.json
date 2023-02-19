@@ -9,7 +9,7 @@
       "y": 90
     },
     "facing=east,lit=true,type=connected_to_press": {
-      "model": "unnamedtechmod:block/basic_heater_connected_to_press",
+      "model": "unnamedtechmod:block/basic_heater_connected_to_press_on",
       "y": 90
     },
     "facing=east,lit=true,type=unconnected": {
@@ -23,7 +23,7 @@
       "model": "unnamedtechmod:block/basic_heater"
     },
     "facing=north,lit=true,type=connected_to_press": {
-      "model": "unnamedtechmod:block/basic_heater_connected_to_press"
+      "model": "unnamedtechmod:block/basic_heater_connected_to_press_on"
     },
     "facing=north,lit=true,type=unconnected": {
       "model": "unnamedtechmod:block/basic_heater"
@@ -37,7 +37,7 @@
       "y": 180
     },
     "facing=south,lit=true,type=connected_to_press": {
-      "model": "unnamedtechmod:block/basic_heater_connected_to_press",
+      "model": "unnamedtechmod:block/basic_heater_connected_to_press_on",
       "y": 180
     },
     "facing=south,lit=true,type=unconnected": {
@@ -53,7 +53,7 @@
       "y": 270
     },
     "facing=west,lit=true,type=connected_to_press": {
-      "model": "unnamedtechmod:block/basic_heater_connected_to_press",
+      "model": "unnamedtechmod:block/basic_heater_connected_to_press_on",
       "y": 270
     },
     "facing=west,lit=true,type=unconnected": {

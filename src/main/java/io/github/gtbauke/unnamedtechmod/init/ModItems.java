@@ -62,6 +62,18 @@ public class ModItems {
     public static final RegistryObject<Item> GOLD_DUST = registerDust("gold");
     public static final RegistryObject<Item> COPPER_DUST = registerDust("copper");
 
+    public static final RegistryObject<Item> RAW_LEAD_ORE = ITEMS.register(
+            "raw_lead_ore",
+            () -> new Item(
+                    new Item.Properties()
+                            .tab(UnnamedTechMod.MOD_TAB)
+            )
+    );
+
+    public static final RegistryObject<Item> LEAD_INGOT = registerIngot("lead");
+    public static final RegistryObject<Item> LEAD_DUST = registerDust("lead");
+    public static final RegistryObject<Item> LEAD_PLATE = registerPlate("lead");
+
     public static void register(IEventBus bus) {
         ITEMS.register(bus);
     }

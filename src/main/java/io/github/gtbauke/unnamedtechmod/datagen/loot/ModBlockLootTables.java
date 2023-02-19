@@ -19,7 +19,18 @@ public class ModBlockLootTables extends BlockLoot {
                 ModItems.RAW_TIN_ORE.get()
         ));
 
+        add(ModBlocks.LEAD_ORE.get(), block -> createOreDrop(
+                block,
+                ModItems.RAW_LEAD_ORE.get()
+        ));
+
+        add(ModBlocks.DEEPSLATE_LEAD_ORE.get(), block -> createOreDrop(
+                block,
+                ModItems.RAW_LEAD_ORE.get()
+        ));
+
         dropSelf(ModBlocks.RAW_TIN_BLOCK.get());
+        dropSelf(ModBlocks.RAW_LEAD_BLOCK.get());
         dropSelf(ModBlocks.LIGHT_BRICKS.get());
 
         dropSelf(ModBlocks.BASIC_ALLOY_SMELTER.get());

@@ -1,5 +1,6 @@
 {
   "values": [
-    "#forge:ores/tin"
+    "#forge:ores/tin",
+    "#forge:ores/lead"
   ]
 }

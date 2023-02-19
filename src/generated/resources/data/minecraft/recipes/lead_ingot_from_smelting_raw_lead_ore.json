@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.7,
+  "group": "lead_ingot",
+  "ingredient": {
+    "item": "unnamedtechmod:raw_lead_ore"
+  },
+  "result": "unnamedtechmod:lead_ingot"
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "unnamedtechmod:block/heater_press_connected_front_on",
+    "side": "unnamedtechmod:block/heater_press_connected",
+    "top": "unnamedtechmod:block/manual_macerator_top"
+  }
+}

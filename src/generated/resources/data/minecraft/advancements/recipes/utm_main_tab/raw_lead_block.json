@@ -1,11 +1,13 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_raw_tin_block": {
+    "has_raw_lead_ore": {
       "conditions": {
         "items": [
           {
-            "tag": "forge:storage_blocks/raw_tin"
+            "items": [
+              "unnamedtechmod:raw_lead_ore"
+            ]
           }
         ]
       },
@@ -13,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "unnamedtechmod:raw_tin_ore"
+        "recipe": "minecraft:raw_lead_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_raw_tin_block",
+      "has_raw_lead_ore",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "unnamedtechmod:raw_tin_ore"
+      "minecraft:raw_lead_block"
     ]
   }
 }

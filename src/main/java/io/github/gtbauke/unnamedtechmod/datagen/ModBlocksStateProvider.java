@@ -36,8 +36,11 @@ public class ModBlocksStateProvider extends BlockStateProvider {
     protected void registerStatesAndModels(){
         simpleBlockWithItem(ModBlocks.TIN_ORE.get());
         simpleBlockWithItem(ModBlocks.DEEPSLATE_TIN_ORE.get());
+        simpleBlockWithItem(ModBlocks.LEAD_ORE.get());
+        simpleBlockWithItem(ModBlocks.DEEPSLATE_LEAD_ORE.get());
 
         simpleBlockWithItem(ModBlocks.RAW_TIN_BLOCK.get());
+        simpleBlockWithItem(ModBlocks.RAW_LEAD_BLOCK.get());
         simpleBlockWithItem(ModBlocks.LIGHT_BRICKS.get());
 
         machineBlock(ModBlocks.BASIC_ALLOY_SMELTER.get(), AbstractAlloySmelterBlock.LIT);
