@@ -48,8 +48,8 @@ public class UnnamedTechMod {
         ModBlockEntities.register(bus);
         ModMenuTypes.register(bus);
         ModRecipes.register(bus);
-        ModFluids.register(bus);
-        ModFluidTypes.register(bus);
+        // ModFluids.register(bus);
+        // ModFluidTypes.register(bus);
 
         ModConfiguredFeatures.CONFIGURED_FEATURE.register(bus);
         ModPlacedFeatures.PLACED_FEATURES.register(bus);
