@@ -1,11 +1,7 @@
 package io.github.gtbauke.unnamedtechmod.init;
 
 import io.github.gtbauke.unnamedtechmod.UnnamedTechMod;
-import io.github.gtbauke.unnamedtechmod.item.FluidCellItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -65,20 +61,6 @@ public class ModItems {
     public static final RegistryObject<Item> IRON_DUST = registerDust("iron");
     public static final RegistryObject<Item> GOLD_DUST = registerDust("gold");
     public static final RegistryObject<Item> COPPER_DUST = registerDust("copper");
-
-    public static final RegistryObject<FluidCellItem> EMPTY_FLUID_CELL = ITEMS.register(
-            "empty_fluid_cell",
-            () -> new FluidCellItem(() -> Fluids.EMPTY, new Item.Properties().tab(UnnamedTechMod.MOD_TAB))
-    );
-
-    public static final RegistryObject<FluidCellItem> WATER_FLUID_CELL = ITEMS.register(
-            "water_fluid_cell",
-            () -> new FluidCellItem(() -> Fluids.WATER, new Item.Properties()
-                    .craftRemainder(EMPTY_FLUID_CELL.get())
-                    .stacksTo(1)
-                    .tab(UnnamedTechMod.MOD_TAB)
-            )
-    );
 
     public static void register(IEventBus bus) {
         ITEMS.register(bus);
